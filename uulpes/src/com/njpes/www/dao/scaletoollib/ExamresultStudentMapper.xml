@@ -1,0 +1,1091 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.njpes.www.dao.scaletoollib.ExamresultStudentMapper">
+  <resultMap id="BaseResultMap"
+    type="com.njpes.www.entity.scaletoollib.ExamresultStudent">
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="studentId" jdbcType="BIGINT" />
+    <result column="xm" property="studentName" jdbcType="VARCHAR" />
+    <result column="scale_id" property="scaleId" jdbcType="VARCHAR" />
+    <result column="testtype" property="testtype" jdbcType="INTEGER" />
+    <result column="ok_time" property="okTime" jdbcType="TIMESTAMP" />
+    <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="warning_grade" property="warningGrade"
+      jdbcType="INTEGER" />
+    <result column="valid_val" property="validVal" jdbcType="INTEGER" />
+    <result column="version" property="version" jdbcType="INTEGER" />
+    <result column="iswarnsure" property="isWarnSure" jdbcType="TINYINT" />
+    <result column="gender" property="gender" jdbcType="VARCHAR" />
+    <result column="bjmc" property="bjmc" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs"
+    type="com.njpes.www.entity.scaletoollib.ExamresultStudentWithBLOBs"
+    extends="BaseResultMap">
+    <result column="individual_score" property="individualScore"
+      jdbcType="LONGVARCHAR" />
+    <result column="question_score" property="questionScore"
+      jdbcType="LONGVARCHAR" />
+    <result column="dim_score" property="dimScore" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <resultMap id="StuExamAnswer"
+    type="com.njpes.www.entity.scaletoollib.StudentExamAnswer">
+    <result column="xxmc" property="individualScore" jdbcType="LONGVARCHAR" />
+    <result column="xbm" property="xbm" />
+    <result column="xm" property="xm" />
+    <result column="xh" property="xh" />
+    <result column="scale_id" property="scaleid" />
+    <result column="question_score" property="answer" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, scale_id, testtype,ok_time, start_time, warning_grade,
+    valid_val,
+    version, iswarnsure, gender, attrs
+  </sql>
+  <sql id="Stat_Column_List">
+    es.id, user_id, scale_id,testtype, ok_time, start_time,
+    warning_grade, valid_val,
+    version, iswarnsure, gender, gradeorderid, nj, njmc, xd, attrs
+  </sql>
+  <sql id="Blob_Column_List">
+    individual_score, question_score, dim_score
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs"
+    parameterType="java.lang.Long">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from examresult_student
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <resultMap id="ResultMapWithBackground"
+    type="com.njpes.www.entity.scaletoollib.ExamresultStudentWithBackGround"
+    extends="ResultMapWithBLOBs">
+    <result column="gender" property="xbm" jdbcType="VARCHAR" />
+    <result column="gradecodeid" property="gradecodeid" jdbcType="INTEGER" />
+    <result column="nj" property="nj" jdbcType="INTEGER" />
+    <result column="njmc" property="njmc" jdbcType="LONGVARCHAR" />
+    <result column="xd" property="xd" jdbcType="INTEGER" />
+    <result column="attrs" property="bjxx" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="getStudentResult" parameterType="com.njpes.www.entity.scaletoollib.StatScope"
+    resultType="com.njpes.www.entity.scaletoollib.ExamresultHuman">
+    select
+    es.id,es.user_id,es.xm,es.gender,es.csrq,es.sfzjh,es.xh,es.scale_id,s.title
+    as scalename, es.question_score,es.dim_score,
+    es.ok_time,es.start_time,es.warning_grade,es.iswarnsure,es.gradeorderid,es.xxmc
+    as orgname,
+    es.orgid,es.classid,es.xd,es.njmc,es.nj,es.gradeorderid,es.attrs
+    from examresult_student es join scale s on s.code=es.scale_id
+    join organization org on es.orgid=org.id
+    join school sch on sch.orgid = org.id
+    where 1=1
+    <if test="cityId != null and cityId != 0">
+      and org.cityid=#{cityId}
+    </if>
+    <if test="countyId != null and countyId.size()&gt;0">
+      and org.countyid in
+      <foreach collection="countyId" index="index" item="item"
+        open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+    <if test="scaleId != null and scaleId != 0">
+      and es.scale_id=#{scaleId}
+    </if>
+    <if test="schoolId != null and schoolId.size()&gt;0">
+      and sch.id in
+      <foreach collection="schoolId" index="index" item="item1"
+        open="(" separator="," close=")">
+        #{item1}
+      </foreach>
+    </if>
+    <if test="gradeId != null and gradeId != 0">
+      and es.gradeorderid=#{gradeId}
+    </if>
+    <if test="classId != null and classId != 0">
+      and es.classid=#{classId}
+    </if>
+    <if test="startTime != null">
+      and es.ok_time&gt;=#{startTime}
+    </if>
+    <if test="endTime != null">
+      and es.ok_time&lt;=#{endTime}
+    </if>
+  </select>
+  <select id="getScaleListByTypeAndScope" resultType="com.njpes.www.entity.scaletoollib.ScaleInfo">
+    select s.code,s.title from examresult_student es join scale s on
+    s.code=es.scale_id
+    join organization org on es.orgid=org.id
+    join school sch on sch.orgid = org.id
+    where 1=1
+    <if test="scaletype != null and scaletype != 0">
+      and s.typeid=#{scaletype}
+    </if>
+    <if test="scope.cityId != null and scope.cityId != 0">
+      and org.cityid=#{scope.cityId}
+    </if>
+    <if test="scope.countyId != null and scope.countyId.size()&gt;0">
+      and org.countyid in
+      <foreach collection="scope.countyId" index="index" item="item"
+        open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+    <if test="scope.schoolId != null and scope.schoolId.size()&gt;0">
+      and sch.id in
+      <foreach collection="scope.schoolId" index="index" item="item"
+        open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+    <if test="scope.gradeId != null and scope.gradeId != 0">
+      and es.gradeorderid=#{scope.gradeId}
+    </if>
+    <if test="scope.classId != null and scope.classId != 0">
+      and es.classid=#{scope.classId}
+    </if>
+    <if test="scope.startTime != null">
+      and es.ok_time&gt;=#{scope.startTime}
+    </if>
+    <if test="scope.endTime != null">
+      and es.ok_time&lt;=#{scope.endTime}
+    </if>
+    group by s.code,s.title
+  </select>
+  <select id="getScaleTypeByScope" resultType="java.lang.Integer">
+    select s.typeid from examresult_student es join scale s on
+    s.code=es.scale_id
+    join organization org on es.orgid=org.id
+    join school sch on sch.orgid = org.id
+    where 1=1
+    <if test="scope.cityId != null and scope.cityId != 0">
+      and org.cityid=#{scope.cityId}
+    </if>
+    <if test="scope.countyId != null and scope.countyId.size()&gt;0">
+      and org.countyid in
+      <foreach collection="scope.countyId" index="index" item="item"
+        open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+    <if test="scope.scaleId != null and scope.scaleId != 0">
+      and es.scale_id=#{scope.scaleId}
+    </if>
+    <if test="scope.schoolId != null and scope.schoolId.size()&gt;0">
+      and sch.id in
+      <foreach collection="scope.schoolId" index="index" item="item1"
+        open="(" separator="," close=")">
+        #{item1}
+      </foreach>
+    </if>
+    <if test="scope.gradeId != null and scope.gradeId != 0">
+      and es.gradeorderid=#{scope.gradeId}
+    </if>
+    <if test="scope.classId != null and scope.classId != 0">
+      and es.classid=#{scope.classId}
+    </if>
+    <if test="scope.startTime != null">
+      and es.ok_time&gt;=#{scope.startTime}
+    </if>
+    <if test="scope.endTime != null">
+      and es.ok_time&lt;=#{scope.endTime}
+    </if>
+    group by s.typeid
+  </select>
+  <!-- 查询所有测评结果，task分组 -->
+  <select id="getStudentResultByTask"
+    resultType="com.njpes.www.entity.scaletoollib.StatExamResultTask">
+    select
+    edo.taskid,ets.taskname,sca.code,sca.title,ets.starttime
+    from examresult_student es
+    join organization org on es.orgid=org.id
+    join school sch on sch.orgid = org.id
+    join scale sca on sca.code=es.scale_id
+    join examdo_student edo on es.id=edo.id
+    join examdo_task_school ets on ets.id=edo.taskid
+    where 1=1
+    <if test="scope.cityId != null and scope.cityId != 0">
+      and org.cityid=#{scope.cityId}
+    </if>
+    <if test="scope.countyId != null  and scope.countyId.size()&gt;0">
+      and org.countyid in
+      <foreach collection="scope.countyId" index="index" item="item"
+        open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+    <if test="scope.scaleId != null and scope.scaleId != 0">
+      and es.scale_id=#{scope.scaleId}
+    </if>
+    <if test="scope.schoolId != null  and scope.schoolId.size()&gt;0">
+      and sch.id in
+      <foreach collection="scope.schoolId" index="index" item="item"
+        open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+    <if test="scope.gradeId != null and scope.gradeId != 0">
+      and es.gradeorderid=#{scope.gradeId}
+    </if>
+    <if test="scope.classId != null and scope.classId != 0">
+      and es.classid=#{classId}
+    </if>
+    <if test="scope.startTime != null">
+      and es.ok_time&gt;=#{scope.startTime}
+    </if>
+    <if test="scope.endTime != null">
+      and es.ok_time&lt;=#{scope.endTime}
+    </if>
+    <if test="typeid != null">
+      and sca.typeid=#{typeid}
+    </if>
+    group by edo.taskid
+  </select>
+  <!-- 查询分发量表任务的时间列表 -->
+  <select id="getTaskTimesByTypeAndScope" resultType="com.njpes.www.entity.scaletoollib.ExamDoSchoolTask">
+    select ets.id, ets.starttime from examdo_student es
+    join examdo_task_school ets on es.taskid=ets.id
+    join scale sca on es.scale_id=sca.code
+    join organization org on es.orgid=org.id
+    join school sch on sch.orgid = org.id
+    where es.statusflag=1
+    <if test="scope.cityId != null and scope.cityId != 0">
+      and org.cityid=#{scope.cityId}
+    </if>
+    <if test="scope.countyId != null and scope.countyId.size()&gt;0">
+      and org.countyid in
+      <foreach collection="scope.countyId" index="index" item="item"
+        open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+    <if test="scope.schoolId != null and scope.schoolId.size()&gt;0">
+      and sch.id in
+      <foreach collection="scope.schoolId" index="index" item="item"
+        open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+    <if test="scope.scaleId != null and scope.scaleId != 0">
+      and es.scale_id=#{scope.scaleId}
+    </if>
+    <if test="scope.gradeId != null and scope.gradeId != 0">
+      and es.gradeid=#{scope.gradeId}
+    </if>
+    <if test="scope.classId != null and scope.classId != 0">
+      and es.bj=#{scope.classId}
+    </if>
+    <if test="scope.startTime != null">
+      and es.ok_time&gt;=#{scope.startTime}
+    </if>
+    <if test="scope.endTime != null">
+      and es.ok_time&lt;=#{scope.endTime}
+    </if>
+    group by ets.id, ets.starttime
+  </select>
+  <!-- 查询所有测评结果，根据taskid分组 -->
+  <select id="getStudentResultsByTaskId" resultType="com.njpes.www.entity.scaletoollib.ExamresultHuman">
+    select
+    es.id,es.user_id,es.gender,es.csrq,es.sfzjh,es.xh,es.scale_id,sca.title
+    as scalename, es.question_score,es.dim_score,
+    es.ok_time,es.start_time,es.warning_grade,es.iswarnsure,es.gradeorderid,es.xxmc
+    as orgname,
+    es.orgid,es.classid,es.xd,es.njmc,es.nj,es.gradeorderid,es.attrs
+    from examresult_student es
+    join organization org on es.orgid=org.id
+    join school sch on sch.orgid = org.id
+    join scale sca on sca.code=es.scale_id
+    join examdo_student edo on es.id=edo.id
+    join examdo_task_school ets on ets.id=edo.taskid
+    where 1=1
+    <if test="scope.cityId != null and scope.cityId != 0">
+      and org.cityid=#{scope.cityId}
+    </if>
+    <if test="scope.countyId != null and scope.countyId.size()&gt;0">
+      and org.countyid in
+      <foreach collection="scope.countyId" index="index" item="item"
+        open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+    <if test="scope.schoolId != null and scope.schoolId.size()&gt;0">
+      and sch.id in
+      <foreach collection="scope.schoolId" index="index" item="item"
+        open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+    <if test="scope.scaleId != null and scope.scaleId != 0">
+      and es.scale_id=#{scope.scaleId}
+    </if>
+    <if test="scope.gradeId != null and scope.gradeId != 0">
+      and es.gradeorderid=#{scope.gradeId}
+    </if>
+    <if test="scope.classId != null and scope.classId != 0">
+      and es.classid=#{scope.classId}
+    </if>
+    <if test="scope.startTime != null">
+      and es.ok_time&gt;=#{scope.startTime}
+    </if>
+    <if test="scope.endTime != null">
+      and es.ok_time&lt;=#{scope.endTime}
+    </if>
+    <if test="taskid != null">
+      and edo.taskid=#{taskid}
+    </if>
+    order by es.user_id
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from examresult_student
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteBatch">
+    delete from examresult_student
+    where id in
+    <foreach collection="array" index="index" item="item" open="("
+      separator="," close=")">
+      #{item}
+    </foreach>
+  </delete>
+  <insert id="insert"
+    parameterType="com.njpes.www.entity.scaletoollib.ExamresultStudentWithBLOBs">
+    insert into examresult_student (id, user_id, scale_id,
+    testtype,ok_time, start_time, warning_grade,
+    valid_val, version, individual_score,
+    question_score, dim_score)
+    values (#{id,jdbcType=BIGINT}, #{studentId,jdbcType=BIGINT},
+    #{scaleId,jdbcType=INTEGER},#{testtype,jdbcType=INTEGER}
+    #{okTime,jdbcType=TIMESTAMP}, #{startTime,jdbcType=TIMESTAMP},
+    #{warningGrade,jdbcType=INTEGER},
+    #{validVal,jdbcType=INTEGER}, #{version,jdbcType=INTEGER},
+    #{individualScore,jdbcType=LONGVARCHAR},
+    #{questionScore,jdbcType=LONGVARCHAR},
+    #{dimScore,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective"
+    parameterType="com.njpes.www.entity.scaletoollib.ExamresultStudentWithBLOBs">
+    insert into examresult_student
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="studentId != null">
+        user_id,
+      </if>
+      <if test="scaleId != null">
+        scale_id,
+      </if>
+      <if test="testtype != null">
+        testtype,
+      </if>
+      <if test="okTime != null">
+        ok_time,
+      </if>
+      <if test="startTime != null">
+        start_time,
+      </if>
+      <if test="warningGrade != null">
+        warning_grade,
+      </if>
+      <if test="validVal != null">
+        valid_val,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+      <if test="individualScore != null">
+        individual_score,
+      </if>
+      <if test="questionScore != null">
+        question_score,
+      </if>
+      <if test="dimScore != null">
+        dim_score,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="studentId != null">
+        #{studentId,jdbcType=BIGINT},
+      </if>
+      <if test="scaleId != null">
+        #{scaleId,jdbcType=INTEGER},
+      </if>
+      <if test="testtype != null">
+        #{testtype,jdbcType=INTEGER},
+      </if>
+      <if test="okTime != null">
+        #{okTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startTime != null">
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="warningGrade != null">
+        #{warningGrade,jdbcType=INTEGER},
+      </if>
+      <if test="validVal != null">
+        #{validVal,jdbcType=INTEGER},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=INTEGER},
+      </if>
+      <if test="individualScore != null">
+        #{individualScore,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="questionScore != null">
+        #{questionScore,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="dimScore != null">
+        #{dimScore,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective"
+    parameterType="com.njpes.www.entity.scaletoollib.ExamresultStudentWithBLOBs">
+    update examresult_student
+    <set>
+      <if test="studentId != null">
+        user_id = #{studentId,jdbcType=BIGINT},
+      </if>
+      <if test="scaleId != null">
+        scale_id = #{scaleId,jdbcType=INTEGER},
+      </if>
+      <if test="testtype != null">
+        testtype = #{testtype,jdbcType=INTEGER},
+      </if>
+      <if test="okTime != null">
+        ok_time = #{okTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startTime != null">
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="warningGrade != null">
+        warning_grade = #{warningGrade,jdbcType=INTEGER},
+      </if>
+      <if test="validVal != null">
+        valid_val = #{validVal,jdbcType=INTEGER},
+      </if>
+      <if test="version != null">
+        version = #{version,jdbcType=INTEGER},
+      </if>
+      <if test="individualScore != null">
+        individual_score = #{individualScore,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="questionScore != null">
+        question_score = #{questionScore,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="dimScore != null">
+        dim_score = #{dimScore,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs"
+    parameterType="com.njpes.www.entity.scaletoollib.ExamresultStudentWithBLOBs">
+    update examresult_student
+    set
+    user_id = #{studentId,jdbcType=BIGINT},
+    scale_id = #{scaleId,jdbcType=INTEGER},
+    testtype = #{testtype,jdbcType=INTEGER},
+    ok_time = #{okTime,jdbcType=TIMESTAMP},
+    start_time = #{startTime,jdbcType=TIMESTAMP},
+    warning_grade = #{warningGrade,jdbcType=INTEGER},
+    valid_val = #{validVal,jdbcType=INTEGER},
+    version = #{version,jdbcType=INTEGER},
+    individual_score = #{individualScore,jdbcType=LONGVARCHAR},
+    question_score = #{questionScore,jdbcType=LONGVARCHAR},
+    dim_score = #{dimScore,jdbcType=LONGVARCHAR}
+
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey"
+    parameterType="com.njpes.www.entity.scaletoollib.ExamresultStudent">
+    update examresult_student
+    set user_id = #{studentId,jdbcType=BIGINT},
+    scale_id = #{scaleId,jdbcType=INTEGER},
+    testtype = #{testtype,jdbcType=INTEGER},
+    ok_time = #{okTime,jdbcType=TIMESTAMP},
+    start_time = #{startTime,jdbcType=TIMESTAMP},
+    warning_grade = #{warningGrade,jdbcType=INTEGER},
+    valid_val = #{validVal,jdbcType=INTEGER},
+    version = #{version,jdbcType=INTEGER},
+    <if test="isWarnSure != null">
+      iswarnsure = #{isWarnSure,jdbcType=TINYINT}
+    </if>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="getStudentResultByPage"
+    resultType="com.njpes.www.entity.scaletoollib.ExamresultStudent"
+    parameterType="com.njpes.www.entity.scaletoollib.ReportLookStudentFilterParam">
+    select es.id id,es.user_id studentId,es.xm studentName,es.gender
+    gender,es.sfzjh indentify,es.nj nj,es.njmc njmc,es.classid
+    bj,es.valid_val validVal,es.warning_grade as warningGrade,es.bjmc bjmc,es.scale_id as
+    scaleId,sc.title scaleName,sc.questionnum
+    questionnum,timestampdiff(second,es.start_time,es.ok_time) as
+    second,
+    es.testtype,es.start_time startTime,es.ok_time
+    okTime,eds.studentvisible,eds.teachervisible,eds.parentvisible from
+    examresult_student es,scale sc,examdo_student eds
+    where es.scale_id=sc.code and eds.id=es.id and
+    es.orgid=${reportLookStudentFilterParam.orgid}
+    <if test="reportLookStudentFilterParam.validVal != null and reportLookStudentFilterParam.validVal != -1">
+      and es.valid_val =${reportLookStudentFilterParam.validVal}
+    </if>
+    <if
+      test="reportLookStudentFilterParam.xd!=0 and reportLookStudentFilterParam.xd != -1">
+      and es.xd =${reportLookStudentFilterParam.xd}
+    </if>
+    <if
+      test='reportLookStudentFilterParam.nj!=null and reportLookStudentFilterParam.nj != "-1"'>
+      and es.nj =${reportLookStudentFilterParam.nj}
+    </if>
+    <if
+      test='reportLookStudentFilterParam.bjmc!=null and reportLookStudentFilterParam.bjmc != "-1"'>
+      and es.bjmc =${reportLookStudentFilterParam.bjmc}
+    </if>
+    <if
+      test='reportLookStudentFilterParam.bj!=null and reportLookStudentFilterParam.bj != "-1"'>
+      and es.classid =${reportLookStudentFilterParam.bj}
+    </if>
+    <if
+      test='reportLookStudentFilterParam.scaleId!=null and reportLookStudentFilterParam.scaleId != "-1"'>
+      and es.scale_id =${reportLookStudentFilterParam.scaleId}
+    </if>
+    <if
+      test='reportLookStudentFilterParam.warningLevel != 0 and reportLookStudentFilterParam.warningLevel != "-1"'>
+      and es.warning_grade =${reportLookStudentFilterParam.warningLevel}
+    </if>
+    <if
+      test='reportLookStudentFilterParam.username !=null and reportLookStudentFilterParam.username !=""'>
+      and es.xm like '%${reportLookStudentFilterParam.username}%'
+    </if>
+    <if
+      test='reportLookStudentFilterParam.identiyId !=null and reportLookStudentFilterParam.identiyId !=""'>
+      and es.user_id = ${reportLookStudentFilterParam.identiyId}
+    </if>
+    <if
+      test='reportLookStudentFilterParam.gender !=null and reportLookStudentFilterParam.gender !="-1"'>
+      and es.gender =${reportLookStudentFilterParam.gender}
+    </if>
+    <if
+      test='reportLookStudentFilterParam.starttime !=null and reportLookStudentFilterParam.starttime !=""'>
+      and es.ok_time &gt;= '${reportLookStudentFilterParam.starttime}'
+    </if>
+    <if
+      test='reportLookStudentFilterParam.endtime !=null and reportLookStudentFilterParam.endtime !=""'>
+      and es.ok_time &lt;= '${reportLookStudentFilterParam.endtime}'
+    </if>
+    Order By es.ok_time Desc
+  </select>
+  <select id="getStuPersonalReportByPage"
+    resultType="com.njpes.www.entity.scaletoollib.ExamresultStudent"
+    parameterType="com.njpes.www.entity.scaletoollib.ReportLookStudentFilterParam">
+    select es.id id,es.user_id studentId,es.xm studentName,es.gender,es.sfzjh
+    indentify,es.nj nj,es.njmc,es.classid
+    bj,es.bjmc,sc.title scaleName,sc.questionnum
+    questionnum,es.testtype,es.start_time,es.ok_time from
+    examresult_student es,scale sc
+    where es.scale_id=sc.code and es.orgid=#{orgid} Order By es.ok_time Desc
+  </select>
+  <select id="getStuComplianceReportByPage"
+    resultType="com.njpes.www.entity.scaletoollib.ExamresultStudent"
+    parameterType="com.njpes.www.entity.scaletoollib.ReportLookStudentFilterParam">
+    select DISTINCT es.user_id studentId,es.id id,es.xm
+    studentName,es.gender gender,es.sfzjh indentify,es.nj nj,es.njmc
+    njmc,es.classid
+    bj,es.bjmc bjmc,sc.title scaleName,sc.questionnum
+    questionnum,es.start_time startTime,MAX(es.ok_time) okTime from examresult_student es,scale sc
+    where es.scale_id=sc.code and
+    es.orgid=${reportLookStudentFilterParam.orgid}
+    <if
+      test="reportLookStudentFilterParam.xd!=0 and reportLookStudentFilterParam.xd != -1">
+      and es.xd =${reportLookStudentFilterParam.xd}
+    </if>
+    <if
+      test='reportLookStudentFilterParam.nj!=null and reportLookStudentFilterParam.nj != "-1"'>
+      and es.nj =${reportLookStudentFilterParam.nj}
+    </if>
+    <if
+      test='reportLookStudentFilterParam.bjmc!=null and reportLookStudentFilterParam.bjmc != ""'>
+      and es.bjmc =#{reportLookStudentFilterParam.bjmc}
+    </if>
+    <if
+      test='reportLookStudentFilterParam.bj!=null and reportLookStudentFilterParam.bj != "-1"'>
+      and es.classid =${reportLookStudentFilterParam.bj}
+    </if>
+    <if
+      test='reportLookStudentFilterParam.scaleId!=null and reportLookStudentFilterParam.scaleId != "-1"'>
+      and es.scale_id =${reportLookStudentFilterParam.scaleId}
+    </if>
+    <if
+      test="reportLookStudentFilterParam.gender!=null and reportLookStudentFilterParam.gender != -1">
+      and es.gender =${reportLookStudentFilterParam.gender}
+    </if>
+
+    <if
+      test='reportLookStudentFilterParam.username !=null and reportLookStudentFilterParam.username !=""'>
+      and es.xm like '%${reportLookStudentFilterParam.username}%'
+    </if>
+    <if
+      test='reportLookStudentFilterParam.identiyId!=null and reportLookStudentFilterParam.identiyId !=""'>
+      and es.sfzjh = ${reportLookStudentFilterParam.identiyId}
+    </if>
+    group by es.user_id order by es.ok_time
+  </select>
+  <select id="getStuPersonalCommentsByPage"
+    resultType="com.njpes.www.entity.scaletoollib.ExamresultStudent"
+    parameterType="com.njpes.www.entity.scaletoollib.ReportLookStudentFilterParam">
+    select es.id id,s.id studentId,s.xm studentName,s.xbm gender,s.sfzjh
+    indentify,s.nj nj,s.bh
+    bj,scale.title scaleName,scale.questionnum
+    questionnum,es.start_time,ok_time from student s,scale
+    scale,examresult_student es where es.user_id=s.id and
+    es.scale_id=scale.code
+  </select>
+  <select id="getStudentAnswerByResultid" resultMap="StuExamAnswer"
+    parameterType="java.lang.Long">
+    select e.xh,e.xm,e.gender xbm,e.scale_id,e.question_score
+    from examresult_student e
+    where e.id=#{resultid}
+  </select>
+  <select id="getStudentAnswerByBjid" resultMap="StuExamAnswer"
+    parameterType="java.util.Map">
+    select e.xh,e.xm,e.gender xbm,e.question_score
+    from examresult_student e
+    and e.bjid=#{bjid}
+    and e.ok_time between #{startTime} and #{endTime}
+  </select>
+  <select id="getStudentAnswerByNj" resultMap="StuExamAnswer"
+    parameterType="java.util.Map">
+    select es.xh,es.xm,es.xbm,es.question_score from
+    (select es.user_id,max(es.ok_time) otime from examresult_student es
+    where es.classid=#{bjid} and es.ok_time between #{startTime} and #{endTime}
+    group by user_id)a
+    join examresult_student es on es.user_id= a.user_id and es.ok_time=a.otime
+    where es.classid=#{bjid} and es.ok_time between #{startTime} and
+    #{endTime}
+  </select>
+  <select id="getStudentAllResult" resultType="java.util.Map"
+    parameterType="java.util.Map">
+    select es.orgid xxmc,es.scale_id scalename, es.bjmc,es.njmc, es.xm,es.xh,es.gender xbm,es.question_score
+    answerscore,es.dim_score dimscore ,es.user_id,es.ok_time
+    otime,es.attrs from examresult_student es
+    where 1=1
+    and es.ok_time between #{startTime} and #{endTime}
+  </select>
+  <select id="getStudentAnswerInSchool" resultType="java.util.Map"
+    parameterType="java.util.Map">
+    select es.bjmc,es.njmc, es.xm,es.xh,es.gender xbm,es.question_score
+    answerscore,es.dim_score dimscore ,es.user_id,max(es.ok_time)
+    otime,es.attrs from examresult_student es
+    where 1=1
+    <if test="scaleid != null">
+    	and	es.scale_id = #{scaleid}
+    </if>
+    <if test="orgid != null">
+      and es.orgid=#{orgid}
+    </if>
+    <if test="bjArray != null">
+      and es.classid in
+      <foreach item="item" index="index" collection="bjArray"
+        open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+    <if test="xd != null and xd != ''">
+      and es.xd=#{xd}
+    </if>
+    <if test="nj != null and nj != ''">
+      and es.nj=#{nj}
+    </if>
+    and es.ok_time between #{startTime} and #{endTime}
+    group by user_id
+  </select>
+  <select id="getStudentMhAnswerInSchool" resultType="java.util.Map"
+    parameterType="java.util.Map">
+    select es.bjmc,es.njmc, es.xm,es.xh,es.gender xbm,es.question_score
+    answerscore,es.dim_score dimscore ,es.user_id,max(es.ok_time)
+    otime,es.attrs from examresult_student_mh es
+    where
+    es.scale_id = #{scaleid}
+    <if test="orgid != null">
+      and es.orgid=#{orgid}
+    </if>
+    <if test="bjArray != null">
+      and es.classid in
+      <foreach item="item" index="index" collection="bjArray"
+        open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+     <if test="xd != null and xd != ''">
+      and es.xd=#{xd}
+    </if>
+    <if test="nj != null and nj != ''">
+      and es.nj=#{nj}
+    </if>
+      and es.ok_time between #{startTime} and #{endTime}
+    group by user_id
+  </select>
+  <select id="getStudentAnswerInEdu" resultType="java.util.Map"
+    parameterType="java.util.Map">
+    select es.bjmc,es.njmc,es.xm,es.xh,es.gender xbm,max(es.ok_time)
+    otime,es.question_score answerscore,es.dim_score
+    dimscore,es.user_id,es.attrs from examresult_student es
+    left join examdo_student eds on eds.id = es.id
+    left join organization org on org.id = es.orgid
+    where 1=1
+    <if test="countyid != null">
+      and eds.countyid= #{countyid}
+    </if>
+    and org.org_level=6
+    <if test="xd != null and xd != ''">
+    and es.xd=#{xd}
+    </if>
+    <if test="nj != null and nj != ''">
+    and es.nj=#{nj}
+    </if>
+    <if test="scaleid != null and scaleid != ''">
+    and es.scale_id=#{scaleid}
+    </if>
+    and es.ok_time between #{startTime} and #{endTime} group by es.user_id
+  </select>
+  <select id="getStudentAnswerInCityEdu" resultType="java.util.Map"
+    parameterType="java.util.Map">
+    select es.xm,es.xh,es.gender xbm,max(es.ok_time)
+    otime,es.question_score ,es.dim_score dimscore,es.attrs from
+    examresult_student es
+    left join examdo_student eds on eds.id = es.id
+    left join organization org on org.id = es.orgid
+    and eds.countyid=countyid
+    and org.org_level=6
+    <if test='gradeid != null and gradeid!="-1"'>
+      and es.gradeorderid=#{gradeid}
+    </if>
+    and es.scale_id=#{scaleid}
+    and es.ok_time between #{startTime} and #{endTime} group by es.user_id
+  </select>
+  <select id="getStudentAnswerInCountyEdu" resultType="java.util.Map"
+    parameterType="java.util.Map">
+    select es.xm,es.xh,es.gender xbm,max(es.ok_time)
+    otime,es.question_score ,es.dim_score dimscore,es.attrs from
+    examresult_student es
+    left join examdo_student eds on eds.id = es.id
+    left join organization org on org.id = es.orgid
+    and eds.countyid=countyid
+    and org.org_level=6
+    <if test="shoolid!=null">
+      es.orgid=schoolid
+    </if>
+    <if test='gradeid != null and gradeid!="-1"'>
+      and es.gradeorderid=#{gradeid}
+    </if>
+    and es.scale_id=#{scaleid}
+    and es.ok_time between #{startTime} and #{endTime} group by es.user_id
+  </select>
+  <select id="getStudentMhAnswerInEdu" resultType="java.util.Map"
+    parameterType="java.util.Map">
+    select es.bjmc,es.njmc, es.xm,es.xh,es.gender xbm,es.question_score
+    answerscore,es.dim_score dimscore ,es.user_id,max(es.ok_time)
+    otime,es.attrs from examresult_student_mh es
+    left join examdo_student eds on eds.id = es.id
+    left join organization org on org.id = es.orgid
+    where 1=1
+    <if test="countyid != null">
+      and eds.countyid= #{countyid}
+    </if>
+    <if test="shoolid!=null">
+      es.orgid=schoolid
+    </if>
+    and org.org_level=6
+    and es.nj=#{nj} and es.scale_id=#{scaleid}
+    and es.ok_time between #{startTime} and #{endTime} group by es.user_id
+  </select>
+  <select id="selectDistinctQuxianFromExamresultStudent"
+    resultType="com.njpes.www.entity.baseinfo.District">
+    select distinct eds.countyid code,ar.name from examresult_student es
+    left join examdo_student eds on es.id = eds.id
+    left join newarea ar on ar.code = eds.countyid
+    left join organization og on og.id=es.orgid
+    where og.org_level=6
+
+  </select>
+  <select id="queryDistinctXDFromExamresultStudent"
+    resultType="com.njpes.www.entity.scaletoollib.ExamresultStudent">
+    select distinct xd from examresult_student where orgid=#{orgId}
+  </select>
+
+  <select id="queryDistinctNJFromExamresultStudent"
+    resultType="com.njpes.www.entity.scaletoollib.ExamresultStudent">
+    select distinct es.nj, es.xd, es.njmc from examresult_student es
+    <if test='org.orgType != "2"'>
+      left join examdo_student eds on es.id = eds.id
+      left join organization og on og.id = es.orgid
+    </if>
+    where 1=1
+    <if test='org.orgType =="2"'>
+      and es.orgid=#{org.id}
+    </if>
+    <if test='org.orgType!="2" and org.orgLevel== 4'>
+      and eds.countyid=#{org.countyid}
+      and og.org_level = 6
+    </if>
+    <if test="isSonSchool ==false and org.orgLevel== 3">
+      and og.org_level = 6
+    </if>
+    <if test="isSonSchool ==true and org.orgLevel== 3">
+      and og.org_level &lt; 6
+    </if>
+    <if test="xdId != -1">
+      and es.xd=#{xdId}
+    </if>
+  </select>
+  <select id="queryDistinctNJByCountyidOrSchoolid"
+    resultType="com.njpes.www.entity.scaletoollib.ExamresultStudent">
+    select distinct es.nj, es.xd, es.njmc from examresult_student es
+    <if test='org.orgType !="2"'>
+      left join examdo_student eds on es.id = eds.id
+      left join organization og on og.id = es.orgid
+    </if>
+    where 1=1
+    <if test="org.orgLevel== 6">
+      and es.orgid=#{org.id}
+    </if>
+    <if test="org.orgLevel== 4">
+      and eds.countyid=#{org.countyid}
+      and es.orgid=#{id}
+      and og.org_level = 6
+    </if>
+    <if test="isSonSchool ==false and org.orgLevel== 3">
+      and eds.countyid=#{id}
+      and og.org_level = 6
+    </if>
+    <if test="isSonSchool ==true and org.orgLevel== 3">
+      and es.orgid=#{id}
+      and og.org_level &lt; 6
+    </if>
+    <if test="xdId != -1">
+      and es.xd=#{xdId}
+    </if>
+  </select>
+  <select id="queryDistinctBJFromExamresultStudent"
+    resultType="com.njpes.www.entity.scaletoollib.ExamresultStudent">
+    select distinct es.classid bj,es.bjmc bjmc from examresult_student es where
+    orgid=#{orgId} and xd=#{xdId} and nj=#{njId}
+  </select>
+  <select id="queryBJFromExamresultStudentByGrade"
+    resultType="com.njpes.www.entity.scaletoollib.ExamresultStudent">
+    select distinct es.classid bj,es.bjmc bjmc from examresult_student es where
+    orgid=#{orgId} and xd=#{xdId} and gradeorderid=#{grade}
+  </select>
+
+  <select id="queryDistinctNJFromExamresultStudentAccordingOrgId"
+    resultType="com.njpes.www.entity.scaletoollib.ExamresultStudent">
+    select distinct njmc from examresult_student where orgid=#{orgId}
+  </select>
+
+  <select id="queryDistinctBJFromExamresultStudentByNJ"
+    resultType="com.njpes.www.entity.scaletoollib.ExamresultStudent">
+    select distinct es.classid bj,cs.bjmc bjmc from examresult_student es,class
+    cs where es.classid=cs.id and orgid=#{orgId} and njmc=#{njmc}
+  </select>
+  <select id="queryDistinctScales" resultType="edutec.scale.model.Scale">
+    select distinct es.scale_id id,sc.title shortname from examresult_student
+    es,scale sc where es.scale_id=sc.code and orgid=#{org.id}
+  </select>
+  <select id="queryDistinctScalesInSchool" resultType="edutec.scale.model.Scale">
+    select distinct es.scale_id id,sc.title shortname
+    from examresult_student es
+    left join scale sc on es.scale_id=sc.code
+    where es.orgid=#{org.id}
+    <if
+      test='reportLookStudentFilterParam.xd !=null and reportLookStudentFilterParam.xd!=-1 and reportLookStudentFilterParam.xd != ""'>
+      and es.xd =${reportLookStudentFilterParam.xd}
+    </if>
+    <if
+      test='reportLookStudentFilterParam.nj!=null and reportLookStudentFilterParam.nj != ""'>
+      and es.nj =${reportLookStudentFilterParam.nj}
+    </if>
+    <if
+      test='reportLookStudentFilterParam.bj !=null and reportLookStudentFilterParam.bj!=-1 and reportLookStudentFilterParam.bj != ""'>
+      and es.classid =${reportLookStudentFilterParam.bj}
+    </if>
+    <if
+      test='reportLookStudentFilterParam.starttime !=null and reportLookStudentFilterParam.starttime !=""'>
+      and es.ok_time &gt;= '${reportLookStudentFilterParam.starttime}'
+    </if>
+    <if
+      test='reportLookStudentFilterParam.endtime !=null and reportLookStudentFilterParam.endtime !=""'>
+      and es.ok_time &lt;= '${reportLookStudentFilterParam.endtime}'
+    </if>
+  </select>
+  <select id="queryDistinctScalesInCounty" resultType="edutec.scale.model.Scale">
+    select distinct es.scale_id id,sc.title shortname from
+    examresult_student es
+    left join scale sc on sc.code=es.scale_id
+    left join organization o on o.id=es.orgid
+    where o.countyid=#{countyid} and o.org_level=6
+    <if
+      test='reportLookStudentFilterParam.xd !=null and reportLookStudentFilterParam.xd!=-1 and reportLookStudentFilterParam.xd != ""'>
+      and es.xd =${reportLookStudentFilterParam.xd}
+    </if>
+    <if
+      test='reportLookStudentFilterParam.nj!=null and reportLookStudentFilterParam.nj != ""'>
+      and es.nj =${reportLookStudentFilterParam.nj}
+    </if>
+    <if
+      test='reportLookStudentFilterParam.starttime !=null and reportLookStudentFilterParam.starttime !=""'>
+      and es.ok_time &gt;= '${reportLookStudentFilterParam.starttime}'
+    </if>
+    <if
+      test='reportLookStudentFilterParam.endtime !=null and reportLookStudentFilterParam.endtime !=""'>
+      and es.ok_time &lt;= '${reportLookStudentFilterParam.endtime}'
+    </if>
+  </select>
+  <select id="queryDistinctScalesInCity" resultType="edutec.scale.model.Scale">
+    select distinct es.scale_id id,sc.title shortname from
+    examresult_student es
+    left join scale sc on sc.code=es.scale_id
+    left join organization o on o.id=es.orgid
+    <where>
+      <if test="xzxs=='1'">
+        o.cityid=#{cityid} and o.org_level=6
+      </if>
+      <if test="xzxs=='2'"> and o.org_level=4
+        o.cityid=#{cityid}
+      </if>
+      <if
+        test='reportLookStudentFilterParam.xd !=null and reportLookStudentFilterParam.xd!=-1 and reportLookStudentFilterParam.xd != ""'>
+        and es.xd =${reportLookStudentFilterParam.xd}
+      </if>
+      <if
+        test='reportLookStudentFilterParam.nj!=null and reportLookStudentFilterParam.nj != ""'>
+        and es.nj =${reportLookStudentFilterParam.nj}
+      </if>
+      <if
+        test='reportLookStudentFilterParam.starttime !=null and reportLookStudentFilterParam.starttime !=""'>
+        and es.ok_time &gt;= '${reportLookStudentFilterParam.starttime}'
+      </if>
+      <if
+        test='reportLookStudentFilterParam.endtime !=null and reportLookStudentFilterParam.endtime !=""'>
+        and es.ok_time &lt;= '${reportLookStudentFilterParam.endtime}'
+      </if>
+    </where>
+  </select>
+  <select id="QueryScaleList" resultType="com.njpes.www.entity.scaletoollib.ScaleInfo">
+    select distinct es.scale_id code,sc.title from examresult_student es,scale
+    sc where es.scale_id=sc.code and sc.typeid=#{param.typeid}
+  </select>
+  <select id="getSchoolsFromExamresultStudent"
+    resultType="com.njpes.www.entity.baseinfo.organization.Organization">
+    select distinct og.id,og.name from examresult_student es
+    left join organization og on og.id=es.orgid
+    where og.countyid =#{countyid} and org_level=6 and org_type=2
+  </select>
+  <select id="queryScaleFromExamresultStudentInSchool"
+    parameterType="Map" resultType="com.njpes.www.entity.scaletoollib.ScaleInfo">
+    select distinct es.scale_id code,sc.title title,sc.typeid
+    scaletype,sc.source scalesource from examresult_student es,scale sc
+    where es.scale_id=sc.code and orgid=#{schoolid}
+    and xd=#{xd}
+    <if test='nj!=null and nj!="-1"'>
+      and nj=#{nj}
+    </if>
+    <if test='bj!=null and bj!="-1"'>
+      and classid=#{bj}
+    </if>
+  </select>
+  <select id="queryEduScaleFromExamresultStudent" resultType="com.njpes.www.entity.scaletoollib.ScaleInfo">
+    select distinct es.scale_id code,sc.title title,sc.typeid
+    scaletype,sc.source scalesource from examresult_student es
+    ,scale sc
+    <if test='org.orgType !="2"'>
+      ,examdo_student eds
+      ,organization og
+    </if>
+    where sc.code=es.scale_id
+    <if test='org.orgType =="2"'>
+      and es.orgid=#{org.id}
+    </if>
+    <if test='org.orgType!="2" and org.orgLevel== 4'>
+      and es.id = eds.id
+      and og.id = es.orgid
+      and eds.countyid=#{org.countyid}
+      and og.org_level = 6
+    </if>
+    <if test="isSonSchool ==false and org.orgLevel== 3">
+      and es.id = eds.id
+      and og.id = es.orgid
+      and og.org_level = 6
+    </if>
+    <if test="isSonSchool ==true and org.orgLevel== 3">
+      and es.id = eds.id
+      og.id = es.orgid
+      and og.org_level &lt; 6
+    </if>
+    <if test="xd != -1">
+      and es.xd=#{xd}
+    </if>
+    <if test="nj!=null and nj!=-1">
+      and es.nj=#{nj}
+    </if>
+    <if test="scaletype!=-1">
+      and sc.typeid=#{scaletype}
+    </if>
+    <if test="scalesource!=-1">
+      and sc.source=#{scalesource}
+    </if>
+  </select>
+  <select id="queryEduScaleByCountyidOrSchoolid" resultType="com.njpes.www.entity.scaletoollib.ScaleInfo">
+    select distinct es.scale_id code,sc.title title,sc.typeid
+    scaletype,sc.source scalesource from examresult_student es
+    ,scale sc
+    <if test='org.orgType !="2"'>
+      ,examdo_student eds
+      ,organization og
+    </if>
+    where sc.code=es.scale_id
+    <if test='org.orgType=="2"'>
+      and es.orgid=#{org.id}
+    </if>
+    <if test='org.orgType!="2" and org.orgLevel== 4'>
+      and es.id = eds.id
+      and og.id = es.orgid
+      and eds.countyid=#{countyidOrSchoolid}
+      and og.org_level = 6
+    </if>
+    <if test="isSonSchool ==false and org.orgLevel== 3">
+      and es.id = eds.id
+      and og.id = es.orgid
+      and eds.countyid=#{countyidOrSchoolid}
+      and og.org_level = 6
+    </if>
+    <if test="isSonSchool ==true and org.orgLevel== 3">
+      and es.id = eds.id
+      and og.id = es.orgid
+      and es.orgid=#{countyidOrSchoolid}
+      and og.org_level &lt; 6
+    </if>
+    <if test="xd != -1">
+      and es.xd=#{xd}
+    </if>
+    <if test='nj!=null and nj!="-1"'>
+      and es.nj=#{nj}
+    </if>
+    <if test="scaletype!=-1">
+      and sc.typeid=#{scaletype}
+    </if>
+    <if test="scalesource!=-1">
+      and sc.source=#{scalesource}
+    </if>
+  </select>
+  <select id="querySchoolsFromExamresult" resultType="java.lang.String">
+    select distinct orgid from examresult_student es
+    left join organization o on o.id = es.orgid
+    where o.org_level=6 and o.countyid=#{countyid}
+  </select>
+
+</mapper>

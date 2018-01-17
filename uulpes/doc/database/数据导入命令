@@ -1,0 +1,37 @@
+
+
+
+mysqldump数据导出命令
+
+version 5.6 需要--set-gtid-purged=off
+mysqldump  --set-gtid-purged=off  -h zhangchao.mysql.rds.aliyuncs.com --databases njproject1 -u njproject -p njproject>d:\njproject.sql
+version 5.6以下 
+mysqldump   -h zhangchao.mysql.rds.aliyuncs.com -u njproject -p njproject>d:\njproject.sql
+导入命令
+mysql -u root -p
+mysql>use pesdb
+mysql>source d:\njproject.sql
+
+
+CREATE TABLE `school_class` (
+  `bh` varchar(10) NOT NULL COMMENT '班号',
+  `xxdm` varchar(10) NOT NULL COMMENT '学校代码',
+  `gradeid` int(11) DEFAULT NULL COMMENT 'gradecode表id',
+  `classid` bigint(20) NOT NULL DEFAULT '0' COMMENT '班级id',
+  PRIMARY KEY (`classid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `student_ext` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `account_id` bigint(20) DEFAULT NULL COMMENT '用户id',
+  `bjxx` text COMMENT '背景信息',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=401 DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE `teacher_ext` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `account_id` bigint(20) DEFAULT NULL COMMENT '用户id',
+  `bjxx` text COMMENT '背景信息',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=410 DEFAULT CHARSET=utf8;

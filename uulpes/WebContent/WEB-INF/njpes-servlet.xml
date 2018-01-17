@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc 
+		http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+	<!-- spring mvc配置 -->
+	<context:component-scan base-package="com.njpes.www.action" />
+	<mvc:annotation-driven conversion-service="conversionService"><!-- must be show -->
+		<mvc:argument-resolvers>
+            <bean class="com.njpes.www.entity.baseinfo.util.CurrentUserMethodArgumentResolver"/>
+            <bean class="com.njpes.www.entity.baseinfo.util.PageMethodArgumentResolver"/>
+            <bean class="com.njpes.www.entity.baseinfo.util.CurrentOrgMethodArgumentResolver" />
+        </mvc:argument-resolvers>
+        <mvc:message-converters register-defaults="true">
+    		<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+      			<property name="supportedMediaTypes" value = "text/plain;charset=UTF-8" />
+    		</bean>
+   		</mvc:message-converters>
+	</mvc:annotation-driven>
+	<!-- 避免IE执行AJAX时,返回JSON出现下载文件 -->
+	<bean id="mappingJacksonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+		<property name="supportedMediaTypes">
+			<list>
+				<value>text/html;charset=UTF-8</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- 启动Spring MVC的注解功能，完成请求和注解POJO的映射 -->
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+				<ref bean="mappingJacksonHttpMessageConverter" /><!-- json转换器 -->
+			</list>
+		</property>
+	</bean>
+     <mvc:interceptors>
+        <bean class="com.njpes.www.interceptor.SetCommonDataInterceptor">
+        </bean>
+    </mvc:interceptors>
+    
+    <!-- 对模型视图名称的解析，即在模型视图名称添加前后缀 -->
+	<bean id="defaultViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+         <property name="order" value="1"></property>
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+        <property name="contentType" value="text/html"/>
+        <property name="prefix" value="/WEB-INF/views/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+         <property name="templateLoaderPath" value="/WEB-INF/ftl/"/>
+    	 <property name="freemarkerSettings">
+       		<props>
+       		<prop key="defaultEncoding">UTF-8</prop>
+       		</props>
+       	 </property>
+         </bean>
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+		<property name="order" value="0"></property>
+		<property name="cache" value="true"/>
+		<property name="prefix" value=""/>
+		<property name="suffix" value=".flt"/>
+		<property name="contentType" value="text/html;charset=UTF-8"/>
+	</bean>
+	<bean id="exceptionHandler" class="com.njpes.www.exception.CustomExceptionResolver" />
+	
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="defaultEncoding">
+			<value>UTF-8</value>
+		</property>
+		<property name="maxUploadSize">
+			<value>32505856</value><!-- 上传文件大小限制为31M，31*1024*1024 -->
+		</property>
+		<property name="maxInMemorySize">
+			<value>4096</value>
+		</property>
+	</bean>
+ 	<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	<bean id="springContextHolder" class="com.njpes.www.utils.SpringContextHolder" />
+</beans>

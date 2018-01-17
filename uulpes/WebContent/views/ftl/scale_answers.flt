@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta charset="UTF-8">
+	<#if !export??>
+	<link type="text/css" href="/pes/jquery-ui/jquery-ui.theme.css"rel="stylesheet" />
+	<#else>
+	<style>
+		.table2{
+			border:1px solid #000;
+			border-width:1px 0 0 1px;
+			margin:2px 0 2px 0;
+			border-collapse:collapse;
+			font-size:14px;
+		}
+		.table2 td{
+			border:1px solid #000;
+			border-width:0 1px 1px 0;
+			margin:2px 0 2px 0;
+			height:20px;
+		}
+		p{
+			text-indent: 28px;
+			font-size:14px;
+			line-height:20px;
+			margin-top: 10px;
+			margin-bottom: 5px;
+		}
+	</style>	
+	</#if>
+</head>
+<body>
+<#if !export??>
+<div style="text-align:center">
+	<div align="center" style="padding:10px; width:80%;text-align:center" class="ui-widget-content">
+	<h2 class="ui-widget-header"><strong>量表名称：${questionnaire.title}</strong></h2>
+	<table id="times" class="ui-widget ui-widget-content"  style="width:98%">
+		<thead>
+		<tr>
+			<td>
+				<div align="center" class="ui-widget" style="font-size:14px;background-color:white;color:black">
+				<fieldset style="width:95%">
+					<legend><strong>量表说明:</strong></legend>
+					<br/>
+					<div style="text-align:left">
+	    				<font style="color:black"><b>${questionnaire.descn}</b></font>
+					<br/>
+					</div>
+				</fieldset>
+ 				<br>
+ 				<fieldset style="width:95%">
+					<legend><strong>指导语：</strong></legend>
+					<br/>
+					<div style="text-align:left">
+	    				<font style="color:black"><b>${questionnaire.guidance}<br><span style="color:red;">题目答案：B</span></b></font><BR>
+					<br/>
+					</div>
+				</fieldset>
+				<br/>
+				</div>
+			</td>
+		</tr>
+		</thead>
+	</table>
+	<br/>
+	<table id="times" class="ui-widget ui-widget-content"  style="width:98%">
+					<tr class="ui-widget-header ">
+						<th >
+							<font size="2">题目答案:</font>
+						</th>
+					</tr>
+					<tr>
+					<td>
+					<div align="left" style="padding:10px;"  class="ui-widget" style="width:98%;background-color:white;color:black" >
+					<#--<#if questionnaire.isItem>-->
+						<#list questionnaire.questionBlocks as queBlk>
+							<#--<h4>${queBlk_index+1}.&nbsp;&nbsp;${queBlk.question.title}</h4>-->
+							<h4><#if queBlk.displayId??>${queBlk.displayId?replace("Q", "题" )}.&nbsp;&nbsp;</#if>${queBlk.question.title}</h4>
+							<#list queBlk.question.options as opt>
+								${resultMap[opt_index+'']} . 
+								${opt.title}&nbsp;&nbsp;&nbsp;
+							</#list>
+							<#if queBlk.answer??>( <span style="color:red;"><#list queBlk.answer?split(",") as option> ${resultMap[option]}</#list></span> )</#if>
+							<#if queBlk.displayId??><hr/></#if>
+						</#list>
+					<#--</#if>-->
+					</div>
+					</td>
+				</tr>
+		</table>
+	</div>
+</div>
+<#else>
+	<h2 algin="center">量表名称：${questionnaire.title}</h2>
+	<table style="width:98%" class="table2">
+		<tr>
+			<td style="width:15%"><strong>量表说明:</strong></td>
+			<td>${questionnaire.descn}</td>
+		</tr>	
+		<tr>
+			<td><strong>指导语：</strong></td>
+			<td>${questionnaire.guidance}<br><span style="color:red;">题目答案：B</span></td>
+		</tr>
+	</table>
+	<br/>
+	<table style="width:98%" class="table2">
+		<tr>
+			<td algin="center">题目答案:</td>
+		</tr>
+		<#--<#if questionnaire.isItem>-->
+						<#list questionnaire.questionBlocks as queBlk>
+							<#--<h4>${queBlk_index+1}.&nbsp;&nbsp;${queBlk.question.title}</h4>-->
+							<h4><#if queBlk.displayId??>${queBlk.displayId?replace("Q", "题" )}.&nbsp;&nbsp;</#if>${queBlk.question.title}</h4>
+							<#list queBlk.question.options as opt>
+								${resultMap[opt_index+'']} . 
+								${opt.title}&nbsp;&nbsp;&nbsp;
+							</#list>
+							<#if queBlk.answer??>(<span style="color:red;"><#list queBlk.answer?split(",") as option> ${resultMap[option]}</#list></span> )</#if>
+							<#if queBlk.displayId??><hr/></#if>
+						</#list>
+					<#--</#if>-->
+	</table>
+</#if>
+</body>
+</html>

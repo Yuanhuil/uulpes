@@ -1,0 +1,25 @@
+<div id="tableDiv" class="tableContent">
+<form action="">
+<table  id="tableId">
+   			<caption>量表列表</caption>
+   			<thead>
+	   		<tr>
+		   		<th>量表编号</th>
+		   		<th>量表名称</th>
+		   		<th>量表简称</th>
+		   		<th>创建时间</th>
+	   		</tr>
+   			</thead>
+   			<tbody>
+   			<#list scaleList as scale>
+   				<tr>
+   					<td>${scale.code}</td>
+   					<td>${scale.title}</td>
+   					<td>${scale.shortname}</td>
+   					<td>${scale.creationtime}</td>
+   				</tr>
+   			</#list>
+   			</tbody>
+   		</table>
+   </form>
+  </div>

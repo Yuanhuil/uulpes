@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+						http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/util 
+						http://www.springframework.org/schema/util/spring-util.xsd"
+	default-lazy-init="true">
+ 	
+	<!-- Shiro's main business-tier object for web-enabled applications -->
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="realm" ref="shiroRealm" />
+		<!-- <property name="cacheManager" ref="shiroCacheManager"></property> -->
+		<!-- <property name="sessionManager" ref="sessionManager"></property> -->
+	</bean>
+	
+	
+    
+    <!-- <bean id="sessionDAO" class="org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO"></bean> -->
+	
+	 <bean id="shiroCacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+	 	 <property name="cacheManagerConfigFile" value="classpath:resource/ehcache.xml" />
+	 </bean>
+ 	<!-- <bean id="shiroCacheManager" class="com.njpes.www.shiro.cache.SpringCacheManagerWrapper">
+        <property name="cacheManager" ref="cacheManager"/>
+    </bean> -->
+	<!-- 項目自定义的Realm -->
+	<bean id="shiroRealm" class="com.njpes.www.shiro.realm.UserRealm">
+		<property name="cachingEnabled" value="true"></property>
+		<property name="cacheManager" ref="shiroCacheManager"></property>
+	</bean>
+	
+ 	<bean id="jCaptchaValidateFilter" class=" com.njpes.www.interceptor.JCaptchaValidateFilter">
+        <property name="jcaptchaEbabled" value="${shiro.jcaptcha.enable}"/>
+        <property name="jcaptchaParam" value="jcaptchaCode"/>
+        <property name="jcapatchaErrorUrl" value="${shiro.jcaptcha.error.url}"/>
+    </bean>
+	
+
+
+ 	<!--替换默认的form 验证过滤器-->
+    <bean id="formAuthenticationFilter" class="com.njpes.www.shiro.filter.authc.CustomFormAuthenticationFilter">
+        <property name="defaultSuccessUrl" value="${shiro.default.success.url}"/>
+        <property name="adminDefaultSuccessUrl" value="${shiro.admin.default.success.url}"/>
+        <!--表单上的用户名/密码 下次自动登录的参数名-->
+        <property name="usernameParam" value="username"/>
+        <property name="passwordParam" value="password"/>
+        <property name="rememberMeParam" value="rememberMe"/>
+    </bean>
+    
+     <!--提取系统用户（User） 验证用户是否合法的过滤器（如是否删除了 是否锁定了） -->
+    <bean id="sysUserFilter" class="com.njpes.www.shiro.filter.user.SysUserFilter">
+        <property name="userBlockedUrl" value="${shiro.user.blocked.url}"/>
+        <property name="userNotfoundUrl" value="${shiro.user.notfound.url}"/>
+        <property name="userUnknownErrorUrl" value="${shiro.user.unknown.error.url}"/>
+    </bean>
+
+<!-- Shiro Filter -->
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager" />
+		<property name="loginUrl" value="${shiro.login.url}" />
+		<property name="successUrl" value="${shiro.default.success.url}" />
+		<property name="unauthorizedUrl" value="${shiro.unauthorizedUrl}" />
+		<property name="filters">
+			<util:map>
+				<entry key="authc" value-ref="formAuthenticationFilter"/>
+                <entry key="jCaptchaValidate" value-ref="jCaptchaValidateFilter"/>
+                <entry key="sysUser" value-ref="sysUserFilter"/>
+			</util:map>
+        </property>
+		<property name="filterChainDefinitions">
+			<value>
+				/uploadwork/** = anon
+				/upload/** = anon
+				/logout = anon
+				/js/** = anon
+				/jcaptcha* = anon
+				/themes/** = anon
+				/images/** = anon
+				/doginfo/** = anon
+                /person/** = anon
+                /org/** = anon
+                /bracelet/** = anon
+				/DogAuthPluginSetup.exe = anon
+				/homepage/homepage_nologin.do = anon
+				/homepage/**/morenotice.do = anon
+				/homepage/**/moreactivityplan.do = anon
+				/homepage/**/moreactivitysummary.do = anon
+				/ajax/getDirectTrainForSchools.do=anon
+				/workschedule/notice/**/view.do = anon
+				/workschedule/activityplan/**/view.do = anon
+				/workschedule/activitysummary/**/view.do = anon
+				/login.do = jCaptchaValidate,authc
+				/** = authc,sysUser,user,perms,roles
+			</value>
+		</property>
+	</bean>
+	<!-- 保证实现了Shiro内部lifecycle函数的bean执行 -->
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+
+	<!-- AOP式方法级权限检查 -->
+	 <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
+		depends-on="lifecycleBeanPostProcessor">
+	</bean>
+	<bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+    	<property name="securityManager" ref="securityManager"/>
+	</bean>
+
+	<bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+		<property name="securityManager" ref="securityManager" />
+	</bean>
+</beans>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.njpes.www.dao.util.FieldMapper">
+
+
+	<!-- shibin add for get all key and value of dictionary -->
+	<select id="selectAllDic" resultType="java.util.Map"
+		 parameterType="java.lang.String">
+		select
+		${field}
+		from ${table}
+
+	</select>
+	<select id="selectAllDicWhere" resultType="java.util.Map" parameterType="java.lang.String" statementType="STATEMENT">
+		select
+		${field}
+		from ${table}
+		<where>
+			<if test="where != null">
+				${where}
+			</if>
+		</where>
+
+	</select>
+	
+	<select id="selectCountWhere" resultType="java.util.Map" parameterType="java.lang.String" statementType="STATEMENT">
+		select
+		${field}
+		from ${table}
+		<where>
+			<if test="where != null">
+				${where}
+			</if>
+		</where>
+		<if test="groupby != null">
+			group by	${groupby}
+		</if>
+	</select>
+</mapper>

@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.njpes.www.dao.workschedule.JobReportMapper" >
+  <select id="reportActivitySumByQueryHashMap" resultType="map">
+  	select o.name as dep,
+  	<foreach collection="querylist" index="index" item="c" separator=",">
+  		sum(case when activitytype=#{c} then 1 else 0 end) as z#{index}
+  	</foreach>
+	FROM job_activityrecord t
+	left join organization o on t.dep = o.id
+	<where>
+		<if test="starttime !=null">
+			and starttime &gt;=#{starttime,jdbcType=VARCHAR}
+		</if>
+		<if test="endtime != null">
+			and endtime &lt;=#{endtime,jdbcType=VARCHAR}
+		</if>
+		<if test="deplist !=null and deplist.size() > 0">
+			and dep in
+			<foreach collection="deplist" open="(" close=")" separator="," item="d">
+				#{d}
+			</foreach>
+		</if>
+	</where>
+	group by dep
+  </select>
+  <select id="reportActivityCountByQueryHashMap" resultType="map">
+  	select activitytype,count(1) as cnt
+	FROM job_activityrecord t
+	<where>
+		<if test="starttime !=null">
+			and starttime &gt;=#{starttime,jdbcType=VARCHAR}
+		</if>
+		<if test="endtime != null">
+			and endtime &lt;=#{endtime,jdbcType=VARCHAR}
+		</if>
+		<if test="deplist !=null and deplist.size() > 0">
+			and dep in
+			<foreach collection="deplist" open="(" close=")" separator="," item="d">
+				#{d}
+			</foreach>
+		</if>
+		<if test="querylist != null and querylist.size() > 0">
+			and activitytype in
+			<foreach collection="querylist" open="(" close=")" separator="," item="c">
+  				#{c}
+  			</foreach>
+  		</if>
+	</where>
+	group by activitytype
+  </select>
+    <select id="getPlanStasByQuery" resultType="map">
+  	select o.name as dep,
+  	sum(1) as s
+	FROM job_plan t
+	left join organization o on t.dep = o.id
+	<where>
+		<if test="starttime !=null">
+			and start_time &gt;=#{starttime,jdbcType=VARCHAR}
+		</if>
+		<if test="endtime != null">
+			and end_time &lt;=#{endtime,jdbcType=VARCHAR}
+		</if>
+		<if test="deplist !=null and deplist.size() > 0">
+			and dep in
+			<foreach collection="deplist" open="(" close=")" separator="," item="d">
+				#{d}
+			</foreach>
+		</if>
+	</where>
+  </select>
+  <select id="getPlanStasByQueryByTerm" resultType="map">
+  	select o.name as dep,
+  	sum(1) as s
+	FROM job_plan t
+	left join organization o on t.dep = o.id
+	<where>
+		<if test="schoolyear !=null">
+			and schoolyear =#{schoolyear,jdbcType=VARCHAR}
+		</if>
+		<if test="term != null">
+			and term =#{term,jdbcType=VARCHAR}
+		</if>
+		<if test='deplist !=null and deplist.size() > 0 and querytype!="1"'>
+			and t.dep in
+			<foreach collection="deplist" open="(" close=")" separator="," item="d">
+				#{d}
+			</foreach>
+		</if>
+		<if test='querytype=="1"'>
+		    and ((o.org_type=1 and o.org_level=4) or (o.org_type=2 and o.org_level=6))
+		</if>
+	</where>
+	group by t.dep
+  </select>
+  <select id="getPlanStasCountByQuery" resultType="java.lang.Integer">
+  	select count(1)
+	FROM job_plan t
+	<where>
+		<if test="starttime !=null">
+			and start_time &gt;=#{starttime,jdbcType=VARCHAR}
+		</if>
+		<if test="endtime != null">
+			and end_time &lt;=#{endtime,jdbcType=VARCHAR}
+		</if>
+		<if test="deplist !=null and deplist.size() > 0">
+			and dep in
+			<foreach collection="deplist" open="(" close=")" separator="," item="d">
+				#{d}
+			</foreach>
+		</if>
+	</where>
+  </select>
+  <select id="getPlanStasCountByQueryTerm"  resultType="java.lang.Integer">
+   	select count(1)
+	FROM job_plan t
+	left join organization org on org.id =t.dep
+	<where>
+		<if test="schoolyear !=null">
+			and schoolyear =#{schoolyear,jdbcType=VARCHAR}
+		</if>
+		<if test="term != null">
+			and term =#{term,jdbcType=VARCHAR}
+		</if>
+		<if test='deplist !=null and deplist.size() > 0 and querytype!="1"'>
+			and dep in
+			<foreach collection="deplist" open="(" close=")" separator="," item="d">
+				#{d}
+			</foreach>
+		</if>
+		<if test='querytype=="1"'>
+		    and ((org.org_type=1 and org.org_level=4) or (org.org_type=2 and org.org_level=6))
+		</if>
+	</where>
+	
+  </select>
+  <select id="reportUnitHashMap" resultType="map">
+  	select o.code,o.name,
+  	<foreach collection="roleids" index="index" item="c" separator=",">
+  		sum(case when a.role_id=#{c} then 1 else 0 end) as z#{index}
+  	</foreach>
+  	from auth a
+  	left join organization  o on a.org_id=o.id
+  	<where>
+  		<if test="deplist !=null and deplist.size() > 0">
+			and a.org_id in
+			<foreach collection="deplist" open="(" close=")" separator="," item="d">
+				#{d}
+			</foreach>
+		</if>
+  	</where>
+  	group by a.org_id
+  </select>
+  <select id="reportActivityCatalogSumByQueryHashMap" resultType="map">
+    select o.name as dep,
+    <foreach collection="querylist" index="index" item="c" separator=",">
+        sum(case when activitycatalog=#{c} then 1 else 0 end) as z#{index}
+    </foreach>
+    FROM job_activityrecord t
+    left join organization o on t.dep = o.id
+    <where>
+        <if test="starttime !=null">
+            and starttime &gt;=#{starttime,jdbcType=VARCHAR}
+        </if>
+        <if test="endtime != null">
+            and endtime &lt;=#{endtime,jdbcType=VARCHAR}
+        </if>
+        <if test="deplist !=null and deplist.size() > 0">
+            and dep in
+            <foreach collection="deplist" open="(" close=")" separator="," item="d">
+                #{d}
+            </foreach>
+        </if>
+    </where>
+    group by dep
+  </select>
+</mapper>

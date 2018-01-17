@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+	<classPathEntry location="E:\work\njpes\workspace\pes\WebContent\WEB-INF\lib\mysql-connector-java-5.0.8-bin.jar" />
+	<context id="aisSnsTables" targetRuntime="MyBatis3">
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://127.0.0.1:3306/njprojecttest" userId="njproject"
+			password="njproject" />
+		<javaModelGenerator targetPackage="com.njpes.www.entity.scaletoollib"
+			targetProject="pes/src" />
+		<sqlMapGenerator targetPackage="com.njpes.www.dao.scaletoollib"
+			targetProject="pes/src" >
+			<property name="enableSubPackages" value="true" />
+		</sqlMapGenerator>
+		<javaClientGenerator targetPackage="com.njpes.www.dao.scaletoollib"
+			targetProject="pes/src" type="XMLMAPPER" >
+			<property name="enableSubPackages" value="true" />
+		</javaClientGenerator>
+		<table schema="njprojecttest" tableName="graduatingclass" domainObjectName="GraduatingClass" 
+		 	enableCountByExample="false"
+   		 	enableDeleteByExample="false"
+   			enableSelectByExample="false"
+   			enableUpdateByExample="false"/>
+	</context>
+
+</generatorConfiguration>

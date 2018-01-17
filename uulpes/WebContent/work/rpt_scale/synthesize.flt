@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+  <title></title>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+     <style type="text/css">
+		table{
+			background-color:#52B1CD;
+			font-size: 14px;
+			line-height:22px;
+		}
+		table tr{
+		    background-color:#fff;
+		}
+		.left_title_2 {
+			color:#000;
+			font-weight:bold;
+			line-height:20px;
+			text-align:right;
+		}
+		.STYLE3 {
+			font-size: 24pt;
+			font-weight: bold;
+			line-height:50px;
+		}
+	</style>
+</head>
+<body class="man_zone">
+<#if message?exists>
+	${message}
+<#else>
+<table width="719" border="0" cellspacing="1" cellpadding="0" align="center"  bordercolor="#52B1CD">
+<tr><td height="25" colspan="2" bgcolor="#f4f7f4" align="center" class="STYLE3" >${page.report_title}</td></tr>    
+<tr><td height="25" colspan="2" align="left" bgcolor="#f4f7f4">姓名：${page.student.name} 性别：${page.student.gender}</td></tr>
+<tr><td height="25" colspan="2" align="left" bgcolor="#f4f7f4">年级班级：${page.student.gradeOrderId}-${page.student.classId}</td></tr>
+<tr><td colspan="2" align="left" bgcolor="#f4f7f4" class="left_title_1">各维度分值一览</td></tr>
+<tr align="center">
+<td><br><#list page.tables as table>${table}<br></#list></td></tr>    
+</table>
+
+<#--
+<table width="719" border="0" cellspacing="1" cellpadding="0" align="center" bordercolor="#52B1CD">
+<tr><td colspan="2" align="left" bgcolor="#f4f7f4" class="left_title_1" >总体分析</td></tr>
+<tr><td>${page.summarize}</td></tr>    
+</table>
+<table width="719" border="0" cellspacing="1" cellpadding="0" align="center" bordercolor="#52B1CD">
+<#list page.detalMap?keys as key>
+<tr><td  rowspan=2>${key}</td><td>结<br>果<br>解<br>释<br></td><td>${page.detalMap[key]}</tr>
+<tr><td>发<br>展<br>建<br>议</td><td>${page.advicMap[key]}</td></tr>
+</#list>
+</table>
+-->
+</#if>
+</html>
+

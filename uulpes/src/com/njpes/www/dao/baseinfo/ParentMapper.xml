@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.njpes.www.dao.baseinfo.ParentMapper">
+    <resultMap id="BaseResultMap" type="com.njpes.www.entity.baseinfo.Parent">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="gxm" jdbcType="VARCHAR" property="gxm" />
+        <result column="cyxm" jdbcType="VARCHAR" property="cyxm" />
+        <result column="csny" jdbcType="VARCHAR" property="csny" />
+        <result column="mzm" jdbcType="VARCHAR" property="mzm" />
+        <result column="gjdqm" jdbcType="VARCHAR" property="gjdqm" />
+        <result column="jkzkm" jdbcType="VARCHAR" property="jkzkm" />
+        <result column="cygzdw" jdbcType="VARCHAR" property="cygzdw" />
+        <result column="cyem" jdbcType="VARCHAR" property="cyem" />
+        <result column="zyjszwm" jdbcType="VARCHAR" property="zyjszwm" />
+        <result column="zwjbm" jdbcType="VARCHAR" property="zwjbm" />
+        <result column="dh" jdbcType="VARCHAR" property="dh" />
+        <result column="dzxx" jdbcType="VARCHAR" property="dzxx" />
+        <result column="sfjhr" jdbcType="VARCHAR" property="sfjhr" />
+        <result column="xbm" jdbcType="VARCHAR" property="xbm" />
+        <result column="xlm" jdbcType="VARCHAR" property="xlm" />
+        <result column="lxdz" jdbcType="VARCHAR" property="lxdz" />
+        <result column="sjhm" jdbcType="VARCHAR" property="sjhm" />
+        <result column="account_id" jdbcType="BIGINT" property="accountId" />
+        <result column="student_account_id" jdbcType="BIGINT"
+            property="studentAccountId" />
+    </resultMap>
+    <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs"
+        type="com.njpes.www.entity.baseinfo.ParentWithBLOBs">
+        <result column="zp" property="zp" jdbcType="LONGVARBINARY" />
+        <result column="tc" property="tc" jdbcType="LONGVARCHAR" />
+        <result column="bjxx" property="bjxx" jdbcType="LONGVARCHAR" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, gxm, cyxm, csny, mzm, gjdqm, jkzkm, cygzdw, cyem,
+        zyjszwm, zwjbm, dh,
+        dzxx, sfjhr,
+        xbm, xlm, lxdz, sjhm, account_id,
+        student_account_id
+    </sql>
+    <sql id="Blob_Column_List">
+        bjxx
+    </sql>
+
+    <!-- 修改列 -->
+    <sql id="update_sql">
+        <set>
+            <if test="gxm != null">
+                gxm = #{gxm,jdbcType=VARCHAR},
+            </if>
+            <if test="cyxm != null">
+                cyxm = #{cyxm,jdbcType=VARCHAR},
+            </if>
+            <if test="csny != null">
+                csny = #{csny,jdbcType=VARCHAR},
+            </if>
+            <if test="mzm != null">
+                mzm = #{mzm,jdbcType=VARCHAR},
+            </if>
+            <if test="gjdqm != null">
+                gjdqm = #{gjdqm,jdbcType=VARCHAR},
+            </if>
+            <if test="jkzkm != null">
+                jkzkm = #{jkzkm,jdbcType=VARCHAR},
+            </if>
+            <if test="cygzdw != null">
+                cygzdw = #{cygzdw,jdbcType=VARCHAR},
+            </if>
+            <if test="cyem != null">
+                cyem = #{cyem,jdbcType=VARCHAR},
+            </if>
+            <if test="zyjszwm != null">
+                zyjszwm = #{zyjszwm,jdbcType=VARCHAR},
+            </if>
+            <if test="zwjbm != null">
+                zwjbm = #{zwjbm,jdbcType=VARCHAR},
+            </if>
+            <if test="dh != null">
+                dh = #{dh,jdbcType=VARCHAR},
+            </if>
+            <if test="dzxx != null">
+                dzxx = #{dzxx,jdbcType=VARCHAR},
+            </if>
+            <if test="sfjhr != null">
+                sfjhr = #{sfjhr,jdbcType=VARCHAR},
+            </if>
+            <if test="xbm != null">
+                xbm = #{xbm,jdbcType=VARCHAR},
+            </if>
+            <if test="xlm != null">
+                xlm = #{xlm,jdbcType=VARCHAR},
+            </if>
+            <if test="lxdz != null">
+                lxdz = #{lxdz,jdbcType=VARCHAR},
+            </if>
+            <if test="sjhm != null">
+                sjhm = #{sjhm,jdbcType=VARCHAR},
+            </if>
+            <if test="accountId != null">
+                account_id = #{accountId,jdbcType=BIGINT},
+            </if>
+            <if test="studentAccountId != null">
+                student_account_id =
+                #{studentAccountId,jdbcType=BIGINT},
+            </if>
+            <if test="bjxx != null">
+                bjxx = #{bjxx,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long"
+        resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List" />
+        ,
+        <include refid="Blob_Column_List" />
+        from parent
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from
+        parent
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <delete id="deleteByStudentAccountid" parameterType="java.lang.Long">
+        delete
+        from parent
+        where student_account_id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.njpes.www.entity.baseinfo.Parent">
+        insert into parent (id,
+        gxm, cyxm,
+        csny, mzm, gjdqm, jkzkm,
+        cygzdw, cyem, zyjszwm,
+        zwjbm,
+        dh, dzxx, sfjhr,
+        xbm, xlm, lxdz, sjhm,
+        account_id,
+        student_account_id, bjxx
+        )
+        values (#{id,jdbcType=BIGINT},
+        #{gxm,jdbcType=VARCHAR},
+        #{cyxm,jdbcType=VARCHAR},
+        #{csny,jdbcType=VARCHAR}, #{mzm,jdbcType=VARCHAR},
+        #{gjdqm,jdbcType=VARCHAR},
+        #{jkzkm,jdbcType=VARCHAR},
+        #{cygzdw,jdbcType=VARCHAR}, #{cyem,jdbcType=VARCHAR},
+        #{zyjszwm,jdbcType=VARCHAR},
+        #{zwjbm,jdbcType=VARCHAR},
+        #{dh,jdbcType=VARCHAR},
+        #{dzxx,jdbcType=VARCHAR},
+        #{sfjhr,jdbcType=VARCHAR},
+        #{xbm,jdbcType=VARCHAR},
+        #{xlm,jdbcType=VARCHAR},
+        #{lxdz,jdbcType=VARCHAR},
+        #{sjhm,jdbcType=VARCHAR},
+        #{accountId,jdbcType=BIGINT},
+        #{studentAccountId,jdbcType=BIGINT},
+        #{bjxx,jdbcType=LONGVARCHAR}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.njpes.www.entity.baseinfo.Parent">
+        insert into parent
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="gxm != null">
+                gxm,
+            </if>
+            <if test="cyxm != null">
+                cyxm,
+            </if>
+            <if test="csny != null">
+                csny,
+            </if>
+            <if test="mzm != null">
+                mzm,
+            </if>
+            <if test="gjdqm != null">
+                gjdqm,
+            </if>
+            <if test="jkzkm != null">
+                jkzkm,
+            </if>
+            <if test="cygzdw != null">
+                cygzdw,
+            </if>
+            <if test="cyem != null">
+                cyem,
+            </if>
+            <if test="zyjszwm != null">
+                zyjszwm,
+            </if>
+            <if test="zwjbm != null">
+                zwjbm,
+            </if>
+            <if test="dh != null">
+                dh,
+            </if>
+            <if test="dzxx != null">
+                dzxx,
+            </if>
+            <if test="sfjhr != null">
+                sfjhr,
+            </if>
+            <if test="xbm != null">
+                xbm,
+            </if>
+            <if test="xlm != null">
+                xlm,
+            </if>
+            <if test="lxdz != null">
+                lxdz,
+            </if>
+            <if test="sjhm != null">
+                sjhm,
+            </if>
+            <if test="accountId != null">
+                account_id,
+            </if>
+            <if test="studentAccountId != null">
+                student_account_id,
+            </if>
+            <if test="bjxx != null">
+                bjxx,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="gxm != null">
+                #{gxm,jdbcType=VARCHAR},
+            </if>
+            <if test="cyxm != null">
+                #{cyxm,jdbcType=VARCHAR},
+            </if>
+            <if test="csny != null">
+                #{csny,jdbcType=VARCHAR},
+            </if>
+            <if test="mzm != null">
+                #{mzm,jdbcType=VARCHAR},
+            </if>
+            <if test="gjdqm != null">
+                #{gjdqm,jdbcType=VARCHAR},
+            </if>
+            <if test="jkzkm != null">
+                #{jkzkm,jdbcType=VARCHAR},
+            </if>
+            <if test="cygzdw != null">
+                #{cygzdw,jdbcType=VARCHAR},
+            </if>
+            <if test="cyem != null">
+                #{cyem,jdbcType=VARCHAR},
+            </if>
+            <if test="zyjszwm != null">
+                #{zyjszwm,jdbcType=VARCHAR},
+            </if>
+            <if test="zwjbm != null">
+                #{zwjbm,jdbcType=VARCHAR},
+            </if>
+            <if test="dh != null">
+                #{dh,jdbcType=VARCHAR},
+            </if>
+            <if test="dzxx != null">
+                #{dzxx,jdbcType=VARCHAR},
+            </if>
+            <if test="sfjhr != null">
+                #{sfjhr,jdbcType=VARCHAR},
+            </if>
+            <if test="xbm != null">
+                #{xbm,jdbcType=VARCHAR},
+            </if>
+            <if test="xlm != null">
+                #{xlm,jdbcType=VARCHAR},
+            </if>
+            <if test="lxdz != null">
+                #{lxdz,jdbcType=VARCHAR},
+            </if>
+            <if test="sjhm != null">
+                #{sjhm,jdbcType=VARCHAR},
+            </if>
+            <if test="accountId != null">
+                #{accountId,jdbcType=BIGINT},
+            </if>
+            <if test="studentAccountId != null">
+                #{studentAccountId,jdbcType=BIGINT},
+            </if>
+            <if test="bjxx != null">
+                #{bjxx,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <!-- 批量插入 -->
+    <insert id="insertBatch" useGeneratedKeys="true"
+        parameterType="java.util.List">
+        <selectKey resultType="long" keyProperty="id" order="AFTER">
+            SELECT
+            LAST_INSERT_ID()
+        </selectKey>
+        insert into parent (gxm, cyxm, csny,
+        mzm, gjdqm, jkzkm, cygzdw,
+        cyem, zyjszwm, zwjbm, dh,
+        dzxx, sfjhr, xbm,
+        xlm, lxdz, sjhm,
+        account_id, bjxx, student_account_id)
+        values
+        <foreach collection="list" item="item" index="index"
+            separator=",">
+            (#{item.gxm,jdbcType=VARCHAR},
+            #{item.cyxm,jdbcType=VARCHAR},
+            #{item.csny,jdbcType=VARCHAR}, #{item.mzm,jdbcType=VARCHAR},
+            #{item.gjdqm,jdbcType=VARCHAR},
+            #{item.jkzkm,jdbcType=VARCHAR},
+            #{item.cygzdw,jdbcType=VARCHAR},
+            #{item.cyem,jdbcType=VARCHAR},
+            #{item.zyjszwm,jdbcType=VARCHAR},
+            #{item.zwjbm,jdbcType=VARCHAR}, #{item.dh,jdbcType=VARCHAR},
+            #{item.dzxx,jdbcType=VARCHAR},
+            #{item.sfjhr,jdbcType=VARCHAR},
+            #{item.xbm,jdbcType=VARCHAR}, #{item.xlm,jdbcType=VARCHAR},
+            #{item.lxdz,jdbcType=VARCHAR},
+            #{item.sjhm,jdbcType=VARCHAR},
+            #{item.accountId,jdbcType=BIGINT},
+            #{item.bjxx,jdbcType=LONGVARCHAR},#{item.studentAccountId,jdbcType=BIGINT})
+        </foreach>
+    </insert>
+    <!-- 批量更新 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" open="" close=""
+            separator=";">
+            update parent
+            <set>
+                gxm = #{item.gxm,jdbcType=VARCHAR},
+                cyxm =
+                #{item.cyxm,jdbcType=VARCHAR},
+                csny =
+                #{item.csny,jdbcType=VARCHAR},
+                mzm =
+                #{item.mzm,jdbcType=VARCHAR},
+                gjdqm =
+                #{item.gjdqm,jdbcType=VARCHAR},
+                jkzkm =
+                #{item.jkzkm,jdbcType=CHAR},
+                cygzdw =
+                #{item.cygzdw,jdbcType=VARCHAR},
+                cyem =
+                #{item.cyem,jdbcType=VARCHAR},
+                zyjszwm =
+                #{item.zyjszwm,jdbcType=VARCHAR},
+                zwjbm =
+                #{item.zwjbm,jdbcType=VARCHAR},
+                dh =
+                #{item.dh,jdbcType=VARCHAR},
+                dzxx =
+                #{item.dzxx,jdbcType=VARCHAR},
+                sfjhr =
+                #{item.sfjhr,jdbcType=VARCHAR},
+                xbm =
+                #{item.xbm,jdbcType=VARCHAR},
+                xlm =
+                #{item.xlm,jdbcType=VARCHAR},
+                lxdz =
+                #{item.lxdz,jdbcType=VARCHAR},
+                sjhm =
+                #{item.sjhm,jdbcType=VARCHAR},
+                account_id =
+                #{item.accountId,jdbcType=BIGINT},
+                bjxx =
+                #{item.bjxx,jdbcType=LONGVARCHAR},
+                student_account_id =
+                #{item.studentAccountId,jdbcType=BIGINT}
+            </set>
+            <where>
+                student_account_id =
+                #{item.studentAccountId,jdbcType=BIGINT}
+            </where>
+        </foreach>
+    </update>
+
+    <update id="updateByPrimaryKey">
+        update parent
+        <include refid="update_sql" />
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <update id="updateByPrimaryKeyWithBLOBs">
+        update parent
+        <include refid="update_sql" />
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <!-- 根据对应的accountid获得对应的parent -->
+    <select id="getParentByStudentAccountId" resultMap="ResultMapWithBLOBs">
+        select *
+        from parent
+        where student_account_id =
+        #{studentaccountid,jdbcType=BIGINT}
+    </select>
+</mapper>

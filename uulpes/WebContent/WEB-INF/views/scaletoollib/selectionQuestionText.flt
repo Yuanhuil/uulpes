@@ -1,0 +1,52 @@
+<html>
+<head>
+<script type='text/javascript' src='js/commqus.js' > </script>
+<script type="text/javascript">	
+	var ACTION = 'nextPage.ques';
+	function submit(btname,recorderId,msg) {
+		if (!${validate}(recorderId)) {
+			alert(msg);
+			return false;
+		}
+		disableall(btname);	
+		var url = "";
+		url = ACTION + '?' + getPartQry();
+		url = url + '&' + 'a='+encodeURIComponent(getValue(recorderId));
+		window.location.replace(url);
+		return true;
+	}
+	function getPartQry(){
+		var qry = 'q='+${q}+'&'+'s='+${s};
+		return qry;
+	}
+</script>
+
+<style>
+body { background:#fff; text-align:center;}
+#${buttonCtlId} {
+font-size: 18px; 
+border-bottom-width: 1px;
+border-top-style: solid;
+border-right-style: solid;
+border-bottom-style: solid;	
+border-left-style: solid;
+border-bottom-color: #6699CC;
+background-color:transparent;
+color: #06417B;
+height:35;
+}
+</style>
+</head>
+
+<body>
+ 	<table align="center" width="80%"><tbody>
+<tr><td>
+<h2 id="hd" style="text-align:left">
+<font face="隶书" color="#FF6600">${user.name}正在测试的量表-《${scale.title}》</font></H2>
+</td></tr></tbody></table>
+ 	</b><p><u><font color="#0000FF"><b>答题进度：${progress}</b> </font></u></p>
+ 	<p><font face="楷体_GB2312" size="5"><strong>${title}</strong></font></p>
+ 	<span>${ selectionQuestion }</span>
+    <span>${ buttonCtl }</span>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+    <!-- <bean id="scale" class="edutec.scale.model.Scale">
+    </bean>
+    <bean id="scaleService" class="com.njpes.www.service.scaletoollib.ScaleServiceImpl">
+	 	<property name="scaleInfoDao" ref="scaleInfoDao"></property>
+	 	<property name="scaleMgrtool" ref="scaleMgrtool"></property>
+ 	</bean>
+ 	<bean id="scaleMgrtool" class="edutec.scale.db.ScaleMgr"></bean>
+ 	 <bean id="examResultMgr" class="edutec.scale.exam.ExamResultMgr">
+ 	   <property name="examResultDao" ref="examResultMapper"></property> 
+ 	</bean>
+ 	<bean id="importScaleInvoker" class="com.njpes.www.invoker.ImportScaleInvoker"></bean>
+ 	<bean id="downloadScaleAnswerTmpInvoker" class="com.njpes.www.invoker.DownloadScaleAnswerTmpInvoker"></bean>
+ 	<bean id="scaleAnswerInvoker" class="com.njpes.www.invoker.ScaleAnswerInvoker"  scope="prototype"></bean>
+ 	<bean id="scaleReportInvoker" class="com.njpes.www.invoker.ScaleReportInvoker">
+ 	     <property name="examResultDao" ref="examResultMapper"></property>
+ 	</bean>
+ 	<bean id="scaleMgrService" class="com.njpes.www.service.scaletoollib.ScaleMgrServiceImpl">
+ 		<property name="scaleOperatorDao" ref="scaleOperatorDao"></property>
+ 	</bean>
+ 	<bean id="examdistributeService" class="com.njpes.www.service.scaletoollib.ExamdistributeServiceImp">
+ 	</bean>
+ 	<bean id="cachedScaleMgr" class="edutec.scale.db.CachedScaleMgr">
+ 		<constructor-arg name="scaleMgrService" ref="scaleMgrService"></constructor-arg>
+ 	</bean>
+ 	<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+ 	
+	<bean id="questionnaire" class="edutec.scale.questionnaire.Questionnaire" scope="prototype">
+ 	</bean>
+ 	<bean id="questionnaireCompistionListener" class="edutec.scale.questionnaire.QuestionnaireCompistionListener" scope="prototype"/>
+ 	<bean id="questionnaireCalcFinalScoreListener" class="edutec.scale.questionnaire.QuestionnaireCalcFinalScoreListener" scope="prototype"/>
+ 	<bean id="questionnaireReportListener" class="edutec.scale.questionnaire.QuestionnaireReportListener" scope="prototype"/>
+ 	<bean id="questionnaireCalcListener" class="edutec.scale.questionnaire.QuestionnaireCalcListener" scope="prototype" />
+ 	<bean id="questionnaireStoreListener" class="edutec.scale.questionnaire.QuestionnaireStoreListener" scope="prototype"/>
+ 	<bean id="questionnaireCalculator" class="edutec.scale.questionnaire.QuestionnaireCalculator" scope="prototype">
+ 	    <property name="examResultDao" ref="examResultMapper"></property>
+ 	</bean>
+ 	<bean id="scaleReportEffect" class="edutec.scale.descriptor.ScaleReportEffect" scope="prototype">
+ 	    <property name="examResultDao" ref="examResultMapper"></property>
+ 	</bean>
+ 	<bean id="examWarning" class="edutec.scale.exam.ExamWarning" scope="prototype">
+ 	    <property name="examResultDao" ref="examResultMapper"></property>
+ 	</bean>
+ 	<bean id="examScoreGrade" class="edutec.scale.exam.ExamScoreGrade" scope="prototype">
+ 	    <property name="examResultDao" ref="examResultMapper"></property>
+ 	</bean>
+ 	<bean id="examInvoker" class="com.njpes.www.invoker.ExamInvoker">
+ 	    <property name="studentDao" ref="studentMapper"></property>
+ 	    <property name="teacherDao" ref="teacherMapper"></property>
+ 	    <property name="examTaskDao" ref="examTaskMapper"></property>
+ 	</bean> -->
+
+</beans>

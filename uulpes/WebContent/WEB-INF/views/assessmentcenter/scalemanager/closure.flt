@@ -1,0 +1,48 @@
+<#--用户做完题使用此模板 -->
+<#--高考问卷 -->
+<#if visitRoom==3>
+${anwserResult}
+<#else>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<HTML>
+<HEAD><TITLE>${scale.title}</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=utf-8">
+<#if scale.propFlag>
+<LINK href="styles/baogaomoban.css" type=text/css rel=stylesheet>
+<#else>
+<link rel="stylesheet" href="style/css.css" type="text/css" />
+<style type="text/css">.td_size td {font-family: "宋体";font-size: 12px;}</style>
+</#if>
+<script type="text/javascript">	
+function submit() {
+	window.location.replace("scaleAttachCtl.app?rl=1");
+	return true;
+}
+</script>
+</HEAD>
+<body>
+<#-- 产权问卷 -->
+<#if scale.propFlag>
+<#if visitRoom==1&&forbidReport!=1>
+<div align="center"><input type='button' onclick='submit(); return false' value='继续做题>>'></div>
+</#if>
+<#if forbidReport==1><div align="center"><B>已经完成-${scale.title}</B></div><#else>${anwserResult}</#if>
+<#if visitRoom==1><div align="center"><input type='button' onclick='submit(); return false' value='继续做题>>'></div></#if>
+<#--赠送问卷 -->
+<#else>
+<table border="0" align="center" cellpadding="0" cellspacing="0" width="90%">
+<tr><td height="45"><div align="center"><font size="3"><strong>测试报告</strong></font></div></td></tr>
+<tr><td>
+<#if forbidReport==1><br><br><br><hr><div align="center"><B>${anwserResult}</B></div><br><br><br>
+<#else>${anwserResult}</#if>
+</td></tr>
+<tr><td colspan="2" bgcolor="#f4f7f4">
+<#if visitRoom==1>
+<div align="center"><input type='button' onclick='submit(); return false' value='继续做题>>'></div>
+</#if>
+</td></tr>
+</table>
+</#if>
+</body>
+</html>
+</#if>

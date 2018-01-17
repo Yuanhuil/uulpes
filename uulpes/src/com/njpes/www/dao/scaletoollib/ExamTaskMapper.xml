@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.njpes.www.dao.scaletoollib.ExamTaskMapper" >
+	 <resultMap id="ExamTaskEduResultMap" type="com.njpes.www.entity.scaletoollib.ExamDoEduTask" >
+	    <id column="id" property="id" jdbcType="BIGINT" />
+	    <result column="taskname" property="taskname" jdbcType="VARCHAR"/>
+	    <result column="scaleids" property="scaleids" jdbcType="VARCHAR" />
+	    <result column="gradeids" property="gradeids" jdbcType="VARCHAR" />
+	    <result column="areaids" property="areaids" jdbcType="VARCHAR" />
+	    <result column="createtime" property="createtime" jdbcType="VARCHAR" />
+	    <result column="starttime" property="starttime" jdbcType="VARCHAR" />
+	    <result column="endtime" property="endtime" jdbcType="VARCHAR" />
+	    <result column="createuserid" property="createuserid" jdbcType="INTEGER" />
+	    <result column="orgids" property="orgids" jdbcType="INTEGER" />
+	    <result column="roleids" property="roleids" jdbcType="VARCHAR"/>
+     </resultMap>
+     <resultMap id="ExamTaskSchoolResultMap" type="com.njpes.www.entity.scaletoollib.ExamDoSchoolTask" >
+	    <id column="id" property="id" jdbcType="BIGINT" />
+	    <result column="taskname" property="taskname" jdbcType="VARCHAR"/>
+	    <result column="scaleids" property="scaleids" jdbcType="VARCHAR" />
+	    <result column="nj" property="nj" jdbcType="VARCHAR" />
+	    <result column="bj" property="bj" jdbcType="VARCHAR" />
+	    <result column="areaids" property="areaids" jdbcType="VARCHAR" />
+	    <result column="createtime" property="createtime" jdbcType="VARCHAR" />
+	    <result column="starttime" property="starttime" jdbcType="VARCHAR" />
+	    <result column="endtime" property="endtime" jdbcType="VARCHAR" />
+	    <result column="createuserid" property="createuserid" jdbcType="INTEGER" />
+	    <result column="orgids" property="orgids" jdbcType="INTEGER" />
+     </resultMap>
+
+	
+	<insert id="insertMhTask" parameterType="com.njpes.www.entity.scaletoollib.MhTask">
+		insert into examdo_mental_health 
+			(result_id,student_id,parent_id,teacher_id,scaleid_t,scaleid_p,lo_time,hi_time,flag)
+		values
+			(#{resultId},#{studentId},#{parentId},#{teacherId},#{scaleid_t},#{scaleid_p},#{loTime},#{hiTime},#{flag}) 
+	</insert>
+	<insert id="insertBatchMhTask" useGeneratedKeys="true" parameterType="java.util.List">
+		insert into examdo_mental_health
+			(result_id,taskid,student_id,parent_id,teacher_id,scaleid_t,scaleid_p,lo_time,hi_time)
+		values
+		<foreach collection="list" item="item" index="index" separator="," >  
+			(#{item.resultId},#{item.taskid},#{item.studentId},#{item.parentId},#{item.teacherId},#{item.scaleid_t},#{item.scaleid_p},#{item.loTime},#{item.hiTime}) 
+		</foreach>
+	</insert> 
+	
+	<insert id="insertStudentExamDo" parameterType="Map" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO examdo_student
+		(lo_time,hi_time,flag,user_id,scale_id,taskid,taskfrom,xd,gradeid,nj,njmc,bj,bjmc,orgid,countyid,cityid,parentvisible,teachervisible,studentvisible,warnvisible,testlimit,attrs,ifmh,statusflag)
+		VALUES
+		(#{loTime},#{hiTime},#{limitFlag},#{userId},#{scaleId},#{taskid},#{taskfrom},#{xd},#{gradeid},#{nj},#{njmc},#{bj},#{bjmc},#{orgid},#{countyid},#{cityid},#{parentvisible},#{teachervisible},#{studentvisible},#{warnvisible},#{testlimit},#{attrs},#{ifmh},#{statusflag})
+	</insert>
+	<insert id="insertTeacherExamDo" parameterType="Map">
+		INSERT INTO examdo_teacher
+		(lo_time,hi_time,flag,user_id,scale_id,taskid,taskfrom,roleid,rolename,orgid,countyid,cityid,testlimit)
+		VALUES
+		(#{loTime},#{hiTime},#{limitFlag},#{userId},#{scaleId},#{taskid},#{taskfrom},#{roleid},#{rolename},#{orgid},#{countyid},#{cityid},#{testlimit})
+	</insert>
+	<select id="queryLimitedStudentExamdo" parameterType="Map" resultType="Map">
+	    select es.user_id userid,es.njmc,es.bjmc,s.xm,sc.title scaletitle,MAX(es.hi_time) from examdo_student es
+	    left join student s on es.user_id = s.id
+	    left join scale sc on sc.code = es.scale_id
+	    where 
+	    <foreach item="item" index="index" collection="studentids" open="(" separator="," close=")">
+	        #{item} 
+	    </foreach>
+	    and es.scale_id=#{scaleid}  and TIMESTAMPDIFF(DAY,es.hi_time,#{starttime}) &lt; 90
+	</select>
+	<!-- <select id="queryLimitedTeacherExamdo" parameterType="Map" resultType="Map">
+	    select es.user_id userid,es.rolename,t.xm,sc.title scaletitle,MAX(es.hi_time) from examdo_teacher es
+	    left join teacher t on es.user_id = t.id
+	    left join scale sc on sc.code = es.scale_id
+	    where 
+	    es.user_id=#{teacherid} and es.scale_id=#{scaleid}  and TIMESTAMPDIFF(DAY,es.hi_time,#{starttime}) &lt; 90
+	</select>-->
+	<select id="queryLimitedTeacherExamdo" parameterType="Map" resultType="Map">
+	    select distinct es.user_id userid,es.rolename,t.xm,sc.title scaletitle from examdo_teacher es
+	    left join teacher t on es.user_id = t.id
+	    left join scale sc on sc.code = es.scale_id
+	    where 
+	    es.user_id in
+	    <foreach item="item" index="index" collection="teacherids" open="(" separator="," close=")">
+	        #{item} 
+	    </foreach>
+	    and es.scale_id=#{scaleid}  and TIMESTAMPDIFF(DAY,es.hi_time,#{starttime}) &lt; 90
+	</select>
+	<select id="queryStuExamdoCountForSchools" resultType="Integer">
+	    select count(DISTINCT user_id) from examdo_student
+	     where orgid in
+	    <foreach item="item" index="index" collection="orgids"
+	         open="(" separator="," close=")">
+             #{item}
+	    </foreach> 
+	    and scale_id= #{scaleid}
+	    and TIMESTAMPDIFF(DAY,hi_time,#{starttime}) &lt; 90
+	</select>
+	<select id="queryTeaExamdoCountForSchools"  resultType="Integer">
+	    select count(DISTINCT user_id) from examdo_teacher
+	     where orgid in
+	    <foreach item="item" index="index" collection="orgids"
+	         open="(" separator="," close=")">
+             #{item}
+	    </foreach> 
+	    and scale_id= #{scaleid}
+	    and TIMESTAMPDIFF(DAY,hi_time,#{starttime}) &lt; 90
+	</select>
+	<select id="queryStuExamdoCountForCounties" resultType="Integer">
+	     select count(DISTINCT es.user_id) from examdo_student es
+	     left join organization og on og.id = es.orgid and og.org_level=6
+	      where es.countyid in
+	    <foreach item="item" index="index" collection="counties"
+	         open="(" separator="," close=")">
+             #{item}
+	    </foreach> 
+	    and scale_id= #{scaleid}
+	    and TIMESTAMPDIFF(DAY,es.hi_time,#{starttime}) &lt; 90
+	</select>
+	<select id="queryTeaExamdoCountForCounties" resultType="Integer">
+	     select count(DISTINCT es.user_id) from examdo_teacher es
+	     left join organization og on og.id = es.orgid and og.org_level=6
+	      where es.countyid in
+	    <foreach item="item" index="index" collection="counties"
+	         open="(" separator="," close=")">
+             #{item}
+	    </foreach> 
+	    and scale_id= #{scaleid}
+	    and TIMESTAMPDIFF(DAY,es.hi_time,#{starttime}) &lt; 90
+	</select>
+	<insert id="insertExamDoTaskForEdu" parameterType="com.njpes.www.entity.scaletoollib.ExamDoEduTask" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO examdo_task_edu
+		(id,taskname,scaleids,xd,nj,njmc,gradeids,areaids,orgids,roleids,rolename,createtime,starttime,endtime,createuserid,creater_orgid,studentvisible,teachervisible,parentvisible,warnvisible,testlimit)
+		VALUES
+		(#{id},#{taskname},#{scaleids},#{xd},#{nj},#{njmc},#{gradeids},#{areaids},#{orgids},#{roleids},#{rolename},#{createtime},#{starttime},#{endtime},#{createuserid},#{createrorgid},#{studentvisible},#{teachervisible},#{parentvisible},#{warnvisible},#{testlimit})
+	</insert>
+	<insert id="insertExamDoTaskForSchool" parameterType="com.njpes.www.entity.scaletoollib.ExamDoSchoolTask"  useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO examdo_task_school
+		(id,taskname,scaleids,xd,nj,njmc,bj,bjmc,roleids,rolename,createtime,starttime,endtime,createuserid,orgid,countyid,cityid,gradeorderids)
+		VALUES
+		(#{id},#{taskname},#{scaleids},#{xd},#{nj},#{njmc},#{bj},#{bjmc},#{roleids},#{rolename},#{createtime},#{starttime},#{endtime},#{createuserid},#{orgid},#{countyid},#{cityid},#{gradeids})
+	</insert>
+	<insert id="insertExamDoTaskForEduSchool">
+	    INSERT INTO examdo_task_edu_school(taskid,orgid,cityid,countyid,townid,dispense_orgid,isfinish) VALUES (#{taskid},#{orgid},#{cityid},#{countyid},#{townid},#{dispenseorgid},0)
+	</insert>
+	<insert id="insertExamDoTaskForEduSchoolBatch"  parameterType="java.util.List">
+	    INSERT INTO examdo_task_edu_school(taskid,orgid,cityid,countyid,townid,dispense_orgid,isfinish) 
+	    VALUES 
+		    <foreach collection="list" item="item" index="index" separator="," >  
+		    (#{item.taskid},#{item.orgid},#{item.cityid},#{item.countyid},#{item.townid},#{item.dispenseorgid},0)
+		    </foreach>
+	</insert>
+	<select id="getLastInsertId" resultType="INTEGER">
+	    SELECT LAST_INSERT_ID()  
+	</select>
+	<select id="getStudentMaxId" resultType="java.lang.Long">
+	    SELECT ifnull(MAX(id),0) from examdo_student
+	</select>
+	<select id="getTeacherMaxId" resultType="java.lang.Long">
+	    SELECT ifnull(MAX(id),0) from examdo_teacher
+	</select>
+	<insert id="insertBatchExamdoStudent"  parameterType="java.util.List"> 
+	    INSERT INTO examdo_student
+		(id,lo_time,hi_time,flag,user_id,scale_id,taskid,taskfrom,xd,gradeid,realgradeid,nj,njmc,bj,bjmc,orgid,countyid,cityid,parentvisible,
+		    teachervisible,studentvisible,warnvisible,testlimit,attrs,ifmh,statusflag,normid)
+	    values 
+	    <foreach collection="list" item="item" index="index" separator="," >  
+	    	(#{item.id},#{item.starttime},#{item.endtime},null,#{item.userid},#{item.scaleid},#{item.taskid},#{item.taskfrom},#{item.xd},#{item.gradeid},#{item.realgradeid},#{item.nj},#{item.njmc},#{item.bj},#{item.bjmc},
+	    	#{item.orgid},#{item.countyid},#{item.cityid},#{item.parentvisible},#{item.teachervisible},#{item.studentvisible},#{item.warnvisible},#{item.testlimit},#{item.attrs},#{item.ifmh},#{item.statusflag},#{item.normid})
+	    </foreach>
+	     
+	</insert>
+	<insert id="insertBatchExamdoTeacher"  parameterType="java.util.List"> 
+	    INSERT INTO examdo_teacher
+		(lo_time,hi_time,flag,user_id,scale_id,taskid,taskfrom,roleid,rolename,orgid,countyid,cityid,testlimit,normid)
+		VALUES
+	    <foreach collection="list" item="item" index="index" separator="," >  
+	    	(#{item.starttime},#{item.endtime},null,#{item.userid},#{item.scaleid},#{item.taskid},#{item.taskfrom},#{item.roleid},#{item.rolename},#{item.orgid},#{item.countyid},#{item.cityid},#{item.testlimit},#{item.normid})
+	    </foreach>
+	</insert>
+</mapper>

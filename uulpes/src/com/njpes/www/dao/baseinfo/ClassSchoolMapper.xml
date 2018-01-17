@@ -1,0 +1,500 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.njpes.www.dao.baseinfo.ClassSchoolMapper">
+    <resultMap id="BaseResultMap"
+        type="com.njpes.www.entity.baseinfo.organization.ClassSchool">
+
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="bh" property="bh" jdbcType="VARCHAR" />
+        <result column="bjmc" property="bjmc" jdbcType="VARCHAR" />
+        <result column="jbny" property="jbny" jdbcType="VARCHAR" />
+        <result column="bzrgh" property="bzrgh" jdbcType="VARCHAR" />
+        <result column="bzxh" property="bzxh" jdbcType="VARCHAR" />
+        <result column="bjrych" property="bjrych" jdbcType="VARCHAR" />
+        <result column="xz" property="xz" jdbcType="DECIMAL" />
+        <result column="bjlxm" property="bjlxm" jdbcType="VARCHAR" />
+        <result column="wllx" property="wllx" jdbcType="VARCHAR" />
+        <result column="byrq" property="byrq" jdbcType="VARCHAR" />
+        <result column="sfssmzsyjxb" property="sfssmzsyjxb"
+            jdbcType="VARCHAR" />
+        <result column="syjxmsm" property="syjxmsm" jdbcType="VARCHAR" />
+        <result column="nj" property="nj" jdbcType="VARCHAR" />
+        <result column="xxdm" property="xxdm" jdbcType="VARCHAR" />
+        <result column="gradeid" property="gradeid" jdbcType="INTEGER" />
+        <result column="xxmc" property="xxmc" jdbcType="VARCHAR" />
+        <result column="njmc" property="njmc" jdbcType="VARCHAR" />
+        <result column="xxorgid" property="xxorgid" jdbcType="BIGINT" />
+        <result column="zyid" property="zyid" jdbcType="BIGINT" />
+        <result column="bzraccountid" property="bzraccountid"
+            jdbcType="BIGINT" />
+    </resultMap>
+    <sql id="Base_Column_List">
+
+        id, t.bh, bjmc, jbny, bzrgh, bzxh, bjrych, xz, bjlxm, wllx,
+        byrq,
+        sfssmzsyjxb, syjxmsm,
+        nj,t.xxdm,t.gradeid,t.xxorgid,t.zyid,t.bzraccountid
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap"
+        parameterType="java.lang.Long">
+
+        select t.id, t.bh, bjmc, jbny, bzrgh, bzxh, bjrych, xz, bjlxm,
+        wllx, byrq,
+        sfssmzsyjxb, syjxmsm,
+        t.nj,t.xxdm,sc.xxmc,gc.title as
+        njmc,t.xxdm,t.gradeid,t.xxorgid,t.zyid,t.bzraccountid
+        from class t
+        left
+        join school sc on t.xxorgid=sc.orgid
+        left join gradecode gc on
+        t.gradeid=gc.id
+        where t.id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="selectByBH" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from class t
+        where t.bh = #{bh,jdbcType=VARCHAR}
+    </select>
+    <select id="selectByBzrgh" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from class t
+        where t.bzrgh = #{bzrgh,jdbcType=VARCHAR}
+    </select>
+    <select id="selectByBzrAccountid" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from class t
+        where t.bzraccountid = #{bzrid}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+
+        delete from class
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert"
+        parameterType="com.njpes.www.entity.baseinfo.organization.ClassSchool">
+
+        insert into class (id, bh, bjmc,
+        jbny, bzrgh, bzxh,
+        bjrych, xz, bjlxm,
+        wllx,
+        byrq, sfssmzsyjxb,
+        syjxmsm, nj,xxdm,zyid,gradeid,bzraccountid)
+        values
+        (#{id,jdbcType=BIGINT}, #{bh,jdbcType=VARCHAR},
+        #{bjmc,jdbcType=VARCHAR},
+        #{jbny,jdbcType=VARCHAR},
+        #{bzrgh,jdbcType=VARCHAR}, #{bzxh,jdbcType=VARCHAR},
+        #{bjrych,jdbcType=VARCHAR}, #{xz,jdbcType=DECIMAL},
+        #{bjlxm,jdbcType=VARCHAR},
+        #{wllx,jdbcType=VARCHAR},
+        #{byrq,jdbcType=VARCHAR}, #{sfssmzsyjxb,jdbcType=VARCHAR},
+        #{syjxmsm,jdbcType=VARCHAR},
+        #{nj,jdbcType=VARCHAR},#{xxdm,jdbcType=VARCHAR},
+        #{gradeid,jdbcType=INTEGER},#{zyid,jdbcType=BIGINT},#{xxorgid,jdbcType=BIGINT},#{bzraccountid,jdbcType=BIGINT})
+    </insert>
+    <insert id="insertSelective" useGeneratedKeys="true"
+        keyProperty="id"
+        parameterType="com.njpes.www.entity.baseinfo.organization.ClassSchool">
+        insert into class
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="bh != null">
+                bh,
+            </if>
+            <if test="bjmc != null">
+                bjmc,
+            </if>
+            <if test="jbny != null">
+                jbny,
+            </if>
+            <if test="bzrgh != null">
+                bzrgh,
+            </if>
+            <if test="bzxh != null">
+                bzxh,
+            </if>
+            <if test="bjrych != null">
+                bjrych,
+            </if>
+            <if test="xz != null">
+                xz,
+            </if>
+            <if test="bjlxm != null">
+                bjlxm,
+            </if>
+            <if test="wllx != null">
+                wllx,
+            </if>
+            <if test="byrq != null">
+                byrq,
+            </if>
+            <if test="sfssmzsyjxb != null">
+                sfssmzsyjxb,
+            </if>
+            <if test="syjxmsm != null">
+                syjxmsm,
+            </if>
+            <if test="nj != null">
+                nj,
+            </if>
+            <if test="xxdm != null">
+                xxdm,
+            </if>
+            <if test="gradeid != null">
+                gradeid,
+            </if>
+            <if test="xxorgid != null">
+                xxorgid,
+            </if>
+            <if test="zyid != null">
+                zyid,
+            </if>
+            <if test="bzraccountid != null">
+                bzraccountid,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="bh != null">
+                #{bh,jdbcType=VARCHAR},
+            </if>
+            <if test="bjmc != null">
+                #{bjmc,jdbcType=VARCHAR},
+            </if>
+            <if test="jbny != null">
+                #{jbny,jdbcType=VARCHAR},
+            </if>
+            <if test="bzrgh != null">
+                #{bzrgh,jdbcType=VARCHAR},
+            </if>
+            <if test="bzxh != null">
+                #{bzxh,jdbcType=VARCHAR},
+            </if>
+            <if test="bjrych != null">
+                #{bjrych,jdbcType=VARCHAR},
+            </if>
+            <if test="xz != null">
+                #{xz,jdbcType=DECIMAL},
+            </if>
+            <if test="bjlxm != null">
+                #{bjlxm,jdbcType=VARCHAR},
+            </if>
+            <if test="wllx != null">
+                #{wllx,jdbcType=VARCHAR},
+            </if>
+            <if test="byrq != null">
+                #{byrq,jdbcType=VARCHAR},
+            </if>
+            <if test="sfssmzsyjxb != null">
+                #{sfssmzsyjxb,jdbcType=VARCHAR},
+            </if>
+            <if test="syjxmsm != null">
+                #{syjxmsm,jdbcType=VARCHAR},
+            </if>
+            <if test="nj != null">
+                #{nj,jdbcType=VARCHAR},
+            </if>
+            <if test="xxdm != null">
+                #{xxdm,jdbcType=VARCHAR},
+            </if>
+            <if test="gradeid != null">
+                #{gradeid,jdbcType=INTEGER},
+            </if>
+            <if test="xxorgid != null">
+                #{xxorgid,jdbcType=BIGINT},
+            </if>
+            <if test="zyid != null">
+                #{zyid,jdbcType=BIGINT},
+            </if>
+            <if test="bzraccountid != null">
+                #{bzraccountid,jdbcType=BIGINT},
+            </if>
+        </trim>
+    </insert>
+    <!-- 批量插入 -->
+    <insert id="insertBatch" useGeneratedKeys="true"
+        parameterType="java.util.List">
+        <selectKey resultType="long" keyProperty="id" order="AFTER">
+            SELECT
+            LAST_INSERT_ID()
+        </selectKey>
+        insert into class (bh, bjmc,
+        jbny, bzrgh, bzxh,
+        bjrych, xz, bjlxm,
+        wllx, byrq, sfssmzsyjxb,
+        syjxmsm, nj,xxdm,
+        gradeid,zyid,
+        xxorgid,bzraccountid)
+        values
+        <foreach collection="list" item="item" index="index"
+            separator=",">
+            (#{item.bh,jdbcType=VARCHAR},
+            #{item.bjmc,jdbcType=VARCHAR},
+            #{item.jbny,jdbcType=VARCHAR},
+            #{item.bzrgh,jdbcType=VARCHAR},
+            #{item.bzxh,jdbcType=VARCHAR},
+            #{item.bjrych,jdbcType=VARCHAR},
+            #{item.xz,jdbcType=DECIMAL}, #{item.bjlxm,jdbcType=VARCHAR},
+            #{item.wllx,jdbcType=VARCHAR},
+            #{item.byrq,jdbcType=VARCHAR},
+            #{item.sfssmzsyjxb,jdbcType=VARCHAR},
+            #{item.syjxmsm,jdbcType=VARCHAR},
+            #{item.nj,jdbcType=VARCHAR},#{item.xxdm,jdbcType=VARCHAR},
+            #{item.gradeid,jdbcType=INTEGER},#{item.zyid,jdbcType=BIGINT},#{item.xxorgid,jdbcType=BIGINT},#{item.bzraccountid,jdbcType=BIGINT})
+        </foreach>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+        parameterType="com.njpes.www.entity.baseinfo.organization.ClassSchool">
+        update class
+        <set>
+            <if test="bh != null">
+                bh = #{bh,jdbcType=VARCHAR},
+            </if>
+            <if test="bjmc != null">
+                bjmc = #{bjmc,jdbcType=VARCHAR},
+            </if>
+            <if test="jbny != null">
+                jbny = #{jbny,jdbcType=VARCHAR},
+            </if>
+            <if test="bzrgh != null">
+                bzrgh = #{bzrgh,jdbcType=VARCHAR},
+            </if>
+            <if test="bzxh != null">
+                bzxh = #{bzxh,jdbcType=VARCHAR},
+            </if>
+            <if test="bjrych != null">
+                bjrych = #{bjrych,jdbcType=VARCHAR},
+            </if>
+            <if test="xz != null">
+                xz = #{xz,jdbcType=DECIMAL},
+            </if>
+            <if test="bjlxm != null">
+                bjlxm = #{bjlxm,jdbcType=VARCHAR},
+            </if>
+            <if test="wllx != null">
+                wllx = #{wllx,jdbcType=VARCHAR},
+            </if>
+            <if test="byrq != null">
+                byrq = #{byrq,jdbcType=VARCHAR},
+            </if>
+            <if test="sfssmzsyjxb != null">
+                sfssmzsyjxb = #{sfssmzsyjxb,jdbcType=VARCHAR},
+            </if>
+            <if test="syjxmsm != null">
+                syjxmsm = #{syjxmsm,jdbcType=VARCHAR},
+            </if>
+            <if test="nj != null">
+                nj = #{nj,jdbcType=VARCHAR},
+            </if>
+            <if test="xxdm != null">
+                xxdm = #{xxdm,jdbcType=VARCHAR},
+            </if>
+            <if test="gradeid != null">
+                gradeid = #{gradeid,jdbcType=INTEGER},
+            </if>
+            <if test="xxorgid != null">
+                xxorgid = #{xxorgid,jdbcType=BIGINT},
+            </if>
+            <if test="zyid != null">
+                zyid = #{xxorgid,jdbcType=BIGINT},
+            </if>
+            <if test="bzraccountid != null">
+                bzraccountid = #{bzraccountid,jdbcType=BIGINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey"
+        parameterType="com.njpes.www.entity.baseinfo.organization.ClassSchool">
+        update class
+        set bh = #{bh,jdbcType=VARCHAR},
+        bjmc = #{bjmc,jdbcType=VARCHAR},
+        jbny = #{jbny,jdbcType=VARCHAR},
+        bzrgh =
+        #{bzrgh,jdbcType=VARCHAR},
+        bzxh = #{bzxh,jdbcType=VARCHAR},
+        bjrych = #{bjrych,jdbcType=VARCHAR},
+        xz = #{xz,jdbcType=DECIMAL},
+        bjlxm = #{bjlxm,jdbcType=VARCHAR},
+        wllx =
+        #{wllx,jdbcType=VARCHAR},
+        byrq = #{byrq,jdbcType=VARCHAR},
+        sfssmzsyjxb = #{sfssmzsyjxb,jdbcType=VARCHAR},
+        syjxmsm =
+        #{syjxmsm,jdbcType=VARCHAR},
+        nj = #{nj,jdbcType=VARCHAR},
+        xxdm =
+        #{xxdm,jdbcType=VARCHAR},
+        gradeid = #{gradeid,jdbcType=VARCHAR},
+        zyid = #{zyid,jdbcType=BIGINT},
+        xxorgid = #{xxorgid,jdbcType=BIGINT},
+        bzraccountid =
+        #{bzraccountid,jdbcType=BIGINT}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <!-- 批量更新 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" open="" close=""
+            separator=";">
+            update class
+            <set>
+                bh = #{item.bh,jdbcType=VARCHAR},
+                bjmc =
+                #{item.bjmc,jdbcType=VARCHAR},
+                jbny =
+                #{item.jbny,jdbcType=VARCHAR},
+                bzrgh =
+                #{item.bzrgh,jdbcType=VARCHAR},
+                bzxh =
+                #{item.bzxh,jdbcType=VARCHAR},
+                bjrych =
+                #{item.bjrych,jdbcType=VARCHAR},
+                xz =
+                #{item.xz,jdbcType=DECIMAL},
+                bjlxm =
+                #{item.bjlxm,jdbcType=VARCHAR},
+                wllx =
+                #{item.wllx,jdbcType=VARCHAR},
+                byrq =
+                #{item.byrq,jdbcType=VARCHAR},
+                sfssmzsyjxb =
+                #{item.sfssmzsyjxb,jdbcType=VARCHAR},
+                syjxmsm =
+                #{item.syjxmsm,jdbcType=VARCHAR},
+                nj =
+                #{item.nj,jdbcType=VARCHAR},
+                xxdm =
+                #{item.xxdm,jdbcType=VARCHAR},
+                gradeid =
+                #{item.gradeid,jdbcType=VARCHAR},
+                zyid =
+                #{item.zyid,jdbcType=BIGINT},
+                xxorgid =
+                #{item.xxorgid,jdbcType=BIGINT},
+                bzraccountid =
+                #{item.bzraccountid,jdbcType=BIGINT},
+            </set>
+            <where>
+                bh = #{item.bh,jdbcType=BIGINT}
+            </where>
+        </foreach>
+    </update>
+    <select id="selectClassByGradeInSchool" resultMap="BaseResultMap">
+        select t.id, t.bh, bjmc, jbny, bzrgh, bzxh, bjrych, xz, bjlxm,
+        wllx, byrq, sfssmzsyjxb, syjxmsm,t.zyid,
+        t.nj,t.xxdm,t.bzraccountid from
+        class t
+        left join gradecode g on t.gradeid=g.id
+        <where>
+            <if test="grade !=null or grade !=''">
+                and g.id=#{grade,jdbcType=VARCHAR}
+            </if>
+            <if test="orgid !=null or orgid !=''">
+                and t.xxorgid=#{orgid,jdbcType=VARCHAR}
+            </if>
+            <if test="xd !=null or xd !=''">
+                and g.groupid=#{xd,jdbcType=INTEGER}
+            </if>
+            and t.flozen_flag=#{flozen_flag}
+        </where>
+    </select>
+    <select id="selectClassBySchool" resultMap="BaseResultMap">
+        select t.id, t.bh,
+        bjmc, jbny, bzrgh, bzxh, bjrych, xz, bjlxm, wllx, byrq,
+        sfssmzsyjxb, syjxmsm,
+        t.nj,t.bzraccountid from class t
+        where
+        t.xxorgid=#{orgid,jdbcType=VARCHAR}
+    </select>
+    <select id="selectClassInfo" resultMap="BaseResultMap">
+        select t.id, t.bh,
+        bjmc, jbny, bzrgh, bzxh, bjrych, xz, bjlxm, wllx, byrq,
+        sfssmzsyjxb, syjxmsm,zyid,
+        t.nj,t.xxdm,t.bzraccountid
+        from class t
+        left
+        join student s on t.bh=s.bh
+        where
+        s.id=#{studentId,jdbcType=BIGINT}
+    </select>
+    <select id="selectAllClasses" resultMap="BaseResultMap">
+        select t.id, t.bh, bjmc, jbny, bzrgh, bzxh, bjrych, xz, bjlxm,zyid,
+        wllx, byrq, sfssmzsyjxb, syjxmsm,
+        t.nj,t.xxdm,sc.xxmc,gc.title as
+        njmc,t.bzraccountid
+        from class t
+        left join school sc on
+        t.xxdm=sc.xxdm
+        left join gradecode gc on t.gradeid=gc.id
+        <where>
+            <if test="entity.xxdm != null">
+                and t.xxdm=#{entity.xxdm,jdbcType=VARCHAR}
+            </if>
+            <if test="entity.gradeid >0">
+                and t.gradeid=#{entity.gradeid,jdbcType=INTEGER}
+            </if>
+            and t.flozen_flag=#{flozen_flag}
+        </where>
+    </select>
+    <select id="selectClassesByPage" resultMap="BaseResultMap">
+        select t.id, t.bh, bjmc, jbny, bzrgh, bzxh, bjrych, xz, bjlxm,
+        wllx, byrq, sfssmzsyjxb, syjxmsm,
+        t.nj,t.xxdm,sc.xxmc,gc.title as
+        njmc,t.xxorgid,t.zyid,t.bzraccountid
+        from class t
+        left join school sc on
+        t.xxorgid=sc.orgid
+        left join gradecode gc on t.gradeid=gc.id
+        <where>
+            <if test="entity.gradeid >0">
+                and t.gradeid=#{entity.gradeid,jdbcType=INTEGER}
+            </if>
+            <if test="entity.xxorgid !=null and entity.xxorgid >0">
+                and t.xxorgid =
+                #{entity.xxorgid,jdbcType=BIGINT}
+            </if>
+            and t.flozen_flag=#{flozen_flag}
+        </where>
+    </select>
+
+    <select id="selectClassByGradeIdInSchool" resultMap="BaseResultMap">
+        select
+        t.id, t.bh, bjmc, jbny, bzrgh, bzxh, bjrych, xz, bjlxm, wllx,
+        byrq,t.zyid,
+        sfssmzsyjxb, syjxmsm,
+        t.nj,t.xxdm,sc.xxmc,gc.title as
+        njmc,t.bzraccountid
+        from class t
+        left join school sc on
+        t.xxorgid=sc.orgid
+        left join gradecode gc on t.gradeid=gc.id
+        where t.xxorgid=#{orgid,jdbcType=VARCHAR} and
+        t.gradeid=#{gradeid,jdbcType=INTEGER} and
+        t.flozen_flag=#{flozen_flag}
+    </select>
+    <update id="upgrade">
+        update class
+        set
+        <choose>
+            <when test="xxxz == 5 and gradeid == 5">gradeid=gradeid+2</when>
+            <otherwise>gradeid=gradeid+1</otherwise>
+        </choose>
+        where xxorgid=#{orgid} and gradeid &lt; #{bybgradeid} and
+        flozen_flag=0
+    </update>
+    <update id="flozen">
+        update class
+        set
+        flozen_flag=1,
+        flozen_date=#{flozen_date}
+        where xxorgid=#{orgid} and
+        gradeid=#{bybgradeid}
+    </update>
+</mapper>

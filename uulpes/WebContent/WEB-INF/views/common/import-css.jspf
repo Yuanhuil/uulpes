@@ -1,0 +1,49 @@
+
+<!-- Le styles -->
+<link href="${ctx}/js/jquery-ui/jquery-ui.css" rel="stylesheet" type="text/css" ></link>
+<link href="${ctx}/js/jquery-ui/jquery-ui.theme.css" rel="stylesheet" type="text/css" ></link>
+<link href="${ctx}/js/jquery-ui/jquery-ui.structure.css" rel="stylesheet" type="text/css" ></link>
+<link href="${ctx}/js/jqueryplugin/jQuery-Validation-Engine/css/validationEngine.jquery.css?1" rel="stylesheet" type="text/css" />
+<link href="${ctx}/js/jqueryplugin/jQuery-Validation-Engine/css/template.css?1" rel="stylesheet" type="text/css" />
+<link href="${ctx}/js/jqueryplugin/chosen/css/chosen.css?1" rel="stylesheet" type="text/css" />
+<link href="${ctx}/js/jqueryplugin/timepicker/jquery-ui-timepicker-addon.min.css?1" rel="stylesheet" type="text/css" />
+<link href="${ctx}/css/abixTreeList.css" rel="stylesheet" type="text/css" ></link>
+<link href="${ctx}/css/abixTreeListn.css" rel="stylesheet" type="text/css" ></link>
+<link  href="${ctx}/js/zTree/css/zTreeStyle/zTreeStyle.css" type="text/css" rel="stylesheet">
+<link href="${ctx}/themes/${(empty sessionScope.user.theme) ? 'theme1':sessionScope.user.theme}/css/maincss.css" rel="stylesheet" type="text/css" />
+<%-- <link href="${ctx}/themes/${sessionScope.user.theme}/css/reset.css" rel="stylesheet" type="text/css" /> --%>
+<link href="${ctx}/themes/${(empty sessionScope.user.theme) ? 'theme1':sessionScope.user.theme}/css/pagetoolbar.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="${ctx}/js/webuploader-0.1.5/webuploader.css?3">
+<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!-- Shim to make HTML5 elements usable in older Internet Explorer versions -->
+<!--[if lt IE 9]><script src="${ctx}/js/html5shiv.js?2"></script><![endif]-->
+
+<link rel="stylesheet" href="${ctx}/js/nivo/nivo-slider/themes/default/default.css?1" type="text/css"  />
+<link rel="stylesheet" href="${ctx}/js/nivo/nivo-slider/themes/light/light.css?1" type="text/css"  />
+<link rel="stylesheet" href="${ctx}/js/nivo/nivo-slider/themes/dark/dark.css?1" type="text/css"  />
+<link rel="stylesheet" href="${ctx}/js/nivo/nivo-slider/themes/bar/bar.css?1" type="text/css"  />
+<link rel="stylesheet" href="${ctx}/js/nivo/nivo-slider/nivo-slider.css?1" type="text/css"  />
+<link rel="stylesheet" href="${ctx}/js/nivo/nivo-lightbox/nivo-lightbox.css?1" type="text/css"  />
+<link rel="stylesheet" href="${ctx}/js/nivo/nivo-lightbox/themes/default/default.css?1" type="text/css"  />
+
+<link rel="stylesheet" href="${ctx}/js/fullcalendar-2.3.1/fullcalendar.css?1" type="text/css"/>
+<link rel="stylesheet" href="${ctx}/js/fullcalendar-2.3.1/fullcalendar.print.css?1" type="text/css"  media='print'/>
+<link rel="stylesheet" href="${ctx}/js/webuploader-0.1.5/style.css?3">
+<script>
+    var ctx = '${ctx}';
+    var theme = '${sessionScope.user.theme}';
+</script>
+<link href="${ctx}/themes/${(empty sessionScope.user.theme) ? 'theme1':sessionScope.user.theme}/css/report.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="${ctx}/js/jquery-1.11.3.min.js?1" ></script>
+
+<script type="text/javascript" src="${ctx}/js/index.js?1" ></script>
+<style>
+.firstpagecontentContent{
+    height: 1280px;
+    min-height:500px;*+
+    _height:500px;
+    background-color: #FFFFFF;
+    margin-top:-8px;
+ }
+
+</style>

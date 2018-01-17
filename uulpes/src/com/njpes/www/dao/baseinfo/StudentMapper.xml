@@ -1,0 +1,1280 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.njpes.www.dao.baseinfo.StudentMapper">
+    <resultMap id="BaseResultMap" type="com.njpes.www.entity.baseinfo.Student">
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="xh" property="xh" jdbcType="VARCHAR" />
+        <result column="xm" property="xm" jdbcType="VARCHAR" />
+        <result column="ywxm" property="ywxm" jdbcType="VARCHAR" />
+        <result column="xmpy" property="xmpy" jdbcType="VARCHAR" />
+        <result column="cym" property="cym" jdbcType="VARCHAR" />
+        <result column="xbm" property="xbm" jdbcType="CHAR" />
+        <result column="csrq" property="csrq" jdbcType="VARCHAR" />
+        <result column="csdm" property="csdm" jdbcType="VARCHAR" />
+        <result column="jg" property="jg" jdbcType="VARCHAR" />
+        <result column="mzm" property="mzm" jdbcType="VARCHAR" />
+        <result column="gjdqm" property="gjdqm" jdbcType="CHAR" />
+        <result column="sfzjlxm" property="sfzjlxm" jdbcType="CHAR" />
+        <result column="sfzjh" property="sfzjh" jdbcType="VARCHAR" />
+        <result column="hyzkm" property="hyzkm" jdbcType="VARCHAR" />
+        <result column="gatqwm" property="gatqwm" jdbcType="VARCHAR" />
+        <result column="zzmmm" property="zzmmm" jdbcType="VARCHAR" />
+        <result column="jkzkm" property="jkzkm" jdbcType="CHAR" />
+        <result column="xyzjm" property="xyzjm" jdbcType="VARCHAR" />
+        <result column="xxm" property="xxm" jdbcType="CHAR" />
+        <result column="sfzjyxq" property="sfzjyxq" jdbcType="VARCHAR" />
+        <result column="dszybz" property="dszybz" jdbcType="CHAR" />
+        <result column="rxny" property="rxny" jdbcType="CHAR" />
+        <result column="nj" property="nj" jdbcType="VARCHAR" />
+        <result column="bh" property="bh" jdbcType="VARCHAR" />
+        <result column="xslbm" property="xslbm" jdbcType="VARCHAR" />
+        <result column="xzz" property="xzz" jdbcType="VARCHAR" />
+        <result column="hkszd" property="hkszd" jdbcType="VARCHAR" />
+        <result column="hkxzm" property="hkxzm" jdbcType="CHAR" />
+        <result column="sfldrk" property="sfldrk" jdbcType="CHAR" />
+        <result column="lxdh" property="lxdh" jdbcType="VARCHAR" />
+        <result column="txdz" property="txdz" jdbcType="VARCHAR" />
+        <result column="yzbm" property="yzbm" jdbcType="VARCHAR" />
+        <result column="dzxx" property="dzxx" jdbcType="VARCHAR" />
+        <result column="zydz" property="zydz" jdbcType="VARCHAR" />
+        <result column="xjh" property="xjh" jdbcType="VARCHAR" />
+        <result column="bjmch" property="bjmch" jdbcType="VARCHAR" />
+        <result column="xxdm" property="xxdm" jdbcType="VARCHAR" />
+        <result column="xxmc" property="xxmc" jdbcType="VARCHAR" />
+        <result column="njmc" property="njmc" jdbcType="VARCHAR" />
+        <result column="gradecodeid" property="gradecodeid"
+            jdbcType="INTEGER" />
+        <result column="orgid" property="orgid" jdbcType="BIGINT" />
+        <result column="bjid" property="bjid" jdbcType="BIGINT" />
+        <result column="account_id" property="accountId"
+            jdbcType="BIGINT" />
+        <result column="graduationyear" property="graduationyear"
+            jdbcType="VARCHAR" />
+    </resultMap>
+    <resultMap id="ResultMapWithBLOBs"
+        type="com.njpes.www.entity.baseinfo.StudentWithBLOBs" extends="BaseResultMap">
+        <result column="zp" property="zp" jdbcType="LONGVARBINARY" />
+        <result column="tc" property="tc" jdbcType="LONGVARCHAR" />
+        <result column="bjxx" property="bjxx" jdbcType="LONGVARCHAR" />
+    </resultMap>
+    <resultMap id="ResultMapWithOrg"
+        type="com.njpes.www.entity.baseinfo.StudentWithOrg" extends="ResultMapWithBLOBs">
+        <result column="dwm" property="dwm" jdbcType="VARCHAR" />
+        <result column="dwmc" property="dwmc" jdbcType="VARCHAR" />
+        <result column="njmc" property="njmc" jdbcType="VARCHAR" />
+        <result column="bjmc" property="bjmc" jdbcType="VARCHAR" />
+    </resultMap>
+    <resultMap id="StudentCount" type="java.util.HashMap">
+        <result property="xbm" column="xbm" />
+        <result property="count" column="count" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, xh, xm, ywxm, xmpy, cym, xbm, csrq, csdm, jg, mzm, gjdqm,
+        sfzjlxm, sfzjh, hyzkm,
+        gatqwm, zzmmm, jkzkm, xyzjm, xxm, sfzjyxq, dszybz, rxny, nj, bh, xslbm, xzz,
+        hkszd,
+        hkxzm, sfldrk, lxdh, txdz, yzbm, dzxx, zydz, xjh
+    </sql>
+    <sql id="Blob_Column_List">
+        zp, tc
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs"
+        parameterType="java.lang.Long">
+        select
+        s.id, s.xh, s.xm, s.ywxm, s.xmpy, s.cym, s.xbm, s.csrq, s.csdm, s.jg,
+        s.mzm,
+        s.gjdqm, s.sfzjlxm, s.sfzjh, s.hyzkm,
+        s.gatqwm, s.zzmmm, s.jkzkm, s.xyzjm, s.xxm, s.sfzjyxq, s.dszybz, s.rxny, s.nj,
+        s.bh,
+        s.xslbm, s.xzz, s.hkszd,
+        s.hkxzm, s.sfldrk, s.lxdh, s.txdz, s.yzbm, s.dzxx, s.zydz,
+        s.xjh,s.account_id,s.bjxx,
+        c.bjmc as bjmch, c.xxdm,g.title as njmc,sch.xxmc,g.id as gradecodeid,c.id as
+        bjid,c.xxorgid orgid
+        from student s
+        left join class c on s.bjid=c.id
+        left join gradecode g on c.gradeid=g.id
+        left join school sch on sch.orgid = c.xxorgid
+        where s.id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <!-- ================students========================= -->
+    <select id="getStudentIds" resultType="int" parameterType="Map">
+        select
+        s.id from student s
+        join class c on s.bjid=c.id
+        join gradecode g on c.gradeid=g.id
+        join school sch on c.xxdm=sch.xxdm
+        WHERE
+        1=1
+        <if test="orgid!=null">
+            and sch.orgid = #{orgid}
+        </if>
+        <if test="bj!=null">
+            and s.bjid = #{bj}
+        </if>
+        <if test="gradeid!=null">
+            and g.id = #{gradeid}
+        </if>
+        and c.flozen_flag=0
+    </select>
+    <select id="getBasicStudents" resultType="Map" parameterType="Map">
+        select
+        s.id,s.bjid,c.bjmc,c.gradeid,sch.xxxz
+        <if test="isThreeAngle==true">
+            , t.id teacherid ,p.id parentid
+        </if>
+        from student s
+        left join class c on s.bjid=c.id
+        <if test="isThreeAngle==true">
+            left join teacher t on t.account_id=c.bzraccountid
+            left join parent p on p.student_account_id=s.account_id
+        </if>
+        left join gradecode g on c.gradeid=g.id
+        left join school sch on c.xxorgid=sch.orgid
+        WHERE
+        1=1
+        <if test="orgid!=null">
+            and sch.orgid = #{orgid}
+        </if>
+        <if test="bj!=null">
+            and s.bjid = #{bj}
+        </if>
+        <if test="bjids!=null">
+            and s.bjid in
+            <foreach item="item" index="index" collection="bjids"
+                open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="gradeids!=null">
+            and c.gradeid in
+            <foreach item="item" index="index" collection="gradeids"
+                open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="gradeid!=null">
+            and g.id = #{gradeid}
+        </if>
+        and c.flozen_flag=0
+    </select>
+    <select id="getBzrAndParentIdByStudentid" resultType="Map">
+        select
+        s.id,s.bjid,c.bjmc,c.gradeid,t.id teacherid ,p.id parentid
+        from student s
+        join class c on s.bjid=c.id
+        join teacher t on t.account_id=c.bzraccountid
+        join parent p on p.student_account_id=s.account_id
+        WHERE
+        s.id = #{studentid}
+    </select>
+
+    <select id="getStudentsByClassId" resultMap="BaseResultMap"
+        parameterType="long">
+        select s.id, s.xh, s.xm, s.ywxm, s.xmpy, s.cym, s.xbm, s.csrq, s.csdm, s.jg,
+        s.mzm,
+        s.gjdqm, s.sfzjlxm, s.sfzjh, s.hyzkm,
+        s.gatqwm, s.zzmmm, s.jkzkm, s.xyzjm, s.xxm, s.sfzjyxq, s.dszybz, s.rxny, s.nj,
+        s.bh,
+        s.xslbm, s.xzz, s.hkszd,
+        s.hkxzm, s.sfldrk, s.lxdh, s.txdz, s.yzbm, s.dzxx, s.zydz,
+        s.xjh,s.account_id,s.bjxx,c.bjmc as bjmch,g.title as njmc
+        from student s
+        join class c on s.bjid=c.id
+        join gradecode g on c.gradeid=g.id
+        join school sch on c.xxorgid=sch.orgid
+        where s.bjid=#{bjid}
+    </select>
+    <select id="getStudentsByGradeid" resultMap="BaseResultMap"
+        parameterType="long">
+        select s.id, s.xh, s.xm, s.ywxm, s.xmpy, s.cym, s.xbm, s.csrq, s.csdm, s.jg,
+        s.mzm,
+        s.gjdqm, s.sfzjlxm, s.sfzjh, s.hyzkm,
+        s.gatqwm, s.zzmmm, s.jkzkm, s.xyzjm, s.xxm, s.sfzjyxq, s.dszybz, s.rxny, s.nj,
+        s.bh,
+        s.xslbm, s.xzz, s.hkszd,
+        s.hkxzm, s.sfldrk, s.lxdh, s.txdz, s.yzbm, s.dzxx, s.zydz,
+        s.xjh,s.account_id,s.bjxx,c.bjmc as bjmch,g.title as njmc
+        from student s
+        join class c on s.bjid=c.id
+        join gradecode g on c.gradeid=g.id
+        join school sch on c.xxorgid=sch.orgid
+        where c.gradeid=#{gradeid}
+    </select>
+    <select id="getStudentByXh" resultMap="BaseResultMap"
+        parameterType="Map">
+        select s.id, s.xh, s.xm, s.ywxm, s.xmpy, s.cym, s.xbm, s.csrq, s.csdm, s.jg,
+        s.mzm,
+        s.sfzjlxm, s.sfzjh, s.xxm, s.rxny, s.nj, s.bh,
+        s.xjh,s.account_id,s.bjxx,c.gradeid gradecodeid,c.xxorgid orgid
+        from student s
+        join class c on s.bjid=c.id
+        where c.xxorgid=#{orgid} and s.xh=#{xh}
+    </select>
+    <select id="getStudentBySfzjh" resultMap="BaseResultMap">
+        select s.id, s.xh, s.xm, s.ywxm, s.xmpy, s.cym, s.xbm, s.csrq, s.csdm, s.jg,
+        s.mzm,
+        s.sfzjlxm, s.sfzjh, s.xxm, s.rxny, s.nj, s.bh,
+        s.xjh,s.account_id,s.bjxx,c.gradeid gradecodeid,c.xxorgid orgid
+        from student s
+        join class c on s.bjid=c.id
+        where s.sfzjh=#{sfzjh}
+    </select>
+    <select id="getStudents" resultMap="ResultMapWithBLOBs"
+        parameterType="Map">
+        select
+        s.id, s.xh, s.xm, s.ywxm, s.xmpy, s.cym, s.xbm, s.csrq, s.csdm, s.jg,
+        s.mzm,
+        s.gjdqm, s.sfzjlxm, s.sfzjh, s.hyzkm,
+        s.gatqwm, s.zzmmm, s.jkzkm, s.xyzjm, s.xxm, s.sfzjyxq, s.dszybz, s.rxny, s.nj,
+        s.bh,
+        s.xslbm, s.xzz, s.hkszd,
+        s.hkxzm, s.sfldrk, s.lxdh, s.txdz, s.yzbm, s.dzxx, s.zydz,
+        s.xjh,s.account_id,s.bjxx,
+        c.bjmc as bjmch, c.xxdm,g.title as njmc,sch.xxmc,g.id as gradecodeid,c.id as
+        bjid,sch.orgid
+        from student s
+        join class c on s.bjid=c.id
+        join gradecode g on c.gradeid=g.id
+        join school sch on c.xxorgid=sch.orgid
+        WHERE
+        1=1
+        <if test="#{orgid}!=null">
+            and orgid = #{orgid}
+        </if>
+        <if test="#{nj}!=null">
+            and nj = #{nj}
+        </if>
+        <if test="#{bjid}!=null">
+            and bjid = #{bjid}
+        </if>
+        <if test="#{ids}!=null">
+            and s.id in
+            <foreach item="id" index="index" collection="list"
+                open="(" separator="," close=")">
+                #{id}
+            </foreach>
+        </if>
+        and c.flozen_flag=#{flozenflag}
+        <if test="#{limit}!=null">
+            #{limit}
+        </if>
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from student
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <update id="changeClass">
+        update student set bjid = #{newclassid} where id = #{id,jdbcType=BIGINT}
+    </update>
+    <insert id="insert" parameterType="com.njpes.www.entity.baseinfo.StudentWithBLOBs">
+        insert into student (id, xh, xm, ywxm,
+        xmpy, cym, xbm, csrq,
+        csdm, jg, mzm, gjdqm,
+        sfzjlxm, sfzjh, hyzkm,
+        gatqwm, zzmmm, jkzkm,
+        xyzjm, xxm, sfzjyxq, dszybz,
+        rxny, nj, bh, xslbm,
+        xzz, hkszd, hkxzm, sfldrk,
+        lxdh, txdz, yzbm, dzxx,
+        zydz, xjh, zp,
+        tc,account_id,bjxx,bjid)
+        values (#{id,jdbcType=BIGINT}, #{xh,jdbcType=VARCHAR},
+        #{xm,jdbcType=VARCHAR}, #{ywxm,jdbcType=VARCHAR},
+        #{xmpy,jdbcType=VARCHAR}, #{cym,jdbcType=VARCHAR},
+        #{xbm,jdbcType=CHAR}, #{csrq,jdbcType=VARCHAR},
+        #{csdm,jdbcType=VARCHAR}, #{jg,jdbcType=VARCHAR},
+        #{mzm,jdbcType=VARCHAR}, #{gjdqm,jdbcType=CHAR},
+        #{sfzjlxm,jdbcType=CHAR}, #{sfzjh,jdbcType=VARCHAR},
+        #{hyzkm,jdbcType=VARCHAR},
+        #{gatqwm,jdbcType=VARCHAR}, #{zzmmm,jdbcType=VARCHAR}, #{jkzkm,jdbcType=CHAR},
+        #{xyzjm,jdbcType=VARCHAR}, #{xxm,jdbcType=CHAR},
+        #{sfzjyxq,jdbcType=VARCHAR}, #{dszybz,jdbcType=CHAR},
+        #{rxny,jdbcType=CHAR}, #{nj,jdbcType=VARCHAR},
+        #{bh,jdbcType=VARCHAR}, #{xslbm,jdbcType=VARCHAR},
+        #{xzz,jdbcType=VARCHAR}, #{hkszd,jdbcType=VARCHAR},
+        #{hkxzm,jdbcType=CHAR}, #{sfldrk,jdbcType=CHAR},
+        #{lxdh,jdbcType=VARCHAR}, #{txdz,jdbcType=VARCHAR},
+        #{yzbm,jdbcType=VARCHAR}, #{dzxx,jdbcType=VARCHAR},
+        #{zydz,jdbcType=VARCHAR}, #{xjh,jdbcType=VARCHAR},
+        #{zp,jdbcType=LONGVARBINARY},
+        #{tc,jdbcType=LONGVARCHAR},#{accountId,jdbcType=BIGINT},#{bjxx,jdbcType=LONGVARCHAR},#{bjid,jdbcType=BIGINT})
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.njpes.www.entity.baseinfo.StudentWithBLOBs">
+        insert into student
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="xh != null">
+                xh,
+            </if>
+            <if test="xm != null">
+                xm,
+            </if>
+            <if test="ywxm != null">
+                ywxm,
+            </if>
+            <if test="xmpy != null">
+                xmpy,
+            </if>
+            <if test="cym != null">
+                cym,
+            </if>
+            <if test="xbm != null">
+                xbm,
+            </if>
+            <if test="csrq != null">
+                csrq,
+            </if>
+            <if test="csdm != null">
+                csdm,
+            </if>
+            <if test="jg != null">
+                jg,
+            </if>
+            <if test="mzm != null">
+                mzm,
+            </if>
+            <if test="gjdqm != null">
+                gjdqm,
+            </if>
+            <if test="sfzjlxm != null">
+                sfzjlxm,
+            </if>
+            <if test="sfzjh != null">
+                sfzjh,
+            </if>
+            <if test="hyzkm != null">
+                hyzkm,
+            </if>
+            <if test="gatqwm != null">
+                gatqwm,
+            </if>
+            <if test="zzmmm != null">
+                zzmmm,
+            </if>
+            <if test="jkzkm != null">
+                jkzkm,
+            </if>
+            <if test="xyzjm != null">
+                xyzjm,
+            </if>
+            <if test="xxm != null">
+                xxm,
+            </if>
+            <if test="sfzjyxq != null">
+                sfzjyxq,
+            </if>
+            <if test="dszybz != null">
+                dszybz,
+            </if>
+            <if test="rxny != null">
+                rxny,
+            </if>
+            <if test="nj != null">
+                nj,
+            </if>
+            <if test="bh != null">
+                bh,
+            </if>
+            <if test="xslbm != null">
+                xslbm,
+            </if>
+            <if test="xzz != null">
+                xzz,
+            </if>
+            <if test="hkszd != null">
+                hkszd,
+            </if>
+            <if test="hkxzm != null">
+                hkxzm,
+            </if>
+            <if test="sfldrk != null">
+                sfldrk,
+            </if>
+            <if test="lxdh != null">
+                lxdh,
+            </if>
+            <if test="txdz != null">
+                txdz,
+            </if>
+            <if test="yzbm != null">
+                yzbm,
+            </if>
+            <if test="dzxx != null">
+                dzxx,
+            </if>
+            <if test="zydz != null">
+                zydz,
+            </if>
+            <if test="xjh != null">
+                xjh,
+            </if>
+            <if test="zp != null">
+                zp,
+            </if>
+            <if test="tc != null">
+                tc,
+            </if>
+            <if test="accountId != null">
+                account_id,
+            </if>
+            <if test="bjxx != null">
+                bjxx,
+            </if>
+            <if test="bjid != null">
+                bjid,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="xh != null">
+                #{xh,jdbcType=VARCHAR},
+            </if>
+            <if test="xm != null">
+                #{xm,jdbcType=VARCHAR},
+            </if>
+            <if test="ywxm != null">
+                #{ywxm,jdbcType=VARCHAR},
+            </if>
+            <if test="xmpy != null">
+                #{xmpy,jdbcType=VARCHAR},
+            </if>
+            <if test="cym != null">
+                #{cym,jdbcType=VARCHAR},
+            </if>
+            <if test="xbm != null">
+                #{xbm,jdbcType=CHAR},
+            </if>
+            <if test="csrq != null">
+                #{csrq,jdbcType=VARCHAR},
+            </if>
+            <if test="csdm != null">
+                #{csdm,jdbcType=VARCHAR},
+            </if>
+            <if test="jg != null">
+                #{jg,jdbcType=VARCHAR},
+            </if>
+            <if test="mzm != null">
+                #{mzm,jdbcType=VARCHAR},
+            </if>
+            <if test="gjdqm != null">
+                #{gjdqm,jdbcType=CHAR},
+            </if>
+            <if test="sfzjlxm != null">
+                #{sfzjlxm,jdbcType=CHAR},
+            </if>
+            <if test="sfzjh != null">
+                #{sfzjh,jdbcType=VARCHAR},
+            </if>
+            <if test="hyzkm != null">
+                #{hyzkm,jdbcType=VARCHAR},
+            </if>
+            <if test="gatqwm != null">
+                #{gatqwm,jdbcType=VARCHAR},
+            </if>
+            <if test="zzmmm != null">
+                #{zzmmm,jdbcType=VARCHAR},
+            </if>
+            <if test="jkzkm != null">
+                #{jkzkm,jdbcType=CHAR},
+            </if>
+            <if test="xyzjm != null">
+                #{xyzjm,jdbcType=VARCHAR},
+            </if>
+            <if test="xxm != null">
+                #{xxm,jdbcType=CHAR},
+            </if>
+            <if test="sfzjyxq != null">
+                #{sfzjyxq,jdbcType=VARCHAR},
+            </if>
+            <if test="dszybz != null">
+                #{dszybz,jdbcType=CHAR},
+            </if>
+            <if test="rxny != null">
+                #{rxny,jdbcType=CHAR},
+            </if>
+            <if test="nj != null">
+                #{nj,jdbcType=VARCHAR},
+            </if>
+            <if test="bh != null">
+                #{bh,jdbcType=VARCHAR},
+            </if>
+            <if test="xslbm != null">
+                #{xslbm,jdbcType=VARCHAR},
+            </if>
+            <if test="xzz != null">
+                #{xzz,jdbcType=VARCHAR},
+            </if>
+            <if test="hkszd != null">
+                #{hkszd,jdbcType=VARCHAR},
+            </if>
+            <if test="hkxzm != null">
+                #{hkxzm,jdbcType=CHAR},
+            </if>
+            <if test="sfldrk != null">
+                #{sfldrk,jdbcType=CHAR},
+            </if>
+            <if test="lxdh != null">
+                #{lxdh,jdbcType=VARCHAR},
+            </if>
+            <if test="txdz != null">
+                #{txdz,jdbcType=VARCHAR},
+            </if>
+            <if test="yzbm != null">
+                #{yzbm,jdbcType=VARCHAR},
+            </if>
+            <if test="dzxx != null">
+                #{dzxx,jdbcType=VARCHAR},
+            </if>
+            <if test="zydz != null">
+                #{zydz,jdbcType=VARCHAR},
+            </if>
+            <if test="xjh != null">
+                #{xjh,jdbcType=VARCHAR},
+            </if>
+            <if test="zp != null">
+                #{zp,jdbcType=LONGVARBINARY},
+            </if>
+            <if test="tc != null">
+                #{tc,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="accountId != null">
+                #{accountId,jdbcType=BIGINT},
+            </if>
+            <if test="bjxx != null">
+                #{bjxx,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="bjid != null">
+                #{bjid,jdbcType=BIGINT},
+            </if>
+        </trim>
+    </insert>
+    <!-- 批量插入 -->
+    <insert id="insertBatch" useGeneratedKeys="true"
+        parameterType="java.util.List">
+        <selectKey resultType="long" keyProperty="id" order="AFTER">
+            SELECT
+            LAST_INSERT_ID()
+        </selectKey>
+        insert into student (xh, xm, ywxm,
+        xmpy, cym, xbm, csrq,
+        csdm, jg, mzm, gjdqm,
+        sfzjlxm, sfzjh, hyzkm,
+        gatqwm, zzmmm, jkzkm,
+        xyzjm, xxm, sfzjyxq, dszybz,
+        rxny, nj, bh, xslbm,
+        xzz, hkszd, hkxzm, sfldrk,
+        lxdh, txdz, yzbm, dzxx,
+        zydz, xjh, zp,
+        tc,account_id,bjxx,bjid)
+        values
+        <foreach collection="list" item="item" index="index"
+            separator=",">
+            (#{item.xh,jdbcType=VARCHAR}, #{item.xm,jdbcType=VARCHAR}, #{item.ywxm,jdbcType=VARCHAR},
+            #{item.xmpy,jdbcType=VARCHAR}, #{item.cym,jdbcType=VARCHAR},
+            #{item.xbm,jdbcType=CHAR}, #{item.csrq,jdbcType=VARCHAR},
+            #{item.csdm,jdbcType=VARCHAR}, #{item.jg,jdbcType=VARCHAR},
+            #{item.mzm,jdbcType=VARCHAR}, #{item.gjdqm,jdbcType=CHAR},
+            #{item.sfzjlxm,jdbcType=CHAR},
+            #{item.sfzjh,jdbcType=VARCHAR},
+            #{item.hyzkm,jdbcType=VARCHAR},
+            #{item.gatqwm,jdbcType=VARCHAR},
+            #{item.zzmmm,jdbcType=VARCHAR}, #{item.jkzkm,jdbcType=CHAR},
+            #{item.xyzjm,jdbcType=VARCHAR}, #{item.xxm,jdbcType=CHAR},
+            #{item.sfzjyxq,jdbcType=VARCHAR},
+            #{item.dszybz,jdbcType=CHAR},
+            #{item.rxny,jdbcType=CHAR}, #{item.nj,jdbcType=VARCHAR}, #{item.bh,jdbcType=VARCHAR},
+            #{item.xslbm,jdbcType=VARCHAR},
+            #{item.xzz,jdbcType=VARCHAR},
+            #{item.hkszd,jdbcType=VARCHAR}, #{item.hkxzm,jdbcType=CHAR},
+            #{item.sfldrk,jdbcType=CHAR},
+            #{item.lxdh,jdbcType=VARCHAR}, #{item.txdz,jdbcType=VARCHAR}, #{item.yzbm,jdbcType=VARCHAR},
+            #{item.dzxx,jdbcType=VARCHAR},
+            #{item.zydz,jdbcType=VARCHAR}, #{item.xjh,jdbcType=VARCHAR},
+            #{item.zp,jdbcType=LONGVARBINARY},
+            #{item.tc,jdbcType=LONGVARCHAR},#{item.accountId,jdbcType=BIGINT},#{item.bjxx,jdbcType=LONGVARCHAR},#{item.bjid,jdbcType=BIGINT})
+        </foreach>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.njpes.www.entity.baseinfo.StudentWithBLOBs">
+        update student
+        <set>
+            <if test="xh != null">
+                xh = #{xh,jdbcType=VARCHAR},
+            </if>
+            <if test="xm != null">
+                xm = #{xm,jdbcType=VARCHAR},
+            </if>
+            <if test="ywxm != null">
+                ywxm = #{ywxm,jdbcType=VARCHAR},
+            </if>
+            <if test="xmpy != null">
+                xmpy = #{xmpy,jdbcType=VARCHAR},
+            </if>
+            <if test="cym != null">
+                cym = #{cym,jdbcType=VARCHAR},
+            </if>
+            <if test="xbm != null">
+                xbm = #{xbm,jdbcType=CHAR},
+            </if>
+            <if test="csrq != null">
+                csrq = #{csrq,jdbcType=VARCHAR},
+            </if>
+            <if test="csdm != null">
+                csdm = #{csdm,jdbcType=VARCHAR},
+            </if>
+            <if test="jg != null">
+                jg = #{jg,jdbcType=VARCHAR},
+            </if>
+            <if test="mzm != null">
+                mzm = #{mzm,jdbcType=VARCHAR},
+            </if>
+            <if test="gjdqm != null">
+                gjdqm = #{gjdqm,jdbcType=CHAR},
+            </if>
+            <if test="sfzjlxm != null">
+                sfzjlxm = #{sfzjlxm,jdbcType=CHAR},
+            </if>
+            <if test="sfzjh != null">
+                sfzjh = #{sfzjh,jdbcType=VARCHAR},
+            </if>
+            <if test="hyzkm != null">
+                hyzkm = #{hyzkm,jdbcType=VARCHAR},
+            </if>
+            <if test="gatqwm != null">
+                gatqwm = #{gatqwm,jdbcType=VARCHAR},
+            </if>
+            <if test="zzmmm != null">
+                zzmmm = #{zzmmm,jdbcType=VARCHAR},
+            </if>
+            <if test="jkzkm != null">
+                jkzkm = #{jkzkm,jdbcType=CHAR},
+            </if>
+            <if test="xyzjm != null">
+                xyzjm = #{xyzjm,jdbcType=VARCHAR},
+            </if>
+            <if test="xxm != null">
+                xxm = #{xxm,jdbcType=CHAR},
+            </if>
+            <if test="sfzjyxq != null">
+                sfzjyxq = #{sfzjyxq,jdbcType=VARCHAR},
+            </if>
+            <if test="dszybz != null">
+                dszybz = #{dszybz,jdbcType=CHAR},
+            </if>
+            <if test="rxny != null">
+                rxny = #{rxny,jdbcType=CHAR},
+            </if>
+            <if test="nj != null">
+                nj = #{nj,jdbcType=VARCHAR},
+            </if>
+            <if test="bh != null">
+                bh = #{bh,jdbcType=VARCHAR},
+            </if>
+            <if test="xslbm != null">
+                xslbm = #{xslbm,jdbcType=VARCHAR},
+            </if>
+            <if test="xzz != null">
+                xzz = #{xzz,jdbcType=VARCHAR},
+            </if>
+            <if test="hkszd != null">
+                hkszd = #{hkszd,jdbcType=VARCHAR},
+            </if>
+            <if test="hkxzm != null">
+                hkxzm = #{hkxzm,jdbcType=CHAR},
+            </if>
+            <if test="sfldrk != null">
+                sfldrk = #{sfldrk,jdbcType=CHAR},
+            </if>
+            <if test="lxdh != null">
+                lxdh = #{lxdh,jdbcType=VARCHAR},
+            </if>
+            <if test="txdz != null">
+                txdz = #{txdz,jdbcType=VARCHAR},
+            </if>
+            <if test="yzbm != null">
+                yzbm = #{yzbm,jdbcType=VARCHAR},
+            </if>
+            <if test="dzxx != null">
+                dzxx = #{dzxx,jdbcType=VARCHAR},
+            </if>
+            <if test="zydz != null">
+                zydz = #{zydz,jdbcType=VARCHAR},
+            </if>
+            <if test="xjh != null">
+                xjh = #{xjh,jdbcType=VARCHAR},
+            </if>
+            <if test="zp != null">
+                zp = #{zp,jdbcType=LONGVARBINARY},
+            </if>
+            <if test="tc != null">
+                tc = #{tc,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="accountId != null">
+                account_id = #{accountId,jdbcType=BIGINT},
+            </if>
+            <if test="bjxx != null">
+                bjxx = #{bjxx,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="bjid != null">
+                bjid = #{classid,jdbcType=BIGINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.njpes.www.entity.baseinfo.StudentWithBLOBs">
+        update student
+        set xh = #{xh,jdbcType=VARCHAR},
+        xm = #{xm,jdbcType=VARCHAR},
+        ywxm = #{ywxm,jdbcType=VARCHAR},
+        xmpy = #{xmpy,jdbcType=VARCHAR},
+        cym = #{cym,jdbcType=VARCHAR},
+        xbm = #{xbm,jdbcType=CHAR},
+        csrq = #{csrq,jdbcType=VARCHAR},
+        csdm = #{csdm,jdbcType=VARCHAR},
+        jg = #{jg,jdbcType=VARCHAR},
+        mzm = #{mzm,jdbcType=VARCHAR},
+        gjdqm = #{gjdqm,jdbcType=CHAR},
+        sfzjlxm = #{sfzjlxm,jdbcType=CHAR},
+        sfzjh = #{sfzjh,jdbcType=VARCHAR},
+        hyzkm = #{hyzkm,jdbcType=VARCHAR},
+        gatqwm = #{gatqwm,jdbcType=VARCHAR},
+        zzmmm = #{zzmmm,jdbcType=VARCHAR},
+        jkzkm = #{jkzkm,jdbcType=CHAR},
+        xyzjm = #{xyzjm,jdbcType=VARCHAR},
+        xxm = #{xxm,jdbcType=CHAR},
+        sfzjyxq = #{sfzjyxq,jdbcType=VARCHAR},
+        dszybz = #{dszybz,jdbcType=CHAR},
+        rxny = #{rxny,jdbcType=CHAR},
+        nj = #{nj,jdbcType=VARCHAR},
+        bh = #{bh,jdbcType=VARCHAR},
+        xslbm = #{xslbm,jdbcType=VARCHAR},
+        xzz = #{xzz,jdbcType=VARCHAR},
+        hkszd = #{hkszd,jdbcType=VARCHAR},
+        hkxzm = #{hkxzm,jdbcType=CHAR},
+        sfldrk = #{sfldrk,jdbcType=CHAR},
+        lxdh = #{lxdh,jdbcType=VARCHAR},
+        txdz = #{txdz,jdbcType=VARCHAR},
+        yzbm = #{yzbm,jdbcType=VARCHAR},
+        dzxx = #{dzxx,jdbcType=VARCHAR},
+        zydz = #{zydz,jdbcType=VARCHAR},
+        xjh = #{xjh,jdbcType=VARCHAR},
+        zp = #{zp,jdbcType=LONGVARBINARY},
+        tc = #{tc,jdbcType=LONGVARCHAR},
+        account_id=#{accountId,jdbcType=BIGINT},
+        bjxx = #{bjxx,jdbcType=LONGVARCHAR},
+        bjid = #{bjid,jdbcType=BIGINT}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <!-- 批量更新 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" open="" close=""
+            separator=";">
+            update student
+            <set>
+                xh = #{item.xh,jdbcType=VARCHAR},
+                xm = #{item.xm,jdbcType=VARCHAR},
+                ywxm = #{item.ywxm,jdbcType=VARCHAR},
+                xmpy = #{item.xmpy,jdbcType=VARCHAR},
+                cym = #{item.cym,jdbcType=VARCHAR},
+                xbm = #{item.xbm,jdbcType=CHAR},
+                csrq = #{item.csrq,jdbcType=VARCHAR},
+                csdm = #{item.csdm,jdbcType=VARCHAR},
+                jg = #{item.jg,jdbcType=VARCHAR},
+                mzm = #{item.mzm,jdbcType=VARCHAR},
+                gjdqm = #{item.gjdqm,jdbcType=CHAR},
+                sfzjlxm = #{item.sfzjlxm,jdbcType=CHAR},
+                sfzjh = #{item.sfzjh,jdbcType=VARCHAR},
+                hyzkm = #{item.hyzkm,jdbcType=VARCHAR},
+                gatqwm = #{item.gatqwm,jdbcType=VARCHAR},
+                zzmmm = #{item.zzmmm,jdbcType=VARCHAR},
+                jkzkm = #{item.jkzkm,jdbcType=CHAR},
+                xyzjm = #{item.xyzjm,jdbcType=VARCHAR},
+                xxm = #{item.xxm,jdbcType=CHAR},
+                sfzjyxq = #{item.sfzjyxq,jdbcType=VARCHAR},
+                dszybz = #{item.dszybz,jdbcType=CHAR},
+                rxny = #{item.rxny,jdbcType=CHAR},
+                nj = #{item.nj,jdbcType=VARCHAR},
+                bh = #{item.bh,jdbcType=VARCHAR},
+                xslbm = #{item.xslbm,jdbcType=VARCHAR},
+                xzz = #{item.xzz,jdbcType=VARCHAR},
+                hkszd = #{item.hkszd,jdbcType=VARCHAR},
+                hkxzm = #{item.hkxzm,jdbcType=CHAR},
+                sfldrk = #{item.sfldrk,jdbcType=CHAR},
+                lxdh = #{item.lxdh,jdbcType=VARCHAR},
+                txdz = #{item.txdz,jdbcType=VARCHAR},
+                yzbm = #{item.yzbm,jdbcType=VARCHAR},
+                dzxx = #{item.dzxx,jdbcType=VARCHAR},
+                zydz = #{item.zydz,jdbcType=VARCHAR},
+                xjh = #{item.xjh,jdbcType=VARCHAR},
+                zp = #{item.zp,jdbcType=LONGVARBINARY},
+                tc = #{item.tc,jdbcType=LONGVARCHAR},
+                account_id=#{item.accountId,jdbcType=BIGINT},
+                bjxx = #{item.bjxx,jdbcType=LONGVARCHAR},
+                bjid = #{item.bjid,jdbcType=BIGINT}
+            </set>
+            <where>
+                sfzjh = #{item.sfzjh,jdbcType=BIGINT} or xjh =
+                #{item.xjh,jdbcType=VARCHAR}
+            </where>
+        </foreach>
+    </update>
+    <update id="updateStudentBjxx" parameterType="com.njpes.www.entity.baseinfo.StudentWithBLOBs">
+        update student set bjxx = #{bjxx} where id=#{id}
+    </update>
+    <!-- 根据accountid来获得对应的student信息 -->
+    <select id="selectByAccountId" resultType="com.njpes.www.entity.baseinfo.AccountDetail"
+        parameterType="java.lang.Long">
+        select
+        stu.id typeTableId,stu.xm trueName,stu.xbm gender,stu.sfzjh
+        identifyCard,sch.xxmc organization
+        from student stu,school sch,class sc where stu.bh=sc.bh and
+        sc.xxdm=sch.xxdm
+        and stu.account_id = #{accountId,jdbcType=BIGINT}
+    </select>
+    <!-- 根据accountid来获得对应的student信息 -->
+    <select id="getStudentByAccountId" resultMap="ResultMapWithBLOBs"
+        parameterType="java.lang.Long">
+        select
+        s.id, s.xh, s.xm, s.ywxm, s.xmpy, s.cym, s.xbm, s.csrq, s.csdm, s.jg,
+        s.mzm,
+        s.gjdqm, s.sfzjlxm, s.sfzjh, s.hyzkm,
+        s.gatqwm, s.zzmmm, s.jkzkm, s.xyzjm, s.xxm, s.sfzjyxq, s.dszybz, s.rxny, s.nj,
+        s.bh,
+        s.xslbm, s.xzz, s.hkszd,
+        s.hkxzm, s.sfldrk, s.lxdh, s.txdz, s.yzbm, s.dzxx, s.zydz,
+        s.xjh,s.account_id,s.bjxx,s.bjid,s.zp,
+        c.bjmc as bjmch, c.xxdm,g.title as njmc,sch.xxmc,g.id as
+        gradecodeid,sch.orgid
+        from student s
+        left join account a on a.id = s.account_id
+        left join class c on s.bjid=c.id
+        left join gradecode g on g.id=c.gradeid
+        left join school sch on sch.xxdm = c.xxdm
+        left join organization o on o.id = sch.orgid
+        where s.account_id = #{id,jdbcType=BIGINT} group by s.xm
+    </select>
+    <select id="selectStudentWithBlobInfoById" resultMap="ResultMapWithBLOBs"
+        parameterType="java.lang.Long">
+        select
+        s.id, s.xh, s.xm, s.ywxm, s.xmpy, s.cym, s.xbm, s.csrq, s.csdm, s.jg,
+        s.mzm,
+        s.gjdqm, s.sfzjlxm, s.sfzjh, s.hyzkm,
+        s.gatqwm, s.zzmmm, s.jkzkm, s.xyzjm, s.xxm, s.sfzjyxq, s.dszybz, s.rxny, s.nj,
+        s.bh,
+        s.xslbm, s.xzz, s.hkszd,
+        s.hkxzm, s.sfldrk, s.lxdh, s.txdz, s.yzbm, s.dzxx, s.zydz,
+        s.xjh,s.account_id,s.bjxx,s.bjid,s.zp,
+        c.bjmc as bjmch, c.xxdm,g.title as njmc,sch.xxmc,g.id as
+        gradecodeid,sch.orgid
+        from student s
+        left join class c on s.bjid=c.id
+        left join gradecode g on g.id=c.gradeid
+        left join school sch on sch.orgid = c.xxorgid
+        where s.id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <update id="updateByAccountId" parameterType="com.njpes.www.entity.baseinfo.AccountDetail">
+        update student
+        set xm = #{trueName,jdbcType=VARCHAR},
+        xbm = #{gender,jdbcType=TINYINT},
+        sfzjh = #{identifyCard,jdbcType=INTEGER}
+        where id = #{typeTableId,jdbcType=BIGINT}
+    </update>
+
+    <select id="getStudentsByPage" resultMap="ResultMapWithBLOBs">
+        select
+        s.id, s.xh, s.xm, s.ywxm, s.xmpy, s.cym, s.xbm, s.csrq, s.csdm, s.jg,
+        s.mzm,
+        s.gjdqm, s.sfzjlxm, s.sfzjh, s.hyzkm,
+        s.gatqwm, s.zzmmm, s.jkzkm, s.xyzjm, s.xxm, s.sfzjyxq, s.dszybz, s.rxny, s.nj,
+        s.bh,
+        s.xslbm, s.xzz, s.hkszd,
+        s.hkxzm, s.sfldrk, s.lxdh, s.txdz, s.yzbm, s.dzxx, s.zydz,
+        s.xjh,s.account_id,s.bjxx,
+        c.bjmc as bjmch, c.xxdm,g.title as njmc,sch.xxmc,g.id as gradecodeid,
+        c.id as bjid,sch.orgid, a.username
+        from student s
+        left join class c on s.bjid=c.id
+        left join gradecode g on g.id=c.gradeid
+        left join school sch on sch.orgid = c.xxorgid
+        left join account a on a.id = s.account_id
+        <where>
+            <if test="student.xbm != null  and student.xbm != ''">
+                and s.xbm =#{student.xbm,jdbcType=VARCHAR}
+            </if>
+            <if test="student.sfzjh != null  and student.sfzjh != ''">
+                and s.sfzjh like concat('%',#{student.sfzjh,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="student.xm != null  and student.xm != ''">
+                and s.xm like concat('%',#{student.xm,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="orgid != null  and orgid != ''">
+                and c.xxorgid = #{orgid,jdbcType=BIGINT}
+            </if>
+            <if test="student.xd != null  and student.xd != ''">
+                and g.groupid=#{student.xd,jdbcType=VARCHAR}
+            </if>
+            <if test="student.nj != null  and student.nj != '' and student.nj != 0 ">
+                and c.gradeid=#{student.nj,jdbcType=VARCHAR}
+            </if>
+            <if
+                test="student.bh != null  and student.bh != '' and student.bh != 0 ">
+                and c.bh=#{student.bh,jdbcType=VARCHAR}
+            </if>
+            <if test="student.bjid != null  and student.bjid != ''">
+                and s.bjid=#{student.bjid,jdbcType=VARCHAR}
+            </if>
+            <if test="excludesids != null and excludesids.size() > 0">
+                and s.id not in
+                <foreach collection="excludesids" item="item"
+                    index="index" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            and c.flozen_flag=#{flozenflag}
+        </where>
+
+    </select>
+    <select id="getGraduatedStudentsByPage" resultMap="ResultMapWithBLOBs">
+        select DISTINCT
+        s.id, s.xh, s.xm, s.ywxm, s.xmpy, s.cym, s.xbm, s.csrq, s.csdm, s.jg,
+        s.mzm,
+        s.gjdqm, s.sfzjlxm, s.sfzjh, s.hyzkm,
+        s.gatqwm, s.zzmmm, s.jkzkm, s.xyzjm, s.xxm, s.sfzjyxq, s.dszybz, s.rxny, s.nj,
+        s.bh,
+        s.xslbm, s.xzz, s.hkszd,
+        s.hkxzm, s.sfldrk, s.lxdh, s.txdz, s.yzbm, s.dzxx, s.zydz,
+        s.xjh,s.account_id,s.bjxx,
+        c.bjmc as bjmch, c.xxdm,g.title as njmc,sch.xxmc,g.id as gradecodeid,
+        c.id as bjid,sch.orgid
+        from student s
+        left join graduatingclass gc on s.id=gc.studentid
+        left join class c on gc.bjid=c.id
+        left join gradecode g on g.id=c.gradeid
+        left join school sch on sch.orgid = c.xxorgid
+        <where>
+            <if test="student.xbm != null  and student.xbm != ''">
+                and s.xbm =#{student.xbm,jdbcType=VARCHAR}
+            </if>
+            <if test="student.sfzjh != null  and student.sfzjh != ''">
+                and s.sfzjh like concat('%',#{student.sfzjh,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="student.xm != null  and student.xm != ''">
+                and s.xm like concat('%',#{student.xm,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="orgid != null  and orgid != ''">
+                and c.xxorgid = #{orgid,jdbcType=BIGINT}
+            </if>
+            <if test="student.xd != null  and student.xd != ''">
+                and g.groupid=#{student.xd,jdbcType=VARCHAR}
+            </if>
+            <if test="student.nj != null  and student.nj != ''">
+                and c.gradeid=#{student.nj,jdbcType=VARCHAR}
+            </if>
+            <if test="student.bh != null  and student.bh != ''">
+                and c.bh=#{student.bh,jdbcType=VARCHAR}
+            </if>
+            <if test="student.bjid != null  and student.bjid != ''">
+                and s.bjid=#{student.bjid,jdbcType=VARCHAR}
+            </if>
+            <if test="excludesids != null and excludesids.size() > 0">
+                and s.id not in
+                <foreach collection="excludesids" item="item"
+                    index="index" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            and c.flozen_flag=1
+        </where>
+
+    </select>
+    <select id="getStudentsAll" resultMap="ResultMapWithBLOBs">
+        select
+        s.id, s.xh, s.xm, s.ywxm, s.xmpy, s.cym, s.xbm, s.csrq, s.csdm, s.jg,
+        s.mzm,
+        s.gjdqm, s.sfzjlxm, s.sfzjh, s.hyzkm,
+        s.gatqwm, s.zzmmm, s.jkzkm, s.xyzjm, s.xxm, s.sfzjyxq, s.dszybz, s.rxny, s.nj,
+        s.bh,
+        s.xslbm, s.xzz, s.hkszd,
+        s.hkxzm, s.sfldrk, s.lxdh, s.txdz, s.yzbm, s.dzxx, s.zydz,
+        s.xjh,s.account_id,s.bjxx,
+        c.bjmc as bjmch, c.xxdm,g.title as njmc,sch.xxmc,g.id as gradecodeid,
+        c.id as bjid,sch.orgid
+        from student s
+        left join class c on s.bjid=c.id
+        left join gradecode g on c.gradeid=g.id
+        left join school sch on sch.orgid = c.xxorgid
+        <where>
+            <if test="orgid != null  and orgid != ''">
+                and c.xxorgid = #{orgid,jdbcType=BIGINT}
+            </if>
+            <if test="student.xd != null  and student.xd != ''">
+                and g.groupid=#{student.xd,jdbcType=VARCHAR}
+            </if>
+            <if test="student.nj != null  and student.nj != ''">
+                and c.gradeid=#{student.nj,jdbcType=VARCHAR}
+            </if>
+            <if test="student.bh != null  and student.bh != ''">
+                and s.bh=#{student.bh,jdbcType=VARCHAR}
+            </if>
+            <if test="student.bjid != null  and student.bjid != ''">
+                and s.bjid=#{student.bjid}
+            </if>
+            <if test="excludesids != null and excludesids.size() > 0">
+                and s.id not in
+                <foreach collection="excludesids" item="item"
+                    index="index" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            and c.flozen_flag=#{flozenflag}
+        </where>
+    </select>
+
+    <select id="getStudentsXjh" resultType="java.lang.Integer">
+        select count(0) from (select
+        s.id, s.xh, s.xm, s.ywxm, s.xmpy, s.cym, s.xbm, s.csrq, s.csdm, s.jg,
+        s.mzm,
+        s.gjdqm, s.sfzjlxm, s.sfzjh, s.hyzkm,
+        s.gatqwm, s.zzmmm, s.jkzkm, s.xyzjm, s.xxm, s.sfzjyxq, s.dszybz, s.rxny, s.nj,
+        s.bh,
+        s.xslbm, s.xzz, s.hkszd,
+        s.hkxzm, s.sfldrk, s.lxdh, s.txdz, s.yzbm, s.dzxx, s.zydz,
+        s.xjh,s.account_id,s.bjxx,
+        c.bjmc as bjmch, c.xxdm,g.title as njmc,sch.xxmc,g.id as gradecodeid,
+        c.id as bjid,sch.orgid
+        from student s
+        left join class c on s.bjid=c.id
+        left join gradecode g on c.gradeid=g.id
+        left join school sch on sch.orgid = c.xxorgid
+        <where>
+            <if test="orgid != null  and orgid != ''">
+                and c.xxorgid = #{orgid,jdbcType=BIGINT}
+            </if>
+            <if test="xjh != null and xjh != ''">
+                and s.xjh=#{xjh,jdbcType=VARCHAR}
+            </if>
+        </where>
+        ) as total
+    </select>
+
+    <select id="getStudentsInCounty" resultMap="ResultMapWithBLOBs">
+        select
+        s.id, s.xh, s.xm, s.ywxm, s.xmpy, s.cym, s.xbm, s.csrq, s.csdm, s.jg,
+        s.mzm,
+        s.gjdqm, s.sfzjlxm, s.sfzjh, s.hyzkm,
+        s.gatqwm, s.zzmmm, s.jkzkm, s.xyzjm, s.xxm, s.sfzjyxq, s.dszybz, s.rxny, s.nj,
+        s.bh,
+        s.xslbm, s.xzz, s.hkszd,
+        s.hkxzm, s.sfldrk, s.lxdh, s.txdz, s.yzbm, s.dzxx, s.zydz,
+        s.xjh,s.account_id,s.bjxx,
+        c.bjmc as bjmch, c.xxdm,g.title as njmc,sch.xxmc,g.id as gradecodeid,
+        c.id as bjid,sch.orgid
+        from student s
+        left join class c on s.bjid=c.id
+        left join gradecode g on c.gradeid=g.id
+        left join school sch on sch.orgid = c.xxorgid
+        left join organization o on o.id = c.xxorgid
+        <where>
+            <if test="countyid != null  and countyid != ''">
+                and o.countyid= #{countyid,jdbcType=VARCHAR}
+            </if>
+            <if test="student.xd != null  and student.xd != ''">
+                and g.groupid=#{student.xd,jdbcType=VARCHAR}
+            </if>
+            <if test="student.nj != null  and student.nj != ''">
+                and c.gradeid=#{student.nj,jdbcType=VARCHAR}
+            </if>
+            and o.org_level=6 and c.flozen_flag=#{flozenflag}
+        </where>
+    </select>
+    <select id="getStudentsInCity" resultMap="ResultMapWithBLOBs">
+        select
+        s.id, s.xh, s.xm, s.ywxm, s.xmpy, s.cym, s.xbm, s.csrq, s.csdm, s.jg,
+        s.mzm,
+        s.gjdqm, s.sfzjlxm, s.sfzjh, s.hyzkm,
+        s.gatqwm, s.zzmmm, s.jkzkm, s.xyzjm, s.xxm, s.sfzjyxq, s.dszybz, s.rxny, s.nj,
+        s.bh,
+        s.xslbm, s.xzz, s.hkszd,
+        s.hkxzm, s.sfldrk, s.lxdh, s.txdz, s.yzbm, s.dzxx, s.zydz,
+        s.xjh,s.account_id,s.bjxx,
+        c.bjmc as bjmch, c.xxdm,g.title as njmc,sch.xxmc,g.id as gradecodeid,
+        c.id as bjid,sch.orgid
+        from student s
+        left join class c on s.bjid=c.id
+        left join gradecode g on c.gradeid=g.id
+        left join school sch on sch.orgid = c.xxorgid
+        left join organization o on o.id = c.xxorgid
+        <where>
+            <if test="cityid != null  and cityid != ''">
+                and o.countyid= #{countyid,jdbcType=VARCHAR}
+            </if>
+            <if test="student.xd != null  and student.xd != ''">
+                and g.groupid=#{student.xd,jdbcType=VARCHAR}
+            </if>
+            <if test="student.nj != null  and student.nj != ''">
+                and c.gradeid=#{student.nj,jdbcType=VARCHAR}
+            </if>
+            <if test="xzxs=='1'">
+                and o.org_level=6
+            </if>
+            <if test="xzxs=='2'">
+                and o.org_level=4
+            </if>
+            and c.flozen_flag=#{flozenflag}
+        </where>
+    </select>
+    <select id="getStudentsByStatscope" resultType="com.njpes.www.entity.scaletoollib.StatHuman">
+        select
+        s.id, g.groupid as xd, s.bjxx, c.bjmc as bjmch, c.xxdm, g.title as njmc,
+        sch.xxmc,g.id as gradecodeid, c.id as bjid,sch.orgid
+        from student s
+        left join class c on s.bjid=c.id
+        left join gradecode g on c.gradeid=g.id
+        left join school sch on sch.orgid = c.xxorgid
+        left join organization org on c.xxorgid=org.id
+        <where>
+            1=1
+            <if test="scope.schoolId != null and scope.schoolId.size()&gt;0">
+                and sch.id in
+                <foreach collection="scope.schoolId" index="index"
+                    item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="scope.cityId != null and scope.cityId != ''">
+                and org.cityid=#{scope.cityId}
+            </if>
+            <if test="scope.countyId != null  and scope.countyId.size()&gt;0">
+                and org.countyid in
+                <foreach collection="scope.countyId" index="index"
+                    item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="scope.townId != null  and scope.townId.size()&gt;0">
+                and org.townid in
+                <foreach collection="scope.townId" index="index"
+                    item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="scope.gradeId != null  and scope.gradeId != ''">
+                and g.id=#{scope.gradeId}
+            </if>
+            <if test="scope.classId != null  and scope.classId != ''">
+                and c.id=#{scope.classId}
+            </if>
+            and c.flozen_flag=0
+        </where>
+    </select>
+    <select id="getStudentsByids" resultMap="ResultMapWithBLOBs">
+        select
+        s.id, s.xh, s.xm, s.ywxm, s.xmpy, s.cym, s.xbm, s.csrq, s.csdm, s.jg,
+        s.mzm,
+        s.gjdqm, s.sfzjlxm, s.sfzjh, s.hyzkm,
+        s.gatqwm, s.zzmmm, s.jkzkm, s.xyzjm, s.xxm, s.sfzjyxq, s.dszybz, s.rxny, s.nj,
+        s.bh,
+        s.xslbm, s.xzz, s.hkszd,
+        s.hkxzm, s.sfldrk, s.lxdh, s.txdz, s.yzbm, s.dzxx, s.zydz,
+        s.xjh,s.account_id,s.bjxx,
+        c.bjmc as bjmch, c.xxdm,g.title as njmc,sch.xxmc,g.id as gradecodeid,
+        c.id as bjid,sch.orgid
+        from student s
+        left join class c on s.bjid=c.id
+        left join gradecode g on c.gradeid=g.id
+        left join school sch on sch.xxdm = c.xxdm
+        <where>
+            <if test="ids != null and ids.size() > 0">
+                and s.id in
+                <foreach collection="ids" item="item" index="index"
+                    open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+    <select id="getStudentByid" resultMap="ResultMapWithBLOBs">
+        select
+        s.id, s.xh, s.xm, s.ywxm, s.xmpy, s.cym, s.xbm, s.csrq, s.csdm, s.jg,
+        s.mzm,
+        s.gjdqm, s.sfzjlxm, s.sfzjh, s.hyzkm,
+        s.gatqwm, s.zzmmm, s.jkzkm, s.xyzjm, s.xxm, s.sfzjyxq, s.dszybz, s.rxny, s.nj,
+        s.bh,
+        s.xslbm, s.xzz, s.hkszd,
+        s.hkxzm, s.sfldrk, s.lxdh, s.txdz, s.yzbm, s.dzxx, s.zydz,
+        s.xjh,s.account_id,s.bjxx,
+        c.bjmc as bjmch, c.xxdm,g.title as njmc,sch.xxmc,g.id as gradecodeid,
+        c.id as bjid,sch.orgid,sch.xxmc
+        from student s
+        left join class c on s.bjid=c.id
+        left join gradecode g on c.gradeid=g.id
+        left join school sch on sch.xxdm = c.xxdm
+        <where>
+            <if test="studentid != null and studentid > 0">
+                and s.id =#{studentid,jdbcType=BIGINT}
+            </if>
+        </where>
+    </select>
+    <select id="getStudentCount" resultMap="StudentCount"
+        parameterType="java.lang.Long">
+        select s.xbm as xbm,count(s.xbm) as count from student s
+        left join class c on s.bjid=c.id
+        where c.id=#{classid} group by xbm
+    </select>
+    <select id="getStudentsRecordAll" resultType="com.njpes.www.entity.baseinfo.Student">
+        select
+        s.id, s.xh, s.xm, s.ywxm, s.xmpy, s.cym, s.xbm, s.csrq, s.csdm, s.jg,
+        s.mzm,
+        s.gjdqm, s.sfzjlxm, s.sfzjh, s.hyzkm,
+        s.gatqwm, s.zzmmm, s.jkzkm, s.xyzjm, s.xxm, s.sfzjyxq, s.dszybz, s.rxny, s.nj,
+        s.bh,
+        s.xslbm, s.xzz, s.hkszd,
+        s.hkxzm, s.sfldrk, s.lxdh, s.txdz, s.yzbm, s.dzxx, s.zydz,
+        s.xjh,s.account_id,
+        c.bjmc as bjmch, c.xxdm,g.title as njmc,sch.xxmc,g.id as gradecodeid,
+        c.id as bjid,sch.orgid, a.username
+        from student s
+        left join class c on s.bjid=c.id
+        left join gradecode g on g.id=c.gradeid
+        left join school sch on sch.orgid = c.xxorgid
+        left join account a on a.id = s.account_id
+        <where>
+            <if test="student.id != null  and student.id != '' and student.id != 0 ">
+                and s.id =#{student.id,jdbcType=BIGINT}
+            </if>
+            <if test="student.xbm != null  and student.xbm != ''">
+                and s.xbm =#{student.xbm,jdbcType=VARCHAR}
+            </if>
+            <if test="student.sfzjh != null  and student.sfzjh != ''">
+                and s.sfzjh like concat('%',#{student.sfzjh,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="student.xm != null  and student.xm != ''">
+                and s.xm like concat('%',#{student.xm,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="orgid != null  and orgid != ''">
+                and c.xxorgid = #{orgid,jdbcType=BIGINT}
+            </if>
+            <if test="student.xd != null  and student.xd != '' and student.xd != 0 ">
+                and g.groupid=#{student.xd,jdbcType=VARCHAR}
+            </if>
+            <if test="student.nj != null  and student.nj != '' and student.nj != 0 ">
+                and c.gradeid=#{student.nj,jdbcType=VARCHAR}
+            </if>
+            <if test="student.bh != null  and student.bh != '' and student.bh != 0 ">
+                and c.bh=#{student.bh,jdbcType=VARCHAR}
+            </if>
+            <if test="student.bjid != null  and student.bjid != '' and student.bh != 0">
+                and s.bjid=#{student.bjid,jdbcType=VARCHAR}
+            </if>
+            and c.flozen_flag=#{flozenflag}
+        </where>
+    </select>
+</mapper>

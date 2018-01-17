@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link href="style/report.css" rel="stylesheet" type="text/css">
+		<style type="text/css">
+		.img1{
+			position:relative;
+			<#if image1??>background-image: url(create.chart?${image1});</#if>
+			background-position:center;
+		}
+		</style>
+</head>
+
+一、基本信息
+<table>
+  <tr>
+    <td>学号</td><td>${indiv.userID}</td>
+    <td>姓名</td><td>${indiv.name}</td>
+    <td>年龄</td><td>${indiv.age}</td>
+  </tr>
+  <tr>
+    <td>出生日期</td><td>${indiv.birthday}</td>
+    <td>性别</td>
+    <td>
+        <#if indiv.gender==1>男<#else>女</#if>
+    </td>
+    <td>民族</td><td>${indiv.nation}</td>
+  </tr>
+  <tr>
+    <td>年级</td><td>${indiv.gradeOrderId}</td>
+    <td>班级</td><td>${indiv.classId}</td>
+    <td>姓名拼音</td><td>zhaozicheng</td>
+  </tr>
+</table>
+
+二、量表简介<br>
+${scale.descn}
+<br>
+三、测评结果<br>
+表1${scale.title} 量表测评结果一览表
+<br>
+<div align="center">
+<table>
+${dimDescnTable}
+</table>
+</div>
+<div align="center">
+	<#if isImage1Display??&&isImage1Display=1><#if image1??><img src='${image1}'/></#if></#if>
+	<#if image2??><img src='create.chart?${image2}'/></#if>
+</div>
+<br>
+四、结果解释与指导建议
+<br>
+<#if summarize??>${summarize}</#if>
+<br>
+（一）各维度的结果解释和指导建议
+<br>
+${dimsDescnTable}
+</html>

@@ -1,0 +1,57 @@
+<html>
+<head>
+<script type='text/javascript' src='js/commqus.js' > </script>
+<script type='text/javascript' src='js/commqsort.js' > </script>
+<script language="javascript" type="text/javascript">
+ 	var ACTION = 'nextPage.ques';
+	function sortfininsh(recorderId) {
+		var url = "";
+		var recorder= document.getElementById(recorderId);
+		url = ACTION + '?' + getPartQry();
+		url = url + '&' + 'a='+recorder.value;
+		window.location.replace(url);
+		return true;
+	}
+	function getPartQry() {
+		var qry = 'q='+${q}+'&'+'s='+${s};
+		return qry;
+	}
+
+</script>
+
+<style type="text/css">
+   .table {
+		border:1px solid #0000FF; 
+		padding:1px; 
+		font-size:12px; 
+		color:#0000FF;	}		
+	.td {
+	   border: 1px solid #00FF00
+	}
+</style>
+
+</head>
+<body>
+ 	<h2>您正测试的量表-${scale.title}</h2> <br>
+ 	<br>
+ 	答题进度：${progress}<br>
+ 	<table>
+    	<tbody>
+    	<tr>
+    		<td><h2>题目：${title}</h2></td>    		
+    	</tr>
+    	<tr>
+    	<td>
+    		${ selectCtl }
+  		<td>
+    	</tr>
+   		<tr>
+    	<td>${ buttonCtl1 }</td>
+  		<td>${ buttonCtl2 }</td>
+  		<td>${ buttonCtl } </td>
+  		</tr>
+    	</tbody>    	
+    </table>      
+       ${recordCtl}
+</html>
+</body>

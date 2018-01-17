@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.njpes.www.dao.scaletoollib.ScaleInfoDao">
+	
+	<!-- 量表简单信息结果映射 -->
+    <resultMap type="com.njpes.www.entity.scaletoollib.ScaleInfo" id="scaleInfoResultMap">  
+	    <id property="id" column="id" />  
+	    <result property="code" column="code" />  
+	    <result property="shortname" column="shortname" />  
+	    <result property="questionnum" column="questionnum" />  
+	    <result property="title" column="title" />  
+	    <result property="scaletype" column="typeid" />  
+	    <result property="examtime" column="examtime" />  
+	    <result property="creationtime" column="creationtime"/>
+	   <association property="suitegrades" column="id" javaType="List" select="getScaleGrades"/>
+	</resultMap>  
+	
+	<!-- 量表详细信息结果映射 -->
+    <resultMap id="scaleDetailInfoResultMap" type="com.njpes.www.entity.scaletoollib.ScaleDetailInfo" extends="scaleInfoResultMap">  
+	    <result property="assesstype" column="assesstype" />  
+	    <result property="source" column="source" />
+	    <result property="creationtime" column="creationtime" /> 
+	    <result property="flag" column="flag" />
+	    <result property="typeid" column="typeid" /> 
+	    <result property="startage" column="startage" />
+	    <result property="endage" column="endage" />
+	    <result property="prewarn" column="prewarn" />
+	    <result property="totalscore" column="totalscore" />
+	    <result property="reportchart" column="reportchart" />  
+	    <result property="xmlstr" column="xmlstr" />
+	    <association property="suitegrades" column="id" javaType="List" select="getScaleGrades"/>  
+	</resultMap>  
+	
+    <!-- 根据量表类型查询量表详细信息 -->
+     <select id="getScaleDetailById" parameterType="Integer" resultMap="scaleDetailInfoResultMap"> 
+         SELECT s.id, s.code, s.title, s.shortname, s.questionnum, s.assesstype, s.source, s.creationtime, 
+         s.flag, s.typeid, s.startage, s.endage, s.prewarn, s.totalscore, s.reportchart, s.examtime, s.xmlstr, b.title grade
+			FROM scale s
+			JOIN (
+			SELECT a.scaleid, a.title
+			FROM (
+			SELECT g.scaleid, p.title
+			FROM  `scalegrades` g
+			JOIN  `gradecode` c ON g.gradeid = c.id
+			JOIN  `gradegroup` p ON c.groupid = p.id
+			WHERE g.scaleid =#{id}
+			UNION 
+			SELECT g1.scaleid, p1.title
+			FROM  `scalegrades` g1
+			JOIN  `gradegroup` p1 ON g1.groupid = p1.id
+			JOIN  `gradecode` s1 ON s1.groupid = p1.id
+			WHERE g1.scaleid =#{id}
+			)a
+			GROUP BY a.scaleid, a.title
+			)b ON b.scaleid = s.id
+			WHERE s.id =#{id}
+     </select>  
+	<!-- 获取量表适合的所有年级-->
+     <select id="getScaleGrades" parameterType="int" resultType="java.lang.String"> 
+        SELECT a.scaleid, a.title
+			FROM (
+			SELECT g.scaleid, p.title
+			FROM  scalegrades g
+			JOIN  gradecode c ON g.gradeid = c.id
+			JOIN  gradegroup p ON c.groupid = p.id
+			WHERE g.scaleid =1
+			UNION 
+			SELECT g1.scaleid, p1.title
+			FROM  scalegrades g1
+			JOIN  gradegroup p1 ON g1.groupid = p1.id
+			JOIN  gradecode s1 ON s1.groupid = p1.id
+			WHERE g1.scaleid =1
+			)a
+			GROUP BY a.scaleid, a.title
+     </select>
+     <select id="queryScaleByGroupId" parameterType="int" resultMap="scaleInfoResultMap">
+         select  a.id, a.code, a.shortname, a.title, a.questionnum, a.assesstype  from 
+			(select s.*,sg.gradeid,gc.groupid 
+			from scale s 
+			join scalegrades sg on s.code=sg.scaleid 
+			join gradecode gc on sg.gradeid=gc.id 
+      		union 
+			select s.*, gc.id,gc.groupid 
+			from scale s 
+			join scalegrades sg on s.code=sg.scaleid 
+			left join gradecode gc on sg.groupid=gc.groupid 
+			where sg.groupid > 0) a 
+			where a.groupid= #{groupid}
+    		group by a.id, a.code, a.shortname, a.title, a.questionnum, a.assesstype
+         
+     </select>
+     <!-- 获取适合年纪的所有量表信息-->
+     <select id="queryScaleForStudent" parameterType="int" resultMap="scaleInfoResultMap">  
+	   select  a.id, a.code, a.shortname, a.title, a.creationtime, a.questionnum, a.typeid, a.examtime  from
+		(select s.*,sg.gradeid
+			from scale s
+			join scalegrades sg on s.code=sg.scaleid
+			join gradecode gc on sg.gradeid=gc.id
+			union
+			select s.*, gc.nj
+			from scale s
+			join scalegrades sg on s.code=sg.scaleid
+			left join gradecode gc on sg.groupid=gc.groupid
+			where sg.groupid &gt; 0 and sg.groupid &lt; 4) a
+		where a.gradeid &gt; 0 and gradeid=#{gradeid}
+	</select>
+	 <select id="queryScaleForTeacher" parameterType="int" resultMap="scaleInfoResultMap">  
+	   select  a.id, a.code, a.shortname, a.title, a.creationtime, a.questionnum, a.typeid, a.examtime  from
+		(select s.*,sg.gradeid
+			from scale s
+			join scalegrades sg on s.code=sg.scaleid
+			join gradecode gc on sg.gradeid=gc.id
+			union
+			select s.*, gc.nj
+			from scale s
+			join scalegrades sg on s.code=sg.scaleid
+			left join gradecode gc on sg.groupid=gc.groupid
+			where sg.groupid = 4) a
+		where a.gradeid =14
+	</select>
+	
+	 <!-- 查询所有适合学生的量表 -->
+	 <select id="queryAllScalesForStudent" parameterType="int" resultMap="scaleInfoResultMap">  
+		 select a.code, a.title from
+			(select s.*,sg.gradeid
+				from scale s
+				join scalegrades sg on s.code=sg.scaleid
+				join gradecode gc on sg.gradeid=gc.id
+				union
+				select s.*, gc.nj
+				from scale s
+				join scalegrades sg on s.code=sg.scaleid
+				left join gradecode gc on sg.groupid=gc.groupid
+				where sg.groupid&lt;4) a
+	 	group by a.id, a.title 
+	 </select>
+	 <!-- 查询所有适合老师的量表 -->
+	 <select id="queryAllScalesForTeacher" parameterType="int" resultMap="scaleInfoResultMap">  
+		 select a.id, a.title from
+			(select s.*, gc.nj
+				from scale s
+				join scalegrades sg on s.code=sg.scaleid
+				left join gradecode gc on sg.groupid=gc.groupid
+				where sg.groupid=4) a
+	 	group by a.id, a.title 
+	 </select>
+     <!-- 根据条件查询量表信息 -->
+     <select id="queryScaleList" parameterType="com.njpes.www.entity.scaletoollib.QueryInfo" resultMap="scaleInfoResultMap">  
+	    select s.id, s.code, s.shortname, s.title, s.creationtime, s.questionnum, s.typeid, s.examtime 
+        from scale s 
+        where 1=1  
+        <if test="id != null and id > 0">  
+        	and s.id=#{id}  
+	    </if>  
+	    <if test="code != null and ''!=code">  
+        	and s.code like "%"#{code}"%"  
+	    </if> 
+	    <if test="typeid != null and typeid > 0">  
+	        and s.typeid=#{typeid}  
+	    </if>
+	    
+	    <if test="title != null and ''!=title">  
+	        and s.title like "%"#{title}"%"  
+	    </if>  
+	    <!-- <if test="age != null and age != '0'">  
+	        and s.startage &lt;= #{age} and  s.endage &gt;= #{age}
+	    </if>   -->
+	    <if test="assesstypeid != null and assesstypeid != '0'.toString()">  
+	        and s.assesstypeid = #{assesstypeid}  
+	    </if>  
+	    <if test="source != null and source > 0">  
+	        and s.source = #{source}  
+	    </if>
+	    <if test="prewarn != null">  
+	        and s.prewarn = #{prewarn}  
+	    </if>   
+	</select>
+	<!-- 新增量表信息
+     <insert id="insertScaleInfo" parameterType="com.njpes.www.entity.scaletoollib.ScaleInfo" useGeneratedKeys="true" keyProperty="id"> 
+        insert into scale(id,name,shortname,qnum,assesstype,source,dimensionid,createtime,createor,suitable,isprewarning,templateurl)  
+             values(#{id},#{name},#{shortname},#{qnum},#{assesstype},#{source},#{dimensionid},#{createtime},#{createor},#{suitable},#{isprewarning},#{templateurl})  
+     </insert> -->
+    
+     <!-- 修改量表信息
+     <update id="updateScaleInfo" parameterType="com.njpes.www.entity.scaletoollib.ScaleInfo">
+        update scale set id=#{id},name=#{name},shortname=#{shortname},qnum=#{qnum},assesstype=#{assesstype},
+        	source=#{source},dimensionid=#{dimensionid},createtime=#{createtime},createor=#{createor},suitable=#{suitable}
+        	,isprewarning=#{isprewarning},templateurl=#{templateurl} where id=#{id}
+     </update> -->
+     
+     <!-- 删除量表信息
+     <delete id="deleteScaleInfo" parameterType="Integer">
+        delete from scale where id=#{id}
+     </delete> -->
+     
+     <!-- 根据量表id查询量对应的适用人群
+     <select id="querySuitable" parameterType="Integer" resultMap="com.njpes.www.entity.scaletoollib.ScaleInfo"> 
+         select s.uuid s.id, s.title s.shortname,s.examtime,s.question_num 
+        from scale_info s where grade=#{grade}
+     </select>   -->
+     
+     <!-- 获得所有的量表来源
+     <select id="getAllScaleSource" resultType="java.util.HashMap"> 
+         select se.key sourceid, se.value sourcename from sys_enums se where se.type='scale_source'
+     </select>    -->
+     
+     <!-- 获得所有的量表适用人群  
+     <select id="getAllSuitable" resultType="java.util.HashMap"> 
+          select s.key field, s.value fcn from sys_enums s where type='scale_suitable'
+     </select>  -->
+	<!-- 查询所有量表类型 -->
+     <select id="getAllScaleType" resultType="com.njpes.www.entity.scaletoollib.Scaletype"> 
+          select s.id, s.name from dic_scaletype s
+     </select>
+     <!-- 查询学段的适合量表的类型 -->
+     <select id="getScaleTypeByGroup" resultType="com.njpes.www.entity.scaletoollib.Scaletype" parameterType="Integer">
+         select st.id,st.name from dic_scaletype st where st.id in (select distinct(scale.typeid) from scalegrades sg 
+			join gradegroup gg on sg.groupid = gg.id
+			join scale on sg.scaleid = scale.code
+			where gg.id=#{groupid} and scale.typeid>0 )
+     </select>
+      <!-- 删除量表类型-->
+     <delete id="deleteScaleType" parameterType="Integer">
+        delete from dic_scaletype where id=#{id}
+     </delete> 
+     <select id="getAllScaleSource" resultType="com.njpes.www.entity.scaletoollib.ScaleSource"> 
+         select id,scalesource from scale_source
+     </select>
+</mapper>

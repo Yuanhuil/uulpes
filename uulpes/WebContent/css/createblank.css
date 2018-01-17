@@ -1,0 +1,89 @@
+#TE {
+	WIDTH: 910px; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 0px; MARGIN: 0px auto; PADDING-RIGHT: 0px
+}
+.MP-nav {
+	WIDTH: 910px; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 0px; MARGIN: 10px auto 0px; PADDING-RIGHT: 0px
+}
+.MP-nav LI {
+	BORDER-RIGHT: #fff 1px solid; WIDTH: 215px; FLOAT: left; TEXT-ALIGN: center
+}
+.MP-nav A {
+	CURSOR: pointer; DISPLAY: block
+}
+.MP-nav A SPAN {
+	FONT-SIZE: 18px; HEIGHT: 30px; BACKGROUND: #c2c1c1; COLOR: #72706f; PADDING-TOP: 10px; DISPLAY: block
+}
+.MP-nav A SPAN.current {
+	BACKGROUND: #0067ac; COLOR: #fff
+}
+.MP-nav A SPAN.hover {
+	BACKGROUND: #2e76ac; COLOR: #fff
+}
+.TE-snav {
+	FONT-SIZE: 12px; FONT-WEIGHT: normal; MARGIN-LEFT: 4px
+}
+.TE-box2 {
+	OVERFLOW: hidden;  BACKGROUND: #fff; PADDING-BOTTOM: 10px; PADDING-TOP: 10px; PADDING-LEFT: 13px; CLEAR: both; MARGIN: 0px auto; PADDING-RIGHT: 13px
+}
+.bordBottomCssMc {
+	FONT-SIZE: 0px; BORDER-TOP: #0067ac 8px solid; HEIGHT: 0px; BORDER-RIGHT: transparent 8px dashed; WIDTH: 0px; BORDER-BOTTOM: transparent 8px dashed; POSITION: absolute; LEFT: 103px; BORDER-LEFT: transparent 8px dashed; DISPLAY: block; LINE-HEIGHT: 0
+}
+.inputtext {
+	BORDER-TOP: #7f9db9 1px solid; BORDER-RIGHT: #7f9db9 1px solid; BORDER-BOTTOM: #7f9db9 1px solid; BORDER-LEFT: #7f9db9 1px solid
+}
+
+
+
+.survey {
+	WORD-WRAP: break-word; WIDTH: 780px; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 0px; MARGIN: 0px auto; LINE-HEIGHT: 20px; PADDING-RIGHT: 0px
+}
+.surveyhead {
+	WIDTH: 96%; PADDING-BOTTOM: 30px; TEXT-ALIGN: center; PADDING-TOP: 0px; PADDING-LEFT: 2%; LINE-HEIGHT: 20px; PADDING-RIGHT: 2%
+}
+.surveyhead:hover {
+    border: #ff0000 solid 2px;
+}
+.surveyhead_mouseover {
+    border: #ff0000 solid 2px;
+}
+.surveyhead H1 {
+	FONT-SIZE: 24px !important; VERTICAL-ALIGN: middle; FONT-WEIGHT: bold; COLOR: #f53d05; PADDING-BOTTOM: 15px; PADDING-TOP: 15px; PADDING-LEFT: 0px; MARGIN: 0px; LINE-HEIGHT: 24px; PADDING-RIGHT: 0px
+}
+
+.surveydescription {
+	FONT-SIZE: 16px; BORDER-BOTTOM: #ccc 1px dashed; COLOR: #555555; PADDING-BOTTOM: 15px; TEXT-ALIGN: left; MARGIN-LEFT: 0px; MARGIN-TOP: 20px; LINE-HEIGHT: 24px
+}
+.surveycontent {
+	WIDTH: 100%; MARGIN: 0px
+}
+
+
+.tabQTypet {
+	BORDER-TOP: #ccc 1px solid; HEIGHT: 165px; BORDER-RIGHT: #ccc 1px solid; WIDTH: 854px; BACKGROUND: #cfe7ff; BORDER-BOTTOM: #ccc 1px solid; BORDER-LEFT: #ccc 1px solid
+}
+.tabQTypet UL {
+	FLOAT: left; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 5px; MARGIN: 0px; PADDING-RIGHT: 0px
+}
+.tabQTypet UL LI {
+	BORDER-TOP: #a6d0e7 1px solid; HEIGHT: 26px; BORDER-RIGHT: #a6d0e7 1px solid; WIDTH: 75px; BACKGROUND: #f7fafd; BORDER-BOTTOM: #a6d0e7 1px solid; FLOAT: left; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 10px; MARGIN: 6px 0px 0px 6px; BORDER-LEFT: #a6d0e7 1px solid; DISPLAY: inline; PADDING-RIGHT: 0px; border-radius: 2px
+}
+.tabQTypet UL LI A {
+	CURSOR: pointer; FONT-SIZE: 13px; TEXT-DECORATION: none; BACKGROUND-REPEAT: no-repeat; BACKGROUND-POSITION: 5px 5px; FONT-WEIGHT: bold; COLOR: #004499; MARGIN: 4px 0px 0px; DISPLAY: inline-block
+}
+.tabQTypet UL LI A SPAN {
+	VERTICAL-ALIGN: middle
+}
+.spanQTxt {
+	HEIGHT: 16px; DISPLAY: inline-block; LINE-HEIGHT: 16px
+}
+
+a.sumitbutton {
+	background: rgb(241, 120, 25); padding: 0px 10px 0px 15px; border-radius: 5px; height: 30px; text-align: center; color: rgb(255, 255, 255) !important; line-height: 30px; font-size: 16px; text-decoration: none; vertical-align: middle; display: inline-block; cursor: pointer;
+}
+a.sumitbutton:visited {
+	background: rgb(241, 120, 25); padding: 0px 10px 0px 15px; border-radius: 5px; height: 30px; text-align: center; color: rgb(255, 255, 255) !important; line-height: 30px; font-size: 16px; text-decoration: none; vertical-align: middle; display: inline-block; cursor: pointer;
+}
+a.sumitbutton:hover {
+	background: rgb(253, 164, 32); color: rgb(255, 255, 255) !important;
+}
+

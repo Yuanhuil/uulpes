@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.njpes.www.dao.consultcenter.TeamRecordMapper">
+  <resultMap id="BaseResultMap"
+    type="com.njpes.www.entity.consultcenter.TeamRecord">
+    <!-- WARNING - @mbggenerated This element is automatically generated
+      by MyBatis Generator, do not modify. This element was generated on Wed May
+      27 20:28:42 CST 2015. -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="teamid" jdbcType="BIGINT" property="teamid" />
+    <result column="begintime" jdbcType="TIMESTAMP" property="begintime" />
+    <result column="endtime" jdbcType="TIMESTAMP" property="endtime" />
+    <result column="teacherid" jdbcType="BIGINT" property="teacherid" />
+    <result column="consultationModeId" jdbcType="BIGINT"
+      property="consultationmodeid" />
+    <result column="consultationTypeId" jdbcType="BIGINT"
+      property="consultationtypeid" />
+    <result column="schoolid" jdbcType="BIGINT" property="schoolid" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs"
+    type="com.njpes.www.entity.consultcenter.TeamRecordWithBLOBs">
+    <!-- WARNING - @mbggenerated This element is automatically generated
+      by MyBatis Generator, do not modify. This element was generated on Wed May
+      27 20:28:42 CST 2015. -->
+    <result column="reason" jdbcType="LONGVARCHAR" property="reason" />
+    <result column="process" jdbcType="LONGVARCHAR" property="process" />
+    <result column="inspiration" jdbcType="LONGVARCHAR" property="inspiration" />
+    <result column="result" jdbcType="LONGVARCHAR" property="result" />
+    <result column="remark" jdbcType="LONGVARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!-- WARNING - @mbggenerated This element is automatically generated
+      by MyBatis Generator, do not modify. This element was generated on Wed May
+      27 20:28:42 CST 2015. -->
+    id, teamid, begintime, endtime, teacherid, consultationModeId,
+    consultationTypeId,
+    schoolid
+  </sql>
+  <sql id="Blob_Column_List">
+    <!-- WARNING - @mbggenerated This element is automatically generated
+      by MyBatis Generator, do not modify. This element was generated on Wed May
+      27 20:28:42 CST 2015. -->
+    reason, process, inspiration, result, remark
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long"
+    resultMap="ResultMapWithBLOBs">
+    <!-- WARNING - @mbggenerated This element is automatically generated
+      by MyBatis Generator, do not modify. This element was generated on Wed May
+      27 20:28:42 CST 2015. -->
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from coach_team_record
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!-- WARNING - @mbggenerated This element is automatically generated
+      by MyBatis Generator, do not modify. This element was generated on Wed May
+      27 20:28:42 CST 2015. -->
+    delete from coach_team_record
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert"
+    parameterType="com.njpes.www.entity.consultcenter.TeamRecordWithBLOBs">
+    <!-- WARNING - @mbggenerated This element is automatically generated
+      by MyBatis Generator, do not modify. This element was generated on Wed May
+      27 20:28:42 CST 2015. -->
+    insert into coach_team_record (id, teamid, begintime,
+    endtime,
+    teacherid, consultationModeId,
+    consultationTypeId, schoolid, reason,
+    process, inspiration, result,
+    remark)
+    values (#{id,jdbcType=BIGINT},
+    #{teamid,jdbcType=BIGINT},
+    #{begintime,jdbcType=TIMESTAMP},
+    #{endtime,jdbcType=TIMESTAMP}, #{teacherid,jdbcType=BIGINT},
+    #{consultationmodeid,jdbcType=BIGINT},
+    #{consultationtypeid,jdbcType=BIGINT}, #{schoolid,jdbcType=BIGINT},
+    #{reason,jdbcType=LONGVARCHAR},
+    #{process,jdbcType=LONGVARCHAR},
+    #{inspiration,jdbcType=LONGVARCHAR}, #{result,jdbcType=LONGVARCHAR},
+    #{remark,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective"
+    parameterType="com.njpes.www.entity.consultcenter.TeamRecordWithBLOBs">
+    <!-- WARNING - @mbggenerated This element is automatically generated
+      by MyBatis Generator, do not modify. This element was generated on Wed May
+      27 20:28:42 CST 2015. -->
+    insert into coach_team_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="teamid != null">
+        teamid,
+      </if>
+      <if test="begintime != null">
+        begintime,
+      </if>
+      <if test="endtime != null">
+        endtime,
+      </if>
+      <if test="teacherid != null">
+        teacherid,
+      </if>
+      <if test="consultationmodeid != null">
+        consultationModeId,
+      </if>
+      <if test="consultationtypeid != null">
+        consultationTypeId,
+      </if>
+      <if test="schoolid != null">
+        schoolid,
+      </if>
+      <if test="reason != null">
+        reason,
+      </if>
+      <if test="process != null">
+        process,
+      </if>
+      <if test="inspiration != null">
+        inspiration,
+      </if>
+      <if test="result != null">
+        result,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="teamid != null">
+        #{teamid,jdbcType=BIGINT},
+      </if>
+      <if test="begintime != null">
+        #{begintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endtime != null">
+        #{endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="teacherid != null">
+        #{teacherid,jdbcType=BIGINT},
+      </if>
+      <if test="consultationmodeid != null">
+        #{consultationmodeid,jdbcType=BIGINT},
+      </if>
+      <if test="consultationtypeid != null">
+        #{consultationtypeid,jdbcType=BIGINT},
+      </if>
+      <if test="schoolid != null">
+        #{schoolid,jdbcType=BIGINT},
+      </if>
+      <if test="reason != null">
+        #{reason,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="process != null">
+        #{process,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="inspiration != null">
+        #{inspiration,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="result != null">
+        #{result,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective"
+    parameterType="com.njpes.www.entity.consultcenter.TeamRecordWithBLOBs">
+    <!-- WARNING - @mbggenerated This element is automatically generated
+      by MyBatis Generator, do not modify. This element was generated on Wed May
+      27 20:28:42 CST 2015. -->
+    update coach_team_record
+    <set>
+      <if test="teamid != null">
+        teamid = #{teamid,jdbcType=BIGINT},
+      </if>
+      <if test="begintime != null">
+        begintime = #{begintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endtime != null">
+        endtime = #{endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="teacherid != null">
+        teacherid = #{teacherid,jdbcType=BIGINT},
+      </if>
+      <if test="consultationmodeid != null">
+        consultationModeId =
+        #{consultationmodeid,jdbcType=BIGINT},
+      </if>
+      <if test="consultationtypeid != null">
+        consultationTypeId =
+        #{consultationtypeid,jdbcType=BIGINT},
+      </if>
+      <if test="schoolid != null">
+        schoolid = #{schoolid,jdbcType=BIGINT},
+      </if>
+      <if test="reason != null">
+        reason = #{reason,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="process != null">
+        process = #{process,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="inspiration != null">
+        inspiration = #{inspiration,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="result != null">
+        result = #{result,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs"
+    parameterType="com.njpes.www.entity.consultcenter.TeamRecordWithBLOBs">
+    <!-- WARNING - @mbggenerated This element is automatically generated
+      by MyBatis Generator, do not modify. This element was generated on Wed May
+      27 20:28:42 CST 2015. -->
+    update coach_team_record
+    set teamid = #{teamid,jdbcType=BIGINT},
+    begintime = #{begintime,jdbcType=TIMESTAMP},
+    endtime =
+    #{endtime,jdbcType=TIMESTAMP},
+    teacherid =
+    #{teacherid,jdbcType=BIGINT},
+    consultationModeId =
+    #{consultationmodeid,jdbcType=BIGINT},
+    consultationTypeId =
+    #{consultationtypeid,jdbcType=BIGINT},
+    schoolid =
+    #{schoolid,jdbcType=BIGINT},
+    reason = #{reason,jdbcType=LONGVARCHAR},
+    process = #{process,jdbcType=LONGVARCHAR},
+    inspiration =
+    #{inspiration,jdbcType=LONGVARCHAR},
+    result =
+    #{result,jdbcType=LONGVARCHAR},
+    remark = #{remark,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.njpes.www.entity.consultcenter.TeamRecord">
+    <!-- WARNING - @mbggenerated This element is automatically generated
+      by MyBatis Generator, do not modify. This element was generated on Wed May
+      27 20:28:42 CST 2015. -->
+    update coach_team_record
+    set teamid = #{teamid,jdbcType=BIGINT},
+    begintime = #{begintime,jdbcType=TIMESTAMP},
+    endtime =
+    #{endtime,jdbcType=TIMESTAMP},
+    teacherid =
+    #{teacherid,jdbcType=BIGINT},
+    consultationModeId =
+    #{consultationmodeid,jdbcType=BIGINT},
+    consultationTypeId =
+    #{consultationtypeid,jdbcType=BIGINT},
+    schoolid =
+    #{schoolid,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+
+
+  <!-- <select id="selectEntityByPage" resultMap="ResultMapWithBLOBs"> select
+    <include refid="Base_Column_List" /> from coach_team_record <where> <if test="recordWithBLOBs.teacherid
+    != null"> and teacherid = #{recordWithBLOBs.teacherid,jdbcType=BIGINT} </if>
+    <if test="recordWithBLOBs.consultationmodeid != null"> and consultationmodeid
+    = #{recordWithBLOBs.consultationmodeid,jdbcType=INTEGER} </if> <if test="recordWithBLOBs.consultationtypeid
+    != null"> and consultationtypeid = #{recordWithBLOBs.consultationtypeid,jdbcType=INTEGER}
+    </if> <if test="recordWithBLOBs.teamid != null"> and teamid = #{recordWithBLOBs.teamid,jdbcType=CHAR}
+    </if> <if test="recordWithBLOBs.schoolid != null"> and schoolid = #{recordWithBLOBs.schoolid,jdbcType=BIGINT}
+    </if> </where> </select> -->
+
+  <select id="selectEntityByPage" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    from coach_team_record
+    <where>
+      <if test="beginDate != null and beginDate !=''">
+        and begintime &gt; #{beginDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="endDate != null and endDate !=''">
+        and endtime &lt; #{endDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="recordWithBLOBs.teacherid != null">
+        and teacherid =#{recordWithBLOBs.teacherid,jdbcType=BIGINT}
+      </if>
+      <if test="recordWithBLOBs.consultationmodeid != null">
+        and consultationmodeid
+        =#{recordWithBLOBs.consultationmodeid,jdbcType=INTEGER}
+      </if>
+      <if test="recordWithBLOBs.consultationtypeid != null">
+        and consultationtypeid
+        =#{recordWithBLOBs.consultationtypeid,jdbcType=INTEGER}
+      </if>
+      <if test="recordWithBLOBs.teamid != null">
+        and teamid = #{recordWithBLOBs.teamid,jdbcType=CHAR}
+      </if>
+      <if test="recordWithBLOBs.schoolid != null">
+        and schoolid =#{recordWithBLOBs.schoolid,jdbcType=BIGINT}
+      </if>
+    </where>
+  </select>
+</mapper>

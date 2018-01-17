@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="pes" default="out" basedir=".">
+    <property name="out" value="${basedir}/out"/>
+    <property name="out.class" value="${basedir}/out/WEB-INF/class"/>
+    <property name="build" value="${basedir}/build"/>
+    <property name="build.class" value="${build}/classes"/>
+    <property name="src" value="${basedir}/src"/>
+    <property name="webApp" value="${basedir}/WebContent"/>
+    <property name="lib" value="${webApp}/WEB-INF/lib"/>
+
+    <!--定义CLASSPACH,编译时用到你外部加入的包-->
+    <path id="classpath">
+        <pathelement location="${src}"/>
+        <fileset dir="${lib}" includes="*.jar"/>
+    </path>
+
+    <!--删除任务-->
+    <target name="clean" description="删除">
+        <echo message="删除目录"/>
+        <delete dir="${build}"/>
+        <delete dir="${out}"/>
+    </target>
+
+    <!--创建一个临时目录-->
+    <target name="init" description="创建目录" depends="clean">
+        <echo message="创建目录"/>
+        <mkdir dir="${build.class}"/>
+        <mkdir dir="${out}"/>
+    </target>
+
+    <!--编译java源文件-->
+    <target name="compile" description="编译文件" depends="init">
+        <echo message="编译文件"/>
+        <javac includeantruntime="false" srcdir="${src}" destdir="${build.class}" debug="true">
+            <classpath refid="classpath"/>
+            <compilerarg line="-encoding UTF-8 -XDignore.symbol.file "/>
+        </javac>
+    </target>
+
+    <!--拷贝非java文件-->
+    <target name="copy" depends="compile" description="拷贝非java文件">
+        <echo message="拷贝非java文件"/>
+        <copy todir="${build.class}">
+            <fileset dir="${src}">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <!--打成WAR包-->
+    <target name="generwar" depends="copy">
+        <echo message="打成WAR"/>
+        <war destfile="${out}/${ant.project.name}.war" webxml="${webApp}/WEB-INF/web.xml">
+            <fileset dir="${webApp}"/>
+            <classes dir="${build.class}"/>
+        </war>
+    </target>
+
+    <!--生成out目录-->
+    <target name="out" depends="generwar" description="生成部署目录">
+        <echo message="生成部署目录"/>
+        <copy file="${basedir}/Dockerfile" todir="${out}"/>
+    </target>
+
+</project>

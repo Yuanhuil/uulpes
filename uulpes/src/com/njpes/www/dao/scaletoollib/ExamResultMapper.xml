@@ -1,0 +1,896 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.njpes.www.dao.scaletoollib.ExamResultMapper" >
+  <resultMap id="ExamResultResult" type="edutec.scale.exam.ExamResult">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="scale_id" property="scaleId" jdbcType="INTEGER" />
+		<result column="user_id" property="userId" jdbcType="BIGINT" />
+		<result column="xm" property="userName" jdbcType="BIGINT" />
+		<result column="csrq" property="csrq"  />
+		<result column="sfzjh" property="sfzjh"/>
+	    <result column="orgid" property="userOrgId"/>
+		<result column="xxmc" property="xxmc"/>
+		<result column="individual_score" property="individualScore" jdbcType="LONGVARCHAR" />
+		<result column="question_score" property="questionScore" jdbcType="LONGVARCHAR" />
+		<result column="dim_score" property="dimScore" jdbcType="LONGVARCHAR" />
+		<result column="gradeorderid" property="userGradeOrderId" jdbcType="INTEGER"/>
+		<result column="testtype" property="testtype" jdbcType="INTEGER" />
+		<result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+		<result column="ok_time" property="okTime" jdbcType="TIMESTAMP" />
+		<result column="valid_val" property="validVal" jdbcType="INTEGER" />
+		<result column="iswarnsure" property="isWarnSure" jdbcType="TINYINT"/>
+		<result column="gender" property="userGender" jdbcType="INTEGER"/>
+	</resultMap>
+  
+  <resultMap id="BaseResultMap" type="edutec.scale.exam.ExamResult" extends="ExamResultResult">
+    <result column="warning_grade" property="warningGrade" jdbcType="INTEGER" />
+    <result column="version" property="version" jdbcType="INTEGER" />
+    <result column="sjssbm" property="threeAngleUUID" jdbcType="LONGVARCHAR" />
+    <result column="table" property="table" jdbcType="LONGVARCHAR" />
+    <result column="classid" property="userClassId"/>
+    <result column="nj" property="nj"/>
+    <result column="njmc" property="njmc"/>
+    <result column="bjmc" property="bjmc"/>
+    <result column="roleid" property="roleid"/>
+    <result column="attrs" property="attrs"/>
+    <result column="qxmc" property="qxmc"/>
+     <result column="rolename" property="rolename"/>
+    
+  </resultMap>
+  
+  <resultMap id="ExamResultTeacher" type="edutec.scale.exam.ExamResult" extends="BaseResultMap">
+		<result property="second" column="second" />
+		<result property="userRoleFlag" column="role_flag" />
+		<result property="userName" column="name" />
+	</resultMap>
+  
+  <resultMap id="ExamResultStudent" type="edutec.scale.exam.ExamResult" extends="BaseResultMap">
+        <result property="second" column="second" />
+		<result property="userGradeOrderId" column="gradeorderid" />
+		<result property="userClassId" column="classid" />
+  </resultMap>
+	
+  <resultMap id="NormResult" type="edutec.group.domain.PropNorm">
+		<result property="scaleId" column="scale_id" />
+		<result property="wid" column="w_id" />
+		<result property="gradeOrderId" column="grade_id" />
+		<result property="gender" column="gender" />
+		<result property="mean" column="m" />
+		<result property="sdv" column="sd" /> 
+	</resultMap>
+  <resultMap id="WarningResult"  type="edutec.group.domain.DimWarning" >
+	    <result property="scaleId" column="scale_id" />
+		<result property="wid" column="wid" />
+		<result property="dimLevel" column="wlevel" />
+		<result property="w1" column="w1" />
+		<result property="w2" column="w2" />
+		<result property="w3" column="w3" />
+		<result property="z" column="z" />
+	</resultMap>
+	<resultMap id="WarningAndScoreGradeResult"  type="edutec.group.domain.DimWarningAndScoreGrade" >
+	    <result property="scaleId" column="scale_id" />
+		<result property="wid" column="wid" />
+		<result property="dimLevel" column="wlevel" />
+		<result property="w1" column="w1" />
+		<result property="w2" column="w2" />
+		<result property="w3" column="w3" />
+		<result property="score1" column="score1" />
+		<result property="score2" column="score2" />
+		<result property="score3" column="score3" />
+		<result property="score4" column="score4" />
+	</resultMap>
+	<resultMap id="ScoreGradeResult"  type="edutec.group.domain.DimScoreGrade" >
+	    <result property="scaleId" column="scale_id" />
+		<result property="wid" column="wid" />
+		<result property="dimLevel" column="wlevel" />
+		<result property="score1" column="score1" />
+		<result property="score2" column="score2" />
+		<result property="score3" column="score3" />
+		<result property="score4" column="score4" />
+		<result property="z" column="z" />
+	</resultMap>
+	<resultMap id="DimDescriptionResult"  type="edutec.group.domain.DimDescription" >
+	    <result property="scaleId" column="scale_id" />
+		<result property="wid" column="wid" />
+		<result property="grade" column="grade" />
+		<result property="firstStr" column="firstStr" />
+		<result property="otherStr" column="otherStr" />
+		<result property="advice" column="advice"/>
+	</resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, scale_id, testtype,ok_time, start_time, warning_grade, valid_val, individual_score, question_score, dim_score, version, sjssbm,gender
+  </sql>
+  <sql id="Student_Column_List">
+    id, user_id,xm,xmpy,mzm,sfzjh,csrq,orgid,xxmc, scale_id, testtype,ok_time, start_time, warning_grade, valid_val, individual_score, question_score, dim_score, version, sjssbm,xh,xd, gradeorderid, nj,njmc,classid,bjmc,gender,attrs
+  </sql>
+  <sql id="Teacher_Column_List">
+    id, user_id,xm,xmpy,mzm,sfzjh,csrq,orgid,xxmc,scale_id, testtype,ok_time, start_time, warning_grade, valid_val, individual_score, question_score, dim_score,roleid,gh, gender,attrs
+  </sql>
+  <sql id="examresult_where">
+		<if test="loTime != null">
+		    <if test="hiTime != null">
+				and c.ok_time between #{loTime} and #{hiTime}
+			</if>
+		</if>
+		<if test="scaleId>0">
+			and c.scale_id=#{scaleId}
+		</if>
+		ORDER BY c.user_id,c.ok_time DESC
+		<if test="limit!=null">
+			${limit}
+		</if>
+  </sql>
+  <select id="getExamResult" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from ${table}
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="getMhExamResult" resultMap="BaseResultMap" parameterType="long">
+      select 
+      <include refid="Base_Column_List"/> 
+      from examresult_student_mh 
+      where id=#{resultid}
+  </select>
+   <select id="getMhExamREsultByMhCode" resultMap="BaseResultMap" parameterType="String">
+      select 
+      <include refid="Base_Column_List"/> 
+      from examresult_student_mh 
+      where id=#{sjssbm}
+  </select>
+  <delete id="deleteExamresultMh" parameterType="java.lang.Long">
+      delete from examresult_student_mh where id=#{id}
+  </delete>
+  <delete id="deleteExamresultMhBatch" parameterType="java.lang.Long">
+      delete from examresult_student_mh where id in 
+      <foreach collection="array" index="index" item="item" open="(" separator="," close=")"> 
+			#{item} 
+	  </foreach>
+  </delete>
+  <!-- shibin add for query student exam result by id -->
+  <select id="getStudentExamResult" resultMap="BaseResultMap" parameterType="java.util.Map">
+		SELECT id,orgid,xxmc,user_id,xm,gender,xmpy,mzm,xh,sfzjh,csrq,attrs,scale_id,question_score,dim_score,gradeorderid,testtype, start_time,ok_time,valid_val,sjssbm,xd,classid,bjmc,nj,njmc from ${table} WHERE id = #{id}
+  </select>
+  <select id="getExamResultMh" resultMap="BaseResultMap">
+		SELECT id,orgid,xxmc,user_id,xm,gender,xmpy,xh,sfzjh,csrq,attrs,scale_id,question_score,dim_score,gradeorderid,testtype, start_time,ok_time,valid_val,sjssbm,xd,classid,bjmc,nj,njmc
+		 from examresult_student_mh where id = #{id,jdbcType=BIGINT} and version=#{typeflag}
+  </select>
+  <select id="getTeacherExamResult" resultMap="BaseResultMap" parameterType="java.util.Map">
+		SELECT id,orgid,xxmc,user_id,xm,gender,xmpy,mzm,sfzjh,gh,csrq,attrs,scale_id,question_score,dim_score, testtype,start_time,ok_time,valid_val,roleid from ${table} WHERE id = #{id}
+  </select>
+ <select id="getTeacherExamResults" resultMap="ExamResultTeacher" parameterType="java.util.Map">
+		select 
+			c.id        as id,
+			c.user_id   as user_id,
+			a.org_id    as org_id,
+			a.name      as name,
+			a.gender    as gender,
+			a.role_flag as role_flag,
+			c.testtype as testtype,
+			c.start_time as startTime,
+			c.ok_time   as ok_time ,
+			timestampdiff(second,c.start_time,c.ok_time) as second,
+			c.scale_id  as scale_id,
+			c.valid_val as valid_val,
+			c.question_score as question_score
+		from 
+			schooluser a ,examresult_teacher c 
+		where 
+			c.user_id=a.id
+		<if test="user_id>0">
+			and c.user_id = #{user_id}
+		</if>
+		<if test="invalid!=null">
+			and valid_val = #{invalid}
+		</if>
+		<include refid="examresult_where" />
+	</select>
+  <select id="getStuErForSchool" resultMap="BaseResultMap" parameterType="java.util.Map">
+     select 
+          id, user_id, scale_id, max(ok_time) ok_time, njmc,bjmc,start_time, warning_grade, valid_val, individual_score, question_score, dim_score, version, sjssbm, gradeorderid, classid,gender
+      <!-- from examresult_student es --> 
+      from (select * from examresult_student ORDER BY ok_time DESC) es 
+      where es.orgid=#{orgid} and es.njmc=#{njmc} 
+      <if test="bjArray!=null">
+      and es.classid in  
+ 		<foreach item="item" index="index" collection="bjArray" open="(" separator="," close=")">  
+ 			 #{item}  
+	    </foreach> 
+	  </if> 
+		<if test="starttime != null">
+		    <if test="endtime != null">
+				and es.ok_time between #{starttime} and #{endtime}
+			</if>
+		</if>
+		<if test="scaleid>0">
+			and es.scale_id=#{scaleid}
+		</if>
+		group by user_id
+		<!-- and not exists(select 1 from examresult_student where user_id=es.user_id and ok_time>es.ok_time)-->
+		ORDER BY es.ok_time DESC
+  </select>
+  <select id="getTeaErForSchool" resultMap="BaseResultMap" parameterType="java.util.Map">
+     select 
+          es.id, es.user_id, es.scale_id, max(es.ok_time) ok_time, eds.rolename,es.start_time, es.warning_grade, es.valid_val, es.dim_score,es.gender
+      <!-- from examresult_teacher es--> 
+      from (select * from examresult_teacher ORDER BY ok_time DESC) es 
+      left join examdo_teacher eds on eds.id = es.id
+      where es.orgid=#{orgid} 
+      <if test="roleid>0">
+          and es.roleid=#{roleid} 
+      </if>
+      
+		<if test="starttime != null">
+		    <if test="endtime != null">
+				and es.ok_time between #{starttime} and #{endtime}
+			</if>
+		</if>
+		<if test="scaleid>0">
+			and es.scale_id=#{scaleid}
+		</if>
+		group by user_id
+		<!-- and not exists(select 1 from examresult_student where user_id=es.user_id and ok_time>es.ok_time)-->
+		ORDER BY es.ok_time DESC
+  </select>
+   <select id="getStuErForCounty" resultMap="BaseResultMap" parameterType="java.util.Map">
+     select 
+          es.id, es.user_id, es.scale_id, max(es.ok_time) ok_time, es.njmc,es.bjmc,es.start_time, es.warning_grade, es.valid_val,  es.dim_score, es.version, es.gradeorderid, es.gender,es.orgid,es.xxmc
+     <!--  from examresult_student es-->
+     from (select * from examresult_student ORDER BY ok_time DESC) es 
+      left join examdo_student eds on eds.id = es.id
+      left join organization org on org.id = es.orgid 
+      where eds.countyid=#{countyid} and org.org_level =6  
+      <if test="njmc!=null">
+      and es.njmc=#{njmc} 
+      </if>
+      <if test="xxmcArray!=null">
+      and es.orgid in  
+ 		<foreach item="item" index="index" collection="xxmcArray" open="(" separator="," close=")">  
+ 			 #{item}  
+	    </foreach> 
+	  </if> 
+		<if test="starttime != null">
+		    <if test="endtime != null">
+				and es.ok_time between #{starttime} and #{endtime}
+			</if>
+		</if>
+		<if test="scaleid!=null">
+			and es.scale_id=#{scaleid}
+		</if>
+		group by user_id
+		<!-- and not exists(select 1 from examresult_student where user_id=es.user_id and ok_time>es.ok_time)-->
+		ORDER BY es.ok_time DESC
+  </select>
+  <select id="getTeaErForCounty" resultMap="BaseResultMap" parameterType="java.util.Map">
+     select 
+          es.id, es.user_id, es.scale_id, max(es.ok_time) ok_time, eds.rolename,es.start_time, es.warning_grade, es.valid_val,  es.dim_score, es.gender,es.orgid,es.xxmc
+      <!-- from examresult_teacher es -->
+      from (select * from examresult_teacher ORDER BY ok_time DESC) es 
+      left join examdo_teacher eds on eds.id = es.id
+      left join organization org on org.id = es.orgid 
+      where eds.countyid=#{countyid} and org.org_level =6  
+      <if test="roleid>0">
+          and es.roleid=#{roleid} 
+      </if>
+      <if test="xxmcArray!=null">
+      and es.orgid in  
+ 		<foreach item="item" index="index" collection="xxmcArray" open="(" separator="," close=")">  
+ 			 #{item}  
+	    </foreach> 
+	  </if> 
+		<if test="starttime != null">
+		    <if test="endtime != null">
+				and es.ok_time between #{starttime} and #{endtime}
+			</if>
+		</if>
+		<if test="scaleid!=null">
+			and es.scale_id=#{scaleid}
+		</if>
+		group by user_id
+		<!-- and not exists(select 1 from examresult_student where user_id=es.user_id and ok_time>es.ok_time)-->
+		ORDER BY es.ok_time DESC
+  </select>
+   <select id="getStuErForCity" resultMap="BaseResultMap" parameterType="java.util.Map">
+     select 
+          es.id, es.user_id, es.scale_id, max(es.ok_time) ok_time, es.njmc,es.bjmc,es.start_time, es.warning_grade, es.valid_val, es.dim_score, es.version, es.gradeorderid,es.gender,ar.name qxmc
+      <!-- from examresult_student es-->
+      from (select * from examresult_student ORDER BY ok_time DESC) es 
+      left join examdo_student eds on eds.id = es.id
+      left join organization org on org.id = es.orgid 
+      left join newarea ar on ar.code = eds.countyid
+       where  es.njmc=#{njmc} and org.org_level =6 and eds.countyid in  
+ 		<foreach item="item" index="index" collection="qxArray" open="(" separator="," close=")">  
+ 			 #{item}  
+	    </foreach>  
+		<if test="starttime != null">
+		    <if test="endtime != null">
+				and es.ok_time between #{starttime} and #{endtime}
+			</if>
+		</if>
+		<if test="scaleid!=null">
+			and es.scale_id=#{scaleid}
+		</if>
+		group by user_id
+		<!-- and not exists(select 1 from examresult_student where user_id=es.user_id and ok_time>es.ok_time)-->
+		ORDER BY es.ok_time DESC
+  </select>
+  <select id="getTeaErForCity" resultMap="BaseResultMap" parameterType="java.util.Map">
+     select 
+          es.id, es.user_id, es.scale_id, max(es.ok_time) ok_time, eds.rolename,es.start_time, es.warning_grade, es.valid_val, es.dim_score,es.gender,ar.name qxmc
+      <!--from examresult_teacher es-->
+      from (select * from examresult_teacher ORDER BY ok_time DESC) es 
+      left join examdo_teacher eds on eds.id = es.id
+      left join organization org on org.id = es.orgid 
+      left join newarea ar on ar.code = eds.countyid
+       where  
+       org.org_level =6 
+       <if test="roleid>0">
+          and es.roleid=#{roleid} 
+      </if>
+       and eds.countyid in  
+ 		<foreach item="item" index="index" collection="qxArray" open="(" separator="," close=")">  
+ 			 #{item}  
+	    </foreach>  
+		<if test="starttime != null">
+		    <if test="endtime != null">
+				and es.ok_time between #{starttime} and #{endtime}
+			</if>
+		</if>
+		<if test="scaleid!=null">
+			and es.scale_id=#{scaleid}
+		</if>
+		group by user_id
+		<!-- and not exists(select 1 from examresult_student where user_id=es.user_id and ok_time>es.ok_time)-->
+		ORDER BY es.ok_time DESC
+  </select>
+   <select id="getStuErForCitySubSchool" resultMap="BaseResultMap" parameterType="java.util.Map">
+     select 
+          es.id, es.user_id, es.scale_id, max(es.ok_time) ok_time, es.njmc,bjmc,es.start_time, es.warning_grade, es.valid_val, es.individual_score, es.question_score, es.dim_score, es.version, es.sjssbm, es.gradeorderid, es.classid,gender,es.xxmc 
+      <!--from examresult_student es-->
+      from (select * from examresult_student ORDER BY ok_time DESC) es  
+      where es.njmc=#{njmc} and es.orgid in  
+ 		<foreach item="item" index="index" collection="zzxxorgidArray" open="(" separator="," close=")">  
+ 			 #{item}  
+	    </foreach>  
+		<if test="starttime != null">
+		    <if test="endtime != null">
+				and es.ok_time between #{starttime} and #{endtime}
+			</if>
+		</if> 
+		<if test="scaleid!=null">
+			and es.scale_id=#{scaleid}
+		</if>
+		group by user_id
+		<!-- and not exists(select 1 from examresult_student where user_id=es.user_id and ok_time>es.ok_time)-->
+		ORDER BY es.ok_time DESC
+  </select>
+   <select id="getTeaErForCitySubSchool" resultMap="BaseResultMap" parameterType="java.util.Map">
+     select 
+          es.id, es.user_id, es.scale_id, max(es.ok_time) ok_time, eds.rolename,start_time, warning_grade, valid_val,  dim_score, gender
+      <!--from examresult_teacher es-->
+      from (select * from examresult_teacher ORDER BY ok_time DESC) es  
+       left join examdo_teacher eds on eds.id = es.id
+       where es.njmc=#{njmc} and es.orgid in  
+ 		<foreach item="item" index="index" collection="zzxxorgidArray" open="(" separator="," close=")">  
+ 			 #{item}  
+	    </foreach>  
+		<if test="starttime != null">
+		    <if test="endtime != null">
+				and es.ok_time between #{starttime} and #{endtime}
+			</if>
+		</if>
+		<if test="scaleid>0">
+			and es.scale_id=#{scaleid}
+		</if>
+		group by user_id
+		<!-- and not exists(select 1 from examresult_student where user_id=es.user_id and ok_time>es.ok_time)-->
+		ORDER BY es.ok_time DESC
+  </select>
+  <select id="getStudentExamResults" resultMap="ExamResultStudent" parameterType="java.util.Map">
+		select 
+			c.id      as id,
+			c.user_id as user_id,
+			a.name    as name,
+			a.gender  as gender,
+			a.role_flag as role_flag,
+			a.org_id    as org_id,
+			a.grade_order_id as grade_order_id,
+			a.class_id as class_id,
+			b.title    as class_title,
+			c.ok_time  as ok_time,
+			timestampdiff(second,c.start_time,c.ok_time) as second,
+			c.scale_id as scale_id,
+			c.question_score as question_score,
+			c.warning_grade as warning_grade,
+			c.valid_val as valid_val,
+			c.dim_score as dim_score
+		from schooluser a, class b, examresult_student c 
+		where
+			c.user_id=a.id  and 
+			a.class_id=b.id and
+			a.org_id=b.org_id
+		<if test="user_id>0">
+			and c.user_id = #{user_id}
+		</if>
+		<if test="testtime>0">
+			and timestampdiff(second,start_time,ok_time)&lt;#{testtime}
+		</if>
+		<if test="invalid!=null">
+			and valid_val = #{invalid}
+		</if>
+		<if test="warninggrade!=null">
+			and c.warning_grade = #{warninggrade}
+		</if>
+		<include refid="examresult_where" />
+	</select>
+  <select id="getExamResultForIndv" resultMap="BaseResultMap" parameterType="java.util.Map">
+		SELECT 
+			id,user_id,scale_id,individual_score,question_score,dim_score, start_time,ok_time,valid_val
+		FROM examresult_individual 
+			WHERE user_id = #{user_id} order by scale_id,ok_time desc
+  </select>
+	
+  <select id="getExamResultForStu" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		SELECT
+			id,user_id,scale_id,individual_score,question_score,dim_score, start_time,ok_time ,valid_val 
+		FROM examresult_student 
+		<if test="value!=null"> WHERE user_id = #{value}</if> 
+		order by scale_id, ok_time
+  </select> 
+  <select id="getExamResultListForStu" resultMap="BaseResultMap">
+		SELECT
+			id,user_id,scale_id,question_score,dim_score, start_time,ok_time ,gradeorderid,classid
+		FROM examresult_student 
+		WHERE user_id = #{userid}
+		<if test="starttime!=null"> and ok_time &gt; #{starttime}</if> 
+		<if test="endtime!=null"> and ok_time  &lt;  #{endtime}</if>
+		order by scale_id, ok_time
+  </select> 
+  <select id="getExamResultListForTeacher" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		SELECT
+			id,user_id,scale_id,question_score,dim_score, start_time,ok_time ,roleid
+		FROM examresult_teacher
+		<if test="userid!=null"> WHERE user_id = #{userid}</if> 
+		order by scale_id, ok_time
+  </select> 
+  <select id="getExamResultsForStu" resultMap="ExamResultResult">
+		SELECT
+			id,user_id,scale_id,individual_score,question_score,dim_score, start_time,ok_time ,valid_val
+		FROM examresult_student
+  </select>
+  
+  <select id="getNorm" resultMap="NormResult" parameterType="java.util.Map">
+		SELECT * FROM scale_norm WHERE scale_id=#{scaleId} and w_id=#{wid} 
+		<if test='normid=="-1" or normid==null'>
+            and type=1
+        </if>
+        <if test='normid!="-1" and normid!=null'>
+            and norm_id=#{normid}
+        </if>
+		<if test="gender != null" >
+          and gender = #{gender}
+        </if>
+	   <if test="gradeOrderId != null" >
+          and grade_id = #{gradeOrderId}
+        </if>
+        <if test="normgradeorageflag!=null">
+            and #{age} between agemin and agemax
+        </if>
+	</select> 
+    <select id="getExamResultForNorm" resultType="com.njpes.www.entity.scaletoollib.ExamResultForNorm" parameterType="java.util.Map" >
+        select eds.realgradeid,es.csrq,es.gender,es.dim_score from examresult_student es
+        left join examdo_student eds on eds.id = es.id
+        where es.scale_id = #{scaleid} 
+        <if test="orglevel==3">
+            and eds.cityid=#{cityid}
+        </if>
+        <if test="orglevel==4">
+            and eds.countyid=#{countyid}
+        </if>
+        <if test="orglevel==6">
+            and eds.orgid=#{orgid}
+        </if>
+   
+        and es.ok_time between #{starttime} and #{endtime}
+        union
+         select 14 realgradeid,et.csrq,et.gender,et.dim_score from examresult_teacher et
+        left join examdo_teacher ets on ets.id = et.id
+        where et.scale_id = #{scaleid} 
+        <if test="orglevel==3">
+            and ets.cityid=#{cityid}
+        </if>
+        <if test="orglevel==4">
+            and ets.countyid=#{countyid}
+        </if>
+        <if test="orglevel==6">
+            and ets.orgid=#{orgid}
+        </if>
+   
+        and et.ok_time between #{starttime} and #{endtime}
+    </select>
+    
+   <select id="getExamMhResultForNorm" resultType="java.util.Map" parameterType="java.util.Map">
+       
+        select eds.realgradeid,esmh.csrq,esmh.gender,esmh.dim_score from examresult_student_mh esmh
+        left join examresult_student es on esmh.id=es.id
+        left join examdo_student eds on eds.id = esmh.id
+        where esmh.scale_id = #{scaleid} 
+        <if test="orglevel==3">
+            and eds.cityid=#{cityid}
+        </if>
+        <if test="orglevel==4">
+            and eds.countyid=#{countyid}
+        </if>
+        <if test="orglevel==6">
+            and eds.orgid=#{orgid}
+        </if>
+        and es.ok_time between #{starttime} and #{endtime}
+	</select> 
+    
+    
+    
+    
+  <select id="getWarning" resultMap="WarningResult" parameterType="java.util.Map">
+	    SELECT * FROM scale_warning WHERE scale_id=#{scaleId} and wid=#{wid}
+	</select>
+	<select id="getWarningAndScoreGrade" resultMap="WarningAndScoreGradeResult" parameterType="java.util.Map">
+	    SELECT * FROM scale_warning WHERE scale_id=#{scaleId} and wid=#{wid}
+	</select>
+	<select id="getScoreGrade" resultMap="ScoreGradeResult"  parameterType="java.util.Map">
+	    SELECT * FROM scale_scoregrade WHERE scale_id=#{scaleId} and wid=#{wid}
+	</select>
+	<select id="getDimDescription" resultMap="DimDescriptionResult">
+	    SELECT * FROM scaledimexplain WHERE scaleid=#{scaleId} and wid=#{wid} and grade=#{grade} and (typeflag=#{typeFlag} or typeflag=0)
+	</select>
+	<select id="getMBTIDescription" resultMap="DimDescriptionResult">
+	    SELECT * FROM scaledimexplain WHERE scaleid=#{scaleId} and wid=#{wid} and (typeflag=#{typeFlag} or typeflag=0)
+	</select>    
+  <!-- shibin add for delete exam result -->
+  <delete id="deleteExamResult" parameterType="edutec.scale.exam.ExamResult" >
+    delete from ${table}
+    where user_id = #{userId,jdbcType=BIGINT} and scale_id=#{scaleId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteExamByResultID" parameterType="edutec.scale.exam.ExamResult" >
+    delete from ${table}
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteExamResultById" parameterType="java.lang.Long" >
+    delete from examresult_student
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <!-- 删除某一用户所有的测试相关记录  -->
+	<delete id="deleteExamResultByUserId" parameterType="java.util.Map">
+		DELETE 	FROM #{examResTable} WHERE user_id=#{userId}
+	</delete>
+	<delete id="deleteExamDoByUserId" parameterType="java.util.Map">
+		DELETE 	FROM #{examdoTable}  WHERE user_id=#{userId}
+	</delete>
+	<delete id="deleteExamDimByUserId" parameterType="java.util.Map">
+		DELETE 	FROM #{examDimTable} WHERE user_id=#{userId}
+	</delete>
+	<delete id="deleteExamMhDoByUserId" parameterType="java.util.Map">
+		DELETE 	FROM examdo_mental_health WHERE student_id=#{userId}
+	</delete>
+	<delete id="deleteExamMhDimByUserId" parameterType="java.util.Map">
+		delete from  `examresult_dim_mental_health` 
+		where EXISTS 
+		(select 1 from `examresult_student` 
+		where id=examresult_dim_mental_health.result_id and user_id=#{userId})
+	</delete>
+  <delete id="deleteTeaExamResultById" parameterType="java.lang.Long" >
+    delete from examresult_teacher
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  
+  <delete id="deleteTeaExamDimResultById" parameterType="java.lang.Long" >
+    delete from examresult_dim_teacher
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  
+  
+  <delete id="deleteExamDimResultById" parameterType="java.lang.Long" >
+		DELETE 	FROM examresult_dim_student WHERE result_id=#{id}
+  </delete>
+  
+  <delete id="deleteExamMhDimById" parameterType="java.lang.Long">
+		DELETE 	FROM examresult_dim_mental_health WHERE result_id=#{id}
+  </delete>
+ 
+  <insert id="insertExamResult" parameterType="edutec.scale.exam.ExamResult"  useGeneratedKeys="true" keyProperty="id">
+    insert into ${table} (
+    	<if test="userGradeOrderId!=-1"><include refid="Student_Column_List" /></if>
+		<if test="userGradeOrderId==-1"><include refid="Teacher_Column_List" /></if>
+	
+    ) 
+	values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT},#{userName},#{xmpy},#{mzm},#{sfzjh},#{csrq},#{userOrgId},#{xxmc}, #{scaleId,jdbcType=INTEGER},
+      #{testtype,jdbcType=INTEGER},#{okTime,jdbcType=TIMESTAMP}, #{startTime,jdbcType=TIMESTAMP}, #{warningGrade,jdbcType=INTEGER}, 
+      #{validVal,jdbcType=INTEGER}, #{individualScore,jdbcType=LONGVARCHAR}, 
+      #{questionScore,jdbcType=LONGVARCHAR}, #{dimScore,jdbcType=LONGVARCHAR} 
+      <if test="userGradeOrderId!=-1">,#{version,jdbcType=INTEGER}, #{threeAngleUUID,jdbcType=LONGVARCHAR},#{xh},#{xd},#{userGradeOrderId,jdbcType=INTEGER},#{nj},#{njmc},#{userClassId,jdbcType=INTEGER},#{bjmc}</if>
+      <if test="roleid!=-1">,#{roleid},#{gh}</if>,#{userGender},#{attrs})
+  </insert>
+  <insert id="insertExamResultBatch">
+    insert into ${table} (
+    	<if test="userGradeOrderId!=-1"><include refid="Student_Column_List" /></if>
+		<if test="userGradeOrderId==-1"><include refid="Teacher_Column_List" /></if>
+	
+    ) 
+	values
+	<foreach collection="list" item="item" index="index" separator="," >  
+	 (#{item.id,jdbcType=BIGINT}, #{item.userId,jdbcType=BIGINT},#{item.userName},#{item.xmpy},#{item.sfzjh},#{item.csrq},#{item.userOrgId},#{item.xxmc}, #{item.scaleId,jdbcType=INTEGER},
+      #{item.testtype,jdbcType=INTEGER},#{item.okTime,jdbcType=TIMESTAMP}, #{item.startTime,jdbcType=TIMESTAMP}, #{item.warningGrade,jdbcType=INTEGER}, 
+      #{item.validVal,jdbcType=INTEGER}, #{item.individualScore,jdbcType=LONGVARCHAR}, 
+      #{item.questionScore,jdbcType=LONGVARCHAR}, #{item.dimScore,jdbcType=LONGVARCHAR} 
+      <if test="userGradeOrderId!=-1">,#{item.version,jdbcType=INTEGER}, #{item.threeAngleUUID,jdbcType=LONGVARCHAR},#{item.xh},#{item.xd},#{item.userGradeOrderId,jdbcType=INTEGER},#{item.nj},#{item.njmc},#{item.userClassId,jdbcType=INTEGER},#{item.bjmc}</if>
+      <if test="roleid!=-1">,#{item.roleid},#{gh}</if>,#{item.userGender},#{item.attrs})
+      </foreach>
+  </insert>
+  
+  <insert id="insertExamMHResult" parameterType="edutec.scale.exam.ExamResult">
+      insert into examresult_student_mh (
+    	<include refid="Student_Column_List" />
+    )
+	values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT},#{userName},#{xmpy},#{mzm},#{sfzjh},#{csrq},#{userOrgId},#{xxmc},#{scaleId,jdbcType=INTEGER},#{testtype}, 
+      #{okTime,jdbcType=TIMESTAMP}, #{startTime,jdbcType=TIMESTAMP}, #{warningGrade,jdbcType=INTEGER}, 
+      #{validVal,jdbcType=INTEGER}, #{individualScore,jdbcType=LONGVARCHAR}, 
+      #{questionScore,jdbcType=LONGVARCHAR}, #{dimScore,jdbcType=LONGVARCHAR}
+      , #{version,jdbcType=INTEGER}, #{threeAngleUUID,jdbcType=LONGVARCHAR} 
+      ,#{xh},#{xd},#{userGradeOrderId,jdbcType=INTEGER},#{nj},#{njmc},#{userClassId,jdbcType=INTEGER},#{bjmc}
+      ,#{userGender},#{attrs})
+  </insert>
+  
+  <insert id="insertSelective" parameterType="edutec.scale.exam.ExamResult" >
+    insert into examresult_student
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="studentId != null" >
+        user_id,
+      </if>
+      <if test="scaleId != null" >
+        scale_id,
+      </if>
+      <if test="okTime != null" >
+        ok_time,
+      </if>
+      <if test="startTime != null" >
+        start_time,
+      </if>
+      <if test="warningGrade != null" >
+        warning_grade,
+      </if>
+      <if test="validVal != null" >
+        valid_val,
+      </if>
+      <if test="individualScore != null" >
+        individual_score,
+      </if>
+      <if test="questionScore != null" >
+        question_score,
+      </if>
+      <if test="dimScore != null" >
+        dim_score,
+      </if>
+      <if test="version != null" >
+        version,
+      </if>
+      <if test="sjssbm != null" >
+        sjssbm,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="studentId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="scaleId != null" >
+        #{scaleId,jdbcType=INTEGER},
+      </if>
+      <if test="okTime != null" >
+        #{okTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="warningGrade != null" >
+        #{warningGrade,jdbcType=INTEGER},
+      </if>
+      <if test="validVal != null" >
+        #{validVal,jdbcType=INTEGER},
+      </if>
+      <if test="individualScore != null" >
+        #{individualScore,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="questionScore != null" >
+        #{questionScore,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="dimScore != null" >
+        #{dimScore,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=INTEGER},
+      </if>
+      <if test="sjssbm != null" >
+        #{threeAngleUUID,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <insert id="insertExamDimResultMh" parameterType="edutec.scale.exam.ExamResult">
+		INSERT INTO  examresult_dim_mental_health
+			(result_id,scale_id,version,${dimTitles})
+		VALUES 
+			(#{id},#{scaleId},#{version},${dimStdValues})
+  </insert>
+  <insert id="insertExamDimResult" parameterType="edutec.scale.exam.ExamResult">
+		INSERT INTO  ${dimTable} 
+			(result_id,user_id,scale_id,org_id,gradeid,classid,gender,ok_time,${dimTitles})
+		VALUES 
+			(#{id},#{userId},#{scaleId},#{userOrgId},#{userGradeOrderId},#{userClassId},#{userGender},#{okTime},${dimValues})
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="edutec.scale.exam.ExamResult" >
+    update ${table}
+    <set >
+      <if test="studentId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="scaleId != null" >
+        scale_id = #{scaleId,jdbcType=INTEGER},
+      </if>
+      <if test="okTime != null" >
+        ok_time = #{okTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startTime != null" >
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="warningGrade != null" >
+        warning_grade = #{warningGrade,jdbcType=INTEGER},
+      </if>
+      <if test="validVal != null" >
+        valid_val = #{validVal,jdbcType=INTEGER},
+      </if>
+      <if test="individualScore != null" >
+        individual_score = #{individualScore,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="questionScore != null" >
+        question_score = #{questionScore,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="dimScore != null" >
+        dim_score = #{dimScore,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="version != null" >
+        version = #{version,jdbcType=INTEGER},
+      </if>
+      <if test="sjssbm != null" >
+        sjssbm = #{threeAngleUUID,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="edutec.scale.exam.ExamResult" >
+   update ${table}
+    set user_id = #{userId,jdbcType=BIGINT},
+      scale_id = #{scaleId,jdbcType=INTEGER},
+      ok_time = #{okTime,jdbcType=TIMESTAMP},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      warning_grade = #{warningGrade,jdbcType=INTEGER},
+      valid_val = #{validVal,jdbcType=INTEGER},
+      individual_score = #{individualScore,jdbcType=LONGVARCHAR},
+      question_score = #{questionScore,jdbcType=LONGVARCHAR},
+      dim_score = #{dimScore,jdbcType=LONGVARCHAR},
+      version = #{version,jdbcType=INTEGER},
+      sjssbm = #{threeAngleUUID,jdbcType=LONGVARCHAR} 
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateTeacherExamDoOk" parameterType="java.util.Map">
+		UPDATE  examdo_mental_health SET ok_time_t=CURRENT_TIMESTAMP WHERE result_id=#{userId}
+	</update>
+	<update id="updateParentExamDoOk" parameterType="java.util.Map">
+		UPDATE  examdo_mental_health SET ok_time_p=CURRENT_TIMESTAMP WHERE result_id=#{userId}
+	</update>
+	<update id="updateExamDoOk" parameterType="java.util.Map">
+		UPDATE ${table} SET ok_time=CURRENT_TIMESTAMP
+		WHERE user_id=#{userId} AND scale_id=#{scaleId}
+	</update>
+  <update id="updateResultId" parameterType="edutec.scale.exam.ExamResult">
+		UPDATE examdo_mental_health SET 
+			result_id=#{id}
+		WHERE 
+			student_id=#{userId}
+	</update>
+ <update id="updateExamResult" parameterType="java.util.Map">
+		update examresult_student set warning_grade=#{warning_grade} where id=#{id} 
+  </update>
+  <update id="updateDimScoreExamResult" parameterType="edutec.scale.exam.ExamResult">
+      update examresult_student set dim_score=#{dimScore} where id=#{id} 
+  </update>
+  <update id="updateDimScoreAndWarning" parameterType="Map">
+      update ${table} set dim_score=#{dimScore},warning_grade=#{warningGrade} where id=#{id} 
+  </update>
+  <insert id="updateExamDimResult" parameterType="edutec.scale.exam.ExamResult">
+		update  examresult_dim_student set 
+			(ok_time,${dimTitles})
+		VALUES 
+			(#{okTime},${dimValues})
+		where result_id=#{id}
+  </insert>
+  <select id="queryStuGroupStaticForSchool" parameterType="Map" resultType="Map">
+      select a.gender as xbm,count(a.gender)  as count from (SELECT es.user_id,es.gender, max(es.ok_time) from examresult_student es 
+      where es.orgid=#{orgid} and scale_id=#{scaleid} and es.njmc=#{njmc} and es.classid=#{bj} and es.ok_time BETWEEN #{starttime} and #{endtime} GROUP BY es.user_id ) a GROUP BY a.gender
+  </select>
+  <select id="queryStuGroupStaticForCounty" parameterType="Map" resultType="Map">
+      select a.gender as xbm,count(a.gender)  as count from (SELECT es.user_id,es.gender, max(es.ok_time) from examresult_student es 
+      left join examdo_student eds on eds.id = es.id
+      where eds.countyid=#{countyid} and es.orgid = #{orgid} and es.scale_id=#{scaleid} and es.njmc=#{njmc}  and es.ok_time BETWEEN #{starttime} and #{endtime} GROUP BY es.user_id ) a GROUP BY a.gender
+  </select>
+  <select id="queryStuGroupStaticForCity" parameterType="Map" resultType="Map">
+      select a.gender as xbm,count(a.gender)  as count from (SELECT es.user_id,es.gender, max(es.ok_time) from examresult_student es 
+      left join examdo_student eds on eds.id = es.id
+      where eds.countyid=#{countyid} and es.scale_id=#{scaleid} and es.njmc=#{njmc}  and es.ok_time BETWEEN #{starttime} and #{endtime} GROUP BY es.user_id ) a GROUP BY a.gender
+  </select>
+  <select id="queryStuGroupStaticForCitySubSchool" parameterType="Map" resultType="Map">
+      select a.gender as xbm,count(a.gender)  as count from (SELECT es.user_id,es.gender, max(es.ok_time) from examresult_student es 
+      where es.orgid=#{orgid} and es.scale_id=#{scaleid} and es.njmc=#{njmc}  and es.ok_time BETWEEN #{starttime} and #{endtime} GROUP BY es.user_id ) a GROUP BY a.gender
+  </select>
+  
+  
+  <select id="queryTeaGroupStaticForSchool" parameterType="Map" resultType="Map">
+      select a.gender as xbm,count(a.gender)  as count from (SELECT es.user_id,es.gender, max(es.ok_time) from examresult_teacher es 
+      where es.orgid=#{orgid} and scale_id=#{scaleid}
+      <if test="roleid>0"> 
+      	and es.roleid=#{roleid} 
+      </if>
+      and es.ok_time BETWEEN #{starttime} and #{endtime} GROUP BY es.user_id ) a GROUP BY a.gender
+  </select>
+  <select id="queryTeaGroupStaticForCounty" parameterType="Map" resultType="Map">
+      select a.gender as xbm,count(a.gender)  as count from (SELECT es.user_id,es.gender, max(es.ok_time) from examresult_teacher es 
+      left join examdo_teacher eds on eds.id = es.id
+      where eds.countyid=#{countyid} and es.orgid = #{orgid} and es.scale_id=#{scaleid} 
+       <if test="roleid>0"> 
+     	 and es.roleid=#{roleid}  
+      </if>
+      and es.ok_time BETWEEN #{starttime} and #{endtime} GROUP BY es.user_id ) a GROUP BY a.gender
+  </select>
+  <select id="queryTeaGroupStaticForCity" parameterType="Map" resultType="Map">
+      select a.gender as xbm,count(a.gender)  as count from (SELECT es.user_id,es.gender, max(es.ok_time) from examresult_teacher es 
+      left join examdo_teacher eds on eds.id = es.id
+      where eds.countyid=#{countyid} and es.scale_id=#{scaleid} 
+       <if test="roleid>0"> 
+      	and es.roleid=#{roleid}  
+      </if>
+      and es.ok_time BETWEEN #{starttime} and #{endtime} GROUP BY es.user_id ) a GROUP BY a.gender
+  </select>
+  <select id="queryTeaGroupStaticForCitySubSchool" parameterType="Map" resultType="Map">
+      select a.gender as xbm,count(a.gender)  as count from (SELECT es.user_id,es.gender, max(es.ok_time) from examresult_teacher es 
+      where es.orgid=#{orgid} and es.scale_id=#{scaleid} 
+       <if test="roleid>0"> 
+      	and es.roleid=#{roleid} 
+      </if>
+       and es.ok_time BETWEEN #{starttime} and #{endtime} GROUP BY es.user_id ) a GROUP BY a.gender
+  </select>
+  
+  <select id="getDimWarningAndGradeStore" parameterType="Map" resultType="edutec.group.domain.DimWarningAndGradeStore">
+      select id,dim_score,question_score from ${table}
+      where scale_id = #{scaleid}
+  </select>
+ <!--  <select id="getRoleListForSchool" parameterType="Map" resultType="Map">
+      select distinct roleid,rolename from examdo_teacher where scale_id=#{scaleid} and orgid=#{orgid} 
+  </select>
+  <select id="getRoleListForCounty" parameterType="Map" resultType="Map">
+      select distinct et.roleid,et.rolename from examdo_teacher et 
+      left join orgazinaztion og on og.id = et.orgid 
+       where et.scale_id=#{scaleid} and et.countyid=#{countyid} and og.orglevel=6 
+  </select>
+  <select id="getRoleListForCity" parameterType="Map" resultType="Map">
+      select distinct et.roleid,et.rolename from examdo_teacher et
+       left join orgazinaztion og on og.id = et.orgid 
+        where et.scale_id=#{scaleid} and et.cityid=#{countyid} and og.orglevel=6 
+  </select>
+  <select id="getRoleListForSubSchool" parameterType="Map" resultType="Map">
+      select distinct et.roleid,et.rolename from examdo_teacher et
+       left join orgazinaztion og on og.id = et.orgid 
+        where et.scale_id=#{scaleid} and et.orgid=#{orgid} and og.orglevel=4 
+  </select>-->
+</mapper>

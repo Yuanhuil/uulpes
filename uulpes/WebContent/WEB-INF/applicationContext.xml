@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		 http://www.springframework.org/schema/aop 
+		 http://www.springframework.org/schema/aop/spring-aop.xsd">
+<!-- 自动扫描controller包下的所有类，使其认为spring mvc的控制器 -->
+	<!-- <context:component-scan base-package="com.njpes.www.*" /> -->
+	<context:component-scan base-package="*" />
+	<context:property-placeholder location="classpath:resource/resources.properties,classpath:resource/jdbc.properties" />  
+	<aop:config proxy-target-class="true"/>
+	<bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean"/>
+	
+	<bean id="applicationCfg" class="heracles.web.config.ApplicationConfiguration"
+		factory-method="getInstance">
+	</bean>
+	<!-- 引入mybatis配置文件 -->
+	<import resource="config/mybatis-config.xml" />
+	<!-- 引入shiro配置文件 -->
+	<import resource="config/shiro-config.xml" />
+	
+	<import resource="config/cache-config.xml" />
+	<!-- 引入工具库配置文件 -->
+	 <!-- <import resource="config/scaletoollib-config.xml" /> -->
+</beans>

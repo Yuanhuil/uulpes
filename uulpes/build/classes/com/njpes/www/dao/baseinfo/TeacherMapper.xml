@@ -1,0 +1,1176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.njpes.www.dao.baseinfo.TeacherMapper">
+  <resultMap id="BaseResultMap" type="com.njpes.www.entity.baseinfo.Teacher">
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="xxmc" property="xxmc" jdbcType="VARCHAR" />
+    <result column="schoolid" property="schoolid" jdbcType="BIGINT" />
+    <result column="gh" property="gh" jdbcType="VARCHAR" />
+    <result column="xm" property="xm" jdbcType="VARCHAR" />
+    <result column="ywxm" property="ywxm" jdbcType="VARCHAR" />
+    <result column="xmpy" property="xmpy" jdbcType="VARCHAR" />
+    <result column="cym" property="cym" jdbcType="VARCHAR" />
+    <result column="xbm" property="xbm" jdbcType="VARCHAR" />
+    <result column="csrq" property="csrq" jdbcType="VARCHAR" />
+    <result column="csdm" property="csdm" jdbcType="VARCHAR" />
+    <result column="jg" property="jg" jdbcType="VARCHAR" />
+    <result column="mzm" property="mzm" jdbcType="VARCHAR" />
+    <result column="gjdqm" property="gjdqm" jdbcType="VARCHAR" />
+    <result column="sfzjlxm" property="sfzjlxm" jdbcType="VARCHAR" />
+    <result column="sfzjh" property="sfzjh" jdbcType="VARCHAR" />
+    <result column="hyzkm" property="hyzkm" jdbcType="VARCHAR" />
+    <result column="gatqwm" property="gatqwm" jdbcType="VARCHAR" />
+    <result column="zzmmm" property="zzmmm" jdbcType="VARCHAR" />
+    <result column="jkzkm" property="jkzkm" jdbcType="VARCHAR" />
+    <result column="xyzjm" property="xyzjm" jdbcType="VARCHAR" />
+    <result column="xxm" property="xxm" jdbcType="VARCHAR" />
+    <result column="sfzjyxq" property="sfzjyxq" jdbcType="VARCHAR" />
+    <result column="jgh" property="jgh" jdbcType="VARCHAR" />
+    <result column="jtzz" property="jtzz" jdbcType="VARCHAR" />
+    <result column="xzz" property="xzz" jdbcType="VARCHAR" />
+    <result column="hkszd" property="hkszd" jdbcType="VARCHAR" />
+    <result column="hkxzm" property="hkxzm" jdbcType="VARCHAR" />
+    <result column="xlm" property="xlm" jdbcType="VARCHAR" />
+    <result column="gzny" property="gzny" jdbcType="VARCHAR" />
+    <result column="lxny" property="lxny" jdbcType="VARCHAR" />
+    <result column="cjny" property="cjny" jdbcType="VARCHAR" />
+    <result column="bzlbm" property="bzlbm" jdbcType="VARCHAR" />
+    <result column="dabh" property="dabh" jdbcType="VARCHAR" />
+    <result column="txdz" property="txdz" jdbcType="VARCHAR" />
+    <result column="lxdh" property="lxdh" jdbcType="VARCHAR" />
+    <result column="yzbm" property="yzbm" jdbcType="VARCHAR" />
+    <result column="dzxx" property="dzxx" jdbcType="VARCHAR" />
+    <result column="zydz" property="zydz" jdbcType="VARCHAR" />
+    <result column="gwzym" property="gwzym" jdbcType="VARCHAR" />
+    <result column="zyrkxd" property="zyrkxd" jdbcType="VARCHAR" />
+    <result column="account_id" property="accountId" jdbcType="BIGINT" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="bjxx" property="bjxx" jdbcType="LONGVARCHAR" />
+    <result column="sexname" property="sexname" jdbcType="VARCHAR" />
+    <collection property="teacherAuthList" ofType="com.njpes.www.entity.baseinfo.Auth">
+      <id column="auth_id" property="id" jdbcType="BIGINT" />
+      <result column="org_id" property="orgId" jdbcType="BIGINT" />
+      <result column="role_id" property="roleId" jdbcType="BIGINT" />
+      <result column="rolename" property="rolename" jdbcType="VARCHAR" />
+      <result column="user_id" property="userId" jdbcType="BIGINT" />
+      <result column="auth_type" property="authType" jdbcType="VARCHAR" />
+    </collection>
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs"
+    type="com.njpes.www.entity.baseinfo.TeacherWithBLOBs" extends="BaseResultMap">
+    <!-- WARNING - @mbggenerated This element is automatically generated
+      by MyBatis Generator, do not modify. This element was generated on Fri May
+      01 23:24:34 CST 2015. -->
+    <result column="zp" property="zp" jdbcType="LONGVARBINARY" />
+    <result column="dawb" property="dawb" jdbcType="LONGVARCHAR" />
+    <result column="tc" property="tc" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Teacher_id">
+    t.id
+  </sql>
+  <sql id="Teacher_SchoolName">
+    o.name as xxmc
+  </sql>
+  <sql id="Teacher_RoleName">
+    r.role_name as rolename
+  </sql>
+  <sql id="Base_Column_List">
+    <!-- WARNING - @mbggenerated This element is automatically generated
+      by MyBatis Generator, do not modify. This element was generated on Fri May
+      01 23:24:34 CST 2015. -->
+    t.gh, t.xm, t.ywxm, t.xmpy, t.cym, t.xbm, t.csrq, t.csdm, t.jg,
+    t.mzm, t.gjdqm, t.sfzjlxm, t.sfzjh, t.hyzkm,
+    t.gatqwm, t.zzmmm, t.jkzkm, t.xyzjm, t.xxm, t.sfzjyxq, t.jgh, t.jtzz, t.xzz,
+    t.hkszd, t.hkxzm, t.xlm, t.gzny,
+    t.lxny, t.cjny, t.bzlbm, t.dabh, t.txdz, t.lxdh, t.yzbm, t.dzxx, t.zydz,
+    t.gwzym, t.zyrkxd
+  </sql>
+  <sql id="Blob_Column_List">
+    <!-- WARNING - @mbggenerated This element is automatically generated
+      by MyBatis Generator, do not modify. This element was generated on Fri May
+      01 23:24:34 CST 2015. -->
+    zp, dawb, tc
+  </sql>
+  <sql id="Teacher_ext_Column_list">
+    t.account_id,t.bjxx
+  </sql>
+  <sql id="Auth_Column_list">
+    a.id as auth_id,a.org_id,a.role_id,a.auth_type,a.user_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs"
+    parameterType="java.lang.Long">
+    <!-- WARNING - @mbggenerated This element is automatically generated
+      by MyBatis Generator, do not modify. This element was generated on Fri May
+      01 23:24:34 CST 2015. -->
+    select
+    <include refid="Teacher_id" />
+    ,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Teacher_RoleName" />
+    ,
+    <include refid="Blob_Column_List" />
+    ,
+    <include refid="Teacher_ext_Column_list"></include>
+    ,
+    <include refid="Auth_Column_list"></include>
+    ,a.org_id as schoolid,sch.xxmc as xxmc,t.zp as zp
+    from teacher t
+    left join auth a on a.user_id = t.account_id
+    left join role r on r.id =a.role_id
+    left join school sch on sch.orgid=a.org_id
+    where t.id =#{id,jdbcType=BIGINT}
+  </select>
+  <!-- 根据机构号，班级id获得班主任id -->
+  <select id="getBzrId" resultType="int" parameterType="Map">
+    select tea.id from school sch
+    join class cla on sch.xxdm = cla.xxdm
+    join teacher tea on tea.gh=cla.bzrgh
+    where
+    1=1
+    <if test="#{orgid}!=null">
+      and sch.orgid=#{orgid}
+    </if>
+    <if test="#{bj}!=null">
+      and cla.id=#{bj}
+    </if>
+  </select>
+  <!-- <select id="getBzrByStudentId" resultType="int" parameterType="long">
+    select * from student stu join class cla on stu.bh=cla.bh join school sch
+    on sch.xxdm = cla.xxdm join teacher tea on tea.gh=cla.bzrgh where stu.id=#{studentId}
+    </select> -->
+  <select id="getBasicTeachers" resultType="Map" parameterType="Map">
+    select DISTINCT t.id userid,r.id roleid,r.role_name rolename
+    from auth a
+    left join role r on r.id = a.role_id
+    left join teacher t on a.user_id = t.account_id
+    WHERE 1=1
+    <if test="orgid!=null">
+      and a.org_id = #{orgid}
+    </if>
+    <if test="roleid!=null and roleid!=''">
+      and a.role_id = #{roleid}
+    </if>
+    <if test="roleids!=null">
+      and a.role_id in
+      <foreach item="item" index="index" collection="roleids"
+        open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+    order by t.id
+  </select>
+
+  <select id="getTeacherByAccountId" resultMap="ResultMapWithBLOBs"
+    parameterType="java.lang.Long">
+    select
+    <include refid="Teacher_id" />
+    ,
+    <include refid="Teacher_SchoolName" />
+    ,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    ,
+    <include refid="Teacher_ext_Column_list"></include>
+    ,
+    <include refid="Auth_Column_list"></include>
+    from teacher t
+    left join auth a on a.user_id = t.account_id
+    left join organization o on o.id=a.org_id
+    left join role r on r.id=a.role_id
+    where t.account_id =#{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="getTeacherByIdentify" resultMap="ResultMapWithBLOBs"
+    parameterType="java.lang.String">
+    select
+    <include refid="Teacher_id" />
+    ,
+    <include refid="Teacher_SchoolName" />
+    ,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    ,
+    <include refid="Teacher_ext_Column_list"></include>
+    ,
+    <include refid="Auth_Column_list"></include>
+    from teacher t
+    left join auth a on a.user_id = t.account_id
+    left join organization o on o.id=a.org_id
+    where t.sfzjh = #{sfzjh,jdbcType=VARCHAR}
+  </select>
+  <!-- ================teachers========================= <select id="getTeachers"
+    resultMap="BaseResultMap" parameterType="Map"> select a.id AS objectIdentifier,
+    a.account_sn AS accountSn, a.name, a.gender, a.org_id AS orgId, a.grade_order_id
+    AS gradeOrderId, a.class_id AS classId, a.role_flag AS flag, c.username AS
+    username from teacher a, account c WHERE a.id=c.user_id <include refid="org_where_fragment"
+    /> <include refid="role_where_fragment" /> <include refid="other_where_fragment"
+    /> <if test="#{username}!=null"> c.username like '%$username$%' </if> <if
+    test="#{limit}!=null"> $limit$ </if> </select> -->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!-- WARNING - @mbggenerated This element is automatically generated
+      by MyBatis Generator, do not modify. This element was generated on Fri May
+      01 23:24:34 CST 2015. -->
+    delete from teacher where id = #{id,jdbcType=BIGINT};
+  </delete>
+  <insert id="insert" parameterType="com.njpes.www.entity.baseinfo.TeacherWithBLOBs"
+    useGeneratedKeys="true" keyProperty="id">
+    <!-- WARNING - @mbggenerated This element is automatically generated
+      by MyBatis Generator, do not modify. This element was generated on Fri May
+      01 23:24:34 CST 2015. -->
+    insert into teacher (id, gh, xm, ywxm,
+    xmpy, cym, xbm, csrq,
+    csdm, jg, mzm, gjdqm,
+    sfzjlxm, sfzjh, hyzkm,
+    gatqwm, zzmmm, jkzkm,
+    xyzjm, xxm, sfzjyxq,
+    jgh, jtzz, xzz, hkszd,
+    hkxzm, xlm, gzny, lxny,
+    cjny, bzlbm, dabh,
+    txdz, lxdh, yzbm, dzxx,
+    zydz, gwzym, zyrkxd,
+    zp, dawb, tc,account_id,bjxx
+    )
+    values (#{id,jdbcType=BIGINT}, #{gh,jdbcType=VARCHAR},
+    #{xm,jdbcType=VARCHAR}, #{ywxm,jdbcType=VARCHAR},
+    #{xmpy,jdbcType=VARCHAR}, #{cym,jdbcType=VARCHAR},
+    #{xbm,jdbcType=VARCHAR}, #{csrq,jdbcType=VARCHAR},
+    #{csdm,jdbcType=VARCHAR}, #{jg,jdbcType=VARCHAR},
+    #{mzm,jdbcType=VARCHAR}, #{gjdqm,jdbcType=VARCHAR},
+    #{sfzjlxm,jdbcType=VARCHAR}, #{sfzjh,jdbcType=VARCHAR},
+    #{hyzkm,jdbcType=VARCHAR},
+    #{gatqwm,jdbcType=VARCHAR}, #{zzmmm,jdbcType=VARCHAR}, #{jkzkm,jdbcType=VARCHAR},
+    #{xyzjm,jdbcType=VARCHAR}, #{xxm,jdbcType=VARCHAR},
+    #{sfzjyxq,jdbcType=VARCHAR},
+    #{jgh,jdbcType=VARCHAR}, #{jtzz,jdbcType=VARCHAR}, #{xzz,jdbcType=VARCHAR},
+    #{hkszd,jdbcType=VARCHAR},
+    #{hkxzm,jdbcType=VARCHAR}, #{xlm,jdbcType=VARCHAR}, #{gzny,jdbcType=VARCHAR},
+    #{lxny,jdbcType=VARCHAR},
+    #{cjny,jdbcType=VARCHAR}, #{bzlbm,jdbcType=VARCHAR}, #{dabh,jdbcType=VARCHAR},
+    #{txdz,jdbcType=VARCHAR}, #{lxdh,jdbcType=VARCHAR},
+    #{yzbm,jdbcType=VARCHAR}, #{dzxx,jdbcType=VARCHAR},
+    #{zydz,jdbcType=VARCHAR}, #{gwzym,jdbcType=VARCHAR},
+    #{zyrkxd,jdbcType=VARCHAR},
+    #{zp,jdbcType=LONGVARBINARY}, #{dawb,jdbcType=LONGVARCHAR},
+    #{tc,jdbcType=LONGVARCHAR},#{accountId,jdbcType=BIGINT}
+    ,#{bjxx,jdbcType=LONGVARCHAR});
+  </insert>
+  <insert id="insertSelective" parameterType="com.njpes.www.entity.baseinfo.TeacherWithBLOBs"
+    useGeneratedKeys="true" keyProperty="id">
+    <!-- WARNING - @mbggenerated This element is automatically generated
+      by MyBatis Generator, do not modify. This element was generated on Fri May
+      01 23:24:34 CST 2015. -->
+    insert into teacher
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="gh != null">
+        gh,
+      </if>
+      <if test="xm != null">
+        xm,
+      </if>
+      <if test="ywxm != null">
+        ywxm,
+      </if>
+      <if test="xmpy != null">
+        xmpy,
+      </if>
+      <if test="cym != null">
+        cym,
+      </if>
+      <if test="xbm != null">
+        xbm,
+      </if>
+      <if test="csrq != null">
+        csrq,
+      </if>
+      <if test="csdm != null">
+        csdm,
+      </if>
+      <if test="jg != null">
+        jg,
+      </if>
+      <if test="mzm != null">
+        mzm,
+      </if>
+      <if test="gjdqm != null">
+        gjdqm,
+      </if>
+      <if test="sfzjlxm != null">
+        sfzjlxm,
+      </if>
+      <if test="sfzjh != null">
+        sfzjh,
+      </if>
+      <if test="hyzkm != null">
+        hyzkm,
+      </if>
+      <if test="gatqwm != null">
+        gatqwm,
+      </if>
+      <if test="zzmmm != null">
+        zzmmm,
+      </if>
+      <if test="jkzkm != null">
+        jkzkm,
+      </if>
+      <if test="xyzjm != null">
+        xyzjm,
+      </if>
+      <if test="xxm != null">
+        xxm,
+      </if>
+      <if test="sfzjyxq != null">
+        sfzjyxq,
+      </if>
+      <if test="jgh != null">
+        jgh,
+      </if>
+      <if test="jtzz != null">
+        jtzz,
+      </if>
+      <if test="xzz != null">
+        xzz,
+      </if>
+      <if test="hkszd != null">
+        hkszd,
+      </if>
+      <if test="hkxzm != null">
+        hkxzm,
+      </if>
+      <if test="xlm != null">
+        xlm,
+      </if>
+      <if test="gzny != null">
+        gzny,
+      </if>
+      <if test="lxny != null">
+        lxny,
+      </if>
+      <if test="cjny != null">
+        cjny,
+      </if>
+      <if test="bzlbm != null">
+        bzlbm,
+      </if>
+      <if test="dabh != null">
+        dabh,
+      </if>
+      <if test="txdz != null">
+        txdz,
+      </if>
+      <if test="lxdh != null">
+        lxdh,
+      </if>
+      <if test="yzbm != null">
+        yzbm,
+      </if>
+      <if test="dzxx != null">
+        dzxx,
+      </if>
+      <if test="zydz != null">
+        zydz,
+      </if>
+      <if test="gwzym != null">
+        gwzym,
+      </if>
+      <if test="zyrkxd != null">
+        zyrkxd,
+      </if>
+      <if test="zp != null">
+        zp,
+      </if>
+      <if test="dawb != null">
+        dawb,
+      </if>
+      <if test="tc != null">
+        tc,
+      </if>
+      <if test="accountId != null">
+        account_id,
+      </if>
+      <if test="bjxx != null">
+        bjxx,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="gh != null">
+        #{gh,jdbcType=VARCHAR},
+      </if>
+      <if test="xm != null">
+        #{xm,jdbcType=VARCHAR},
+      </if>
+      <if test="ywxm != null">
+        #{ywxm,jdbcType=VARCHAR},
+      </if>
+      <if test="xmpy != null">
+        #{xmpy,jdbcType=VARCHAR},
+      </if>
+      <if test="cym != null">
+        #{cym,jdbcType=VARCHAR},
+      </if>
+      <if test="xbm != null">
+        #{xbm,jdbcType=VARCHAR},
+      </if>
+      <if test="csrq != null">
+        #{csrq,jdbcType=VARCHAR},
+      </if>
+      <if test="csdm != null">
+        #{csdm,jdbcType=VARCHAR},
+      </if>
+      <if test="jg != null">
+        #{jg,jdbcType=VARCHAR},
+      </if>
+      <if test="mzm != null">
+        #{mzm,jdbcType=VARCHAR},
+      </if>
+      <if test="gjdqm != null">
+        #{gjdqm,jdbcType=VARCHAR},
+      </if>
+      <if test="sfzjlxm != null">
+        #{sfzjlxm,jdbcType=VARCHAR},
+      </if>
+      <if test="sfzjh != null">
+        #{sfzjh,jdbcType=VARCHAR},
+      </if>
+      <if test="hyzkm != null">
+        #{hyzkm,jdbcType=VARCHAR},
+      </if>
+      <if test="gatqwm != null">
+        #{gatqwm,jdbcType=VARCHAR},
+      </if>
+      <if test="zzmmm != null">
+        #{zzmmm,jdbcType=VARCHAR},
+      </if>
+      <if test="jkzkm != null">
+        #{jkzkm,jdbcType=VARCHAR},
+      </if>
+      <if test="xyzjm != null">
+        #{xyzjm,jdbcType=VARCHAR},
+      </if>
+      <if test="xxm != null">
+        #{xxm,jdbcType=VARCHAR},
+      </if>
+      <if test="sfzjyxq != null">
+        #{sfzjyxq,jdbcType=VARCHAR},
+      </if>
+      <if test="jgh != null">
+        #{jgh,jdbcType=VARCHAR},
+      </if>
+      <if test="jtzz != null">
+        #{jtzz,jdbcType=VARCHAR},
+      </if>
+      <if test="xzz != null">
+        #{xzz,jdbcType=VARCHAR},
+      </if>
+      <if test="hkszd != null">
+        #{hkszd,jdbcType=VARCHAR},
+      </if>
+      <if test="hkxzm != null">
+        #{hkxzm,jdbcType=VARCHAR},
+      </if>
+      <if test="xlm != null">
+        #{xlm,jdbcType=VARCHAR},
+      </if>
+      <if test="gzny != null">
+        #{gzny,jdbcType=VARCHAR},
+      </if>
+      <if test="lxny != null">
+        #{lxny,jdbcType=VARCHAR},
+      </if>
+      <if test="cjny != null">
+        #{cjny,jdbcType=VARCHAR},
+      </if>
+      <if test="bzlbm != null">
+        #{bzlbm,jdbcType=VARCHAR},
+      </if>
+      <if test="dabh != null">
+        #{dabh,jdbcType=VARCHAR},
+      </if>
+      <if test="txdz != null">
+        #{txdz,jdbcType=VARCHAR},
+      </if>
+      <if test="lxdh != null">
+        #{lxdh,jdbcType=VARCHAR},
+      </if>
+      <if test="yzbm != null">
+        #{yzbm,jdbcType=VARCHAR},
+      </if>
+      <if test="dzxx != null">
+        #{dzxx,jdbcType=VARCHAR},
+      </if>
+      <if test="zydz != null">
+        #{zydz,jdbcType=VARCHAR},
+      </if>
+      <if test="gwzym != null">
+        #{gwzym,jdbcType=VARCHAR},
+      </if>
+      <if test="zyrkxd != null">
+        #{zyrkxd,jdbcType=VARCHAR},
+      </if>
+      <if test="zp != null">
+        #{zp,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="dawb != null">
+        #{dawb,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="tc != null">
+        #{tc,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="accountId != null">
+        #{accountId,jdbcType=BIGINT},
+      </if>
+      <if test="bjxx != null">
+        #{bjxx,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <!-- 批量插入 -->
+  <insert id="insertBatch" useGeneratedKeys="true" parameterType="java.util.List">
+    <!-- WARNING - @mbggenerated This element is automatically generated
+      by MyBatis Generator, do not modify. This element was generated on Fri May
+      01 17:08:16 CST 2015. -->
+    <selectKey resultType="long" keyProperty="id" order="AFTER">
+      SELECT
+      LAST_INSERT_ID()
+    </selectKey>
+    insert into teacher (gh, xm, ywxm,
+    xmpy, cym, xbm, csrq,
+    csdm, jg, mzm, gjdqm,
+    sfzjlxm, sfzjh, hyzkm,
+    gatqwm, zzmmm, jkzkm,
+    xyzjm, xxm, sfzjyxq,
+    jgh, jtzz, xzz, hkszd,
+    hkxzm, xlm, gzny, lxny,
+    cjny, bzlbm, dabh,
+    txdz, lxdh, yzbm, dzxx,
+    zydz, gwzym, zyrkxd,
+    zp, dawb, tc,account_id,bjxx
+    )
+    values
+    <foreach collection="list" item="item" index="index"
+      separator=",">
+      (#{item.gh,jdbcType=VARCHAR}, #{item.xm,jdbcType=VARCHAR}, #{item.ywxm,jdbcType=VARCHAR},
+      #{item.xmpy,jdbcType=VARCHAR}, #{item.cym,jdbcType=VARCHAR},
+      #{item.xbm,jdbcType=VARCHAR}, #{item.csrq,jdbcType=VARCHAR},
+      #{item.csdm,jdbcType=VARCHAR}, #{item.jg,jdbcType=VARCHAR},
+      #{item.mzm,jdbcType=VARCHAR}, #{item.gjdqm,jdbcType=VARCHAR},
+      #{item.sfzjlxm,jdbcType=VARCHAR}, #{item.sfzjh,jdbcType=VARCHAR},
+      #{item.hyzkm,jdbcType=VARCHAR},
+      #{item.gatqwm,jdbcType=VARCHAR}, #{item.zzmmm,jdbcType=VARCHAR}, #{item.jkzkm,jdbcType=VARCHAR},
+      #{item.xyzjm,jdbcType=VARCHAR}, #{item.xxm,jdbcType=VARCHAR},
+      #{item.sfzjyxq,jdbcType=VARCHAR},
+      #{item.jgh,jdbcType=VARCHAR}, #{item.jtzz,jdbcType=VARCHAR}, #{item.xzz,jdbcType=VARCHAR},
+      #{item.hkszd,jdbcType=VARCHAR},
+      #{item.hkxzm,jdbcType=VARCHAR}, #{item.xlm,jdbcType=VARCHAR}, #{item.gzny,jdbcType=VARCHAR},
+      #{item.lxny,jdbcType=VARCHAR},
+      #{item.cjny,jdbcType=VARCHAR}, #{item.bzlbm,jdbcType=VARCHAR}, #{item.dabh,jdbcType=VARCHAR},
+      #{item.txdz,jdbcType=VARCHAR}, #{item.lxdh,jdbcType=VARCHAR},
+      #{item.yzbm,jdbcType=VARCHAR}, #{item.dzxx,jdbcType=VARCHAR},
+      #{item.zydz,jdbcType=VARCHAR}, #{item.gwzym,jdbcType=VARCHAR},
+      #{item.zyrkxd,jdbcType=VARCHAR},
+      #{item.zp,jdbcType=LONGVARBINARY},
+      #{item.dawb,jdbcType=LONGVARCHAR},
+      #{item.tc,jdbcType=LONGVARCHAR},#{item.accountId,jdbcType=BIGINT}
+      ,#{item.bjxx,jdbcType=LONGVARCHAR})
+    </foreach>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.njpes.www.entity.baseinfo.TeacherWithBLOBs">
+    <!-- WARNING - @mbggenerated This element is automatically generated
+      by MyBatis Generator, do not modify. This element was generated on Fri May
+      01 23:24:34 CST 2015. -->
+    update teacher
+    <set>
+      <if test="gh != null">
+        gh = #{gh,jdbcType=VARCHAR},
+      </if>
+      <if test="xm != null">
+        xm = #{xm,jdbcType=VARCHAR},
+      </if>
+      <if test="ywxm != null">
+        ywxm = #{ywxm,jdbcType=VARCHAR},
+      </if>
+      <if test="xmpy != null">
+        xmpy = #{xmpy,jdbcType=VARCHAR},
+      </if>
+      <if test="cym != null">
+        cym = #{cym,jdbcType=VARCHAR},
+      </if>
+      <if test="xbm != null">
+        xbm = #{xbm,jdbcType=VARCHAR},
+      </if>
+      <if test="csrq != null">
+        csrq = #{csrq,jdbcType=VARCHAR},
+      </if>
+      <if test="csdm != null">
+        csdm = #{csdm,jdbcType=VARCHAR},
+      </if>
+      <if test="jg != null">
+        jg = #{jg,jdbcType=VARCHAR},
+      </if>
+      <if test="mzm != null">
+        mzm = #{mzm,jdbcType=VARCHAR},
+      </if>
+      <if test="gjdqm != null">
+        gjdqm = #{gjdqm,jdbcType=VARCHAR},
+      </if>
+      <if test="sfzjlxm != null">
+        sfzjlxm =#{sfzjlxm,jdbcType=VARCHAR},
+      </if>
+      <if test="sfzjh != null">
+        sfzjh = #{sfzjh,jdbcType=VARCHAR},
+      </if>
+      <if test="hyzkm != null">
+        hyzkm = #{hyzkm,jdbcType=VARCHAR},
+      </if>
+      <if test="gatqwm != null">
+        gatqwm = #{gatqwm,jdbcType=VARCHAR},
+      </if>
+      <if test="zzmmm != null">
+        zzmmm = #{zzmmm,jdbcType=VARCHAR},
+      </if>
+      <if test="jkzkm != null">
+        jkzkm = #{jkzkm,jdbcType=VARCHAR},
+      </if>
+      <if test="xyzjm != null">
+        xyzjm = #{xyzjm,jdbcType=VARCHAR},
+      </if>
+      <if test="xxm != null">
+        xxm = #{xxm,jdbcType=VARCHAR},
+      </if>
+      <if test="sfzjyxq != null">
+        sfzjyxq =#{sfzjyxq,jdbcType=VARCHAR},
+      </if>
+      <if test="jgh != null">
+        jgh = #{jgh,jdbcType=VARCHAR},
+      </if>
+      <if test="jtzz != null">
+        jtzz = #{jtzz,jdbcType=VARCHAR},
+      </if>
+      <if test="xzz != null">
+        xzz = #{xzz,jdbcType=VARCHAR},
+      </if>
+      <if test="hkszd != null">
+        hkszd = #{hkszd,jdbcType=VARCHAR},
+      </if>
+      <if test="hkxzm != null">
+        hkxzm = #{hkxzm,jdbcType=VARCHAR},
+      </if>
+      <if test="xlm != null">
+        xlm = #{xlm,jdbcType=VARCHAR},
+      </if>
+      <if test="gzny != null">
+        gzny = #{gzny,jdbcType=VARCHAR},
+      </if>
+      <if test="lxny != null">
+        lxny = #{lxny,jdbcType=VARCHAR},
+      </if>
+      <if test="cjny != null">
+        cjny = #{cjny,jdbcType=VARCHAR},
+      </if>
+      <if test="bzlbm != null">
+        bzlbm = #{bzlbm,jdbcType=VARCHAR},
+      </if>
+      <if test="dabh != null">
+        dabh = #{dabh,jdbcType=VARCHAR},
+      </if>
+      <if test="txdz != null">
+        txdz = #{txdz,jdbcType=VARCHAR},
+      </if>
+      <if test="lxdh != null">
+        lxdh = #{lxdh,jdbcType=VARCHAR},
+      </if>
+      <if test="yzbm != null">
+        yzbm = #{yzbm,jdbcType=VARCHAR},
+      </if>
+      <if test="dzxx != null">
+        dzxx = #{dzxx,jdbcType=VARCHAR},
+      </if>
+      <if test="zydz != null">
+        zydz = #{zydz,jdbcType=VARCHAR},
+      </if>
+      <if test="gwzym != null">
+        gwzym = #{gwzym,jdbcType=VARCHAR},
+      </if>
+      <if test="zyrkxd != null">
+        zyrkxd = #{zyrkxd,jdbcType=VARCHAR},
+      </if>
+      <if test="zp != null">
+        zp = #{zp,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="dawb != null">
+        dawb = #{dawb,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="tc != null">
+        tc = #{tc,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="bjxx != null">
+        bjxx = #{bjxx,jdbcType=VARCHAR},
+      </if>
+      <if test="accountId != null">
+        account_id =#{accountId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.njpes.www.entity.baseinfo.TeacherWithBLOBs">
+    <!-- WARNING - @mbggenerated This element is automatically generated
+      by MyBatis Generator, do not modify. This element was generated on Fri May
+      01 23:24:34 CST 2015. -->
+    update teacher
+    set gh = #{gh,jdbcType=VARCHAR},
+    xm = #{xm,jdbcType=VARCHAR},
+    ywxm = #{ywxm,jdbcType=VARCHAR},
+    xmpy = #{xmpy,jdbcType=VARCHAR},
+    cym = #{cym,jdbcType=VARCHAR},
+    xbm = #{xbm,jdbcType=VARCHAR},
+    csrq = #{csrq,jdbcType=VARCHAR},
+    csdm = #{csdm,jdbcType=VARCHAR},
+    jg = #{jg,jdbcType=VARCHAR},
+    mzm = #{mzm,jdbcType=VARCHAR},
+    gjdqm = #{gjdqm,jdbcType=VARCHAR},
+    sfzjlxm = #{sfzjlxm,jdbcType=VARCHAR},
+    sfzjh = #{sfzjh,jdbcType=VARCHAR},
+    hyzkm = #{hyzkm,jdbcType=VARCHAR},
+    gatqwm = #{gatqwm,jdbcType=VARCHAR},
+    zzmmm = #{zzmmm,jdbcType=VARCHAR},
+    jkzkm = #{jkzkm,jdbcType=VARCHAR},
+    xyzjm = #{xyzjm,jdbcType=VARCHAR},
+    xxm = #{xxm,jdbcType=VARCHAR},
+    sfzjyxq = #{sfzjyxq,jdbcType=VARCHAR},
+    jgh = #{jgh,jdbcType=VARCHAR},
+    jtzz = #{jtzz,jdbcType=VARCHAR},
+    xzz = #{xzz,jdbcType=VARCHAR},
+    hkszd = #{hkszd,jdbcType=VARCHAR},
+    hkxzm = #{hkxzm,jdbcType=VARCHAR},
+    xlm = #{xlm,jdbcType=VARCHAR},
+    gzny = #{gzny,jdbcType=VARCHAR},
+    lxny = #{lxny,jdbcType=VARCHAR},
+    cjny = #{cjny,jdbcType=VARCHAR},
+    bzlbm = #{bzlbm,jdbcType=VARCHAR},
+    dabh = #{dabh,jdbcType=VARCHAR},
+    txdz = #{txdz,jdbcType=VARCHAR},
+    lxdh = #{lxdh,jdbcType=VARCHAR},
+    yzbm = #{yzbm,jdbcType=VARCHAR},
+    dzxx = #{dzxx,jdbcType=VARCHAR},
+    zydz = #{zydz,jdbcType=VARCHAR},
+    gwzym = #{gwzym,jdbcType=VARCHAR},
+    zyrkxd = #{zyrkxd,jdbcType=VARCHAR},
+    zp = #{zp,jdbcType=LONGVARBINARY},
+    dawb = #{dawb,jdbcType=LONGVARCHAR},
+    tc = #{tc,jdbcType=LONGVARCHAR},
+    account_id = #{accountId,jdbcType=BIGINT},
+    bjxx = #{bjxx,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.njpes.www.entity.baseinfo.Teacher">
+    <!-- WARNING - @mbggenerated This element is automatically generated
+      by MyBatis Generator, do not modify. This element was generated on Fri May
+      01 23:24:34 CST 2015. -->
+    update teacher
+    set gh = #{gh,jdbcType=VARCHAR},
+    xm = #{xm,jdbcType=VARCHAR},
+    ywxm = #{ywxm,jdbcType=VARCHAR},
+    xmpy = #{xmpy,jdbcType=VARCHAR},
+    cym = #{cym,jdbcType=VARCHAR},
+    xbm = #{xbm,jdbcType=VARCHAR},
+    csrq = #{csrq,jdbcType=VARCHAR},
+    csdm = #{csdm,jdbcType=VARCHAR},
+    jg = #{jg,jdbcType=VARCHAR},
+    mzm = #{mzm,jdbcType=VARCHAR},
+    gjdqm = #{gjdqm,jdbcType=VARCHAR},
+    sfzjlxm = #{sfzjlxm,jdbcType=VARCHAR},
+    sfzjh = #{sfzjh,jdbcType=VARCHAR},
+    hyzkm = #{hyzkm,jdbcType=VARCHAR},
+    gatqwm = #{gatqwm,jdbcType=VARCHAR},
+    zzmmm = #{zzmmm,jdbcType=VARCHAR},
+    jkzkm = #{jkzkm,jdbcType=VARCHAR},
+    xyzjm = #{xyzjm,jdbcType=VARCHAR},
+    xxm = #{xxm,jdbcType=VARCHAR},
+    sfzjyxq = #{sfzjyxq,jdbcType=VARCHAR},
+    jgh = #{jgh,jdbcType=VARCHAR},
+    jtzz = #{jtzz,jdbcType=VARCHAR},
+    xzz = #{xzz,jdbcType=VARCHAR},
+    hkszd = #{hkszd,jdbcType=VARCHAR},
+    hkxzm = #{hkxzm,jdbcType=VARCHAR},
+    xlm = #{xlm,jdbcType=VARCHAR},
+    gzny = #{gzny,jdbcType=VARCHAR},
+    lxny = #{lxny,jdbcType=VARCHAR},
+    cjny = #{cjny,jdbcType=VARCHAR},
+    bzlbm = #{bzlbm,jdbcType=VARCHAR},
+    dabh = #{dabh,jdbcType=VARCHAR},
+    txdz = #{txdz,jdbcType=VARCHAR},
+    lxdh = #{lxdh,jdbcType=VARCHAR},
+    yzbm = #{yzbm,jdbcType=VARCHAR},
+    dzxx = #{dzxx,jdbcType=VARCHAR},
+    zydz = #{zydz,jdbcType=VARCHAR},
+    gwzym = #{gwzym,jdbcType=VARCHAR},
+    zyrkxd = #{zyrkxd,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <!-- 批量更新 -->
+  <update id="updateBatch" parameterType="java.util.List">
+    <foreach collection="list" item="item" open="" close=""
+      separator=";">
+      update teacher
+      <set>
+        gh = #{item.gh,jdbcType=VARCHAR},
+        xm = #{item.xm,jdbcType=VARCHAR},
+        ywxm = #{item.ywxm,jdbcType=VARCHAR},
+        xmpy = #{item.xmpy,jdbcType=VARCHAR},
+        cym = #{item.cym,jdbcType=VARCHAR},
+        xbm = #{item.xbm,jdbcType=VARCHAR},
+        csrq = #{item.csrq,jdbcType=VARCHAR},
+        csdm = #{item.csdm,jdbcType=VARCHAR},
+        jg = #{item.jg,jdbcType=VARCHAR},
+        mzm = #{item.mzm,jdbcType=VARCHAR},
+        gjdqm = #{item.gjdqm,jdbcType=VARCHAR},
+        sfzjlxm = #{item.sfzjlxm,jdbcType=VARCHAR},
+        sfzjh = #{item.sfzjh,jdbcType=VARCHAR},
+        hyzkm = #{item.hyzkm,jdbcType=VARCHAR},
+        gatqwm = #{item.gatqwm,jdbcType=VARCHAR},
+        zzmmm = #{item.zzmmm,jdbcType=VARCHAR},
+        jkzkm = #{item.jkzkm,jdbcType=VARCHAR},
+        xyzjm = #{item.xyzjm,jdbcType=VARCHAR},
+        xxm = #{item.xxm,jdbcType=VARCHAR},
+        sfzjyxq = #{item.sfzjyxq,jdbcType=VARCHAR},
+        jgh = #{item.jgh,jdbcType=VARCHAR},
+        jtzz = #{item.jtzz,jdbcType=VARCHAR},
+        xzz = #{item.xzz,jdbcType=VARCHAR},
+        hkszd = #{item.hkszd,jdbcType=VARCHAR},
+        hkxzm = #{item.hkxzm,jdbcType=VARCHAR},
+        xlm = #{item.xlm,jdbcType=VARCHAR},
+        gzny = #{item.gzny,jdbcType=VARCHAR},
+        lxny = #{item.lxny,jdbcType=VARCHAR},
+        cjny = #{item.cjny,jdbcType=VARCHAR},
+        bzlbm = #{item.bzlbm,jdbcType=VARCHAR},
+        dabh = #{item.dabh,jdbcType=VARCHAR},
+        txdz = #{item.txdz,jdbcType=VARCHAR},
+        lxdh = #{item.lxdh,jdbcType=VARCHAR},
+        yzbm = #{item.yzbm,jdbcType=VARCHAR},
+        dzxx = #{item.dzxx,jdbcType=VARCHAR},
+        zydz = #{item.zydz,jdbcType=VARCHAR},
+        gwzym = #{item.gwzym,jdbcType=VARCHAR},
+        zyrkxd = #{item.zyrkxd,jdbcType=VARCHAR},
+        bjxx = #{item.bjxx,jdbcType=LONGVARCHAR},
+        account_id = #{item.accountId,jdbcType=INTEGER}
+      </set>
+      <where>
+        gh = #{item.gh,jdbcType=BIGINT}
+      </where>
+    </foreach>
+  </update>
+  <update id="updateTeacherBjxx" parameterType="com.njpes.www.entity.baseinfo.TeacherWithBLOBs">
+    update teacher set bjxx = #{bjxx} where id=#{id}
+  </update>
+  <!-- 根据对应的accountid获得对应的teacher信息 -->
+  <select id="selectByAccountId" resultType="com.njpes.www.entity.baseinfo.AccountDetail"
+    parameterType="java.lang.Long">
+    <!-- WARNING - @mbggenerated This element is automatically generated
+      by MyBatis Generator, do not modify. This element was generated on Sat Mar
+      21 22:54:45 CST 2015. -->
+    select
+    te.id typeTableId,te.xm trueName,te.xbm gender,te.sfzjh identifyCard,te.jgh
+    organization
+    from teacher te where
+    and te.account_id =#{accountId,jdbcType=BIGINT}
+  </select>
+  <update id="updateByAccountId" parameterType="com.njpes.www.entity.baseinfo.AccountDetail">
+    <!-- WARNING - @mbggenerated This element is automatically generated
+      by MyBatis Generator, do not modify. This element was generated on Sat Mar
+      21 22:54:45 CST 2015. -->
+    update teacher
+    set xm = #{trueName,jdbcType=VARCHAR},
+    xbm = #{gender,jdbcType=TINYINT},
+    sfzjh = #{identifyCard,jdbcType=INTEGER},
+    jgh = #{organization,jdbcType=BIGINT}
+    where id =#{typeTableId,jdbcType=BIGINT}
+  </update>
+  <select id="getTeachersByPage" resultMap="BaseResultMap">
+    select
+    <include refid="Teacher_id" />
+    ,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    ,
+    <include refid="Teacher_ext_Column_list" />
+    ,
+    <include refid="Auth_Column_list" />
+    , sex.name as sexname,
+    r.role_name as rolename,ac.username as
+    username,o.name as xxmc from
+    teacher t
+    left join auth a on a.user_id = t.account_id
+    left join dic_sex sex on t.xbm= sex.id
+    left join role r on r.id=a.role_id
+    left join user_org_job uoj on uoj.user_id = t.account_id
+    left join organization o on o.id=uoj.org_id
+    left join account ac on ac.id=t.account_id
+    <where>
+      <if test="teacher.sfzjh != null and teacher.sfzjh !=''">
+        and sfzjh like CONCAT('%',#{teacher.sfzjh,jdbcType=VARCHAR},'%' )
+      </if>
+      <if test="teacher.xm != null and teacher.xm != ''">
+        and xm like CONCAT('%',#{teacher.xm,jdbcType=VARCHAR},'%' )
+      </if>
+      <if test="teacher.xbm != null and teacher.xbm !=''">
+        and xbm = #{teacher.xbm,jdbcType=VARCHAR}
+      </if>
+      <if test="teacher.roleId != null and teacher.roleId != ''">
+        and a.role_id=#{teacher.roleId,jdbcType=BIGINT}
+      </if>
+      <if test="orgid != null">
+        and a.org_id = #{orgid,jdbcType=BIGINT}
+      </if>
+      <if test="excludesids != null and excludesids.size() > 0">
+        and t.id not in
+        <foreach collection="excludesids" item="item" index="index"
+          open="(" separator="," close=")">
+          #{item}
+        </foreach>
+      </if>
+    </where>
+  </select>
+  <select id="getTeachersInSchoolByType" resultMap="BaseResultMap">
+    select
+    <include refid="Teacher_id" />
+    ,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    ,
+    <include refid="Teacher_ext_Column_list" />
+    ,
+    <include refid="Auth_Column_list" />
+    from
+    teacher t
+    left join auth a on a.user_id =t.account_id
+    <where>
+      <if test="id != null and id != 0">
+        and a.org_id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="type != null and type!=0">
+        and a.role_id=#{type,jdbcType=INTEGER}
+      </if>
+    </where>
+  </select>
+
+  <select id="getPsychologyTeacherInSchool" resultMap="BaseResultMap">
+    select
+    <include refid="Teacher_id" />
+    ,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    ,
+    <include refid="Teacher_ext_Column_list" />
+    ,
+    <include refid="Auth_Column_list" />
+    from
+    teacher t
+    left join auth a on a.user_id =t.account_id
+    <where>
+      <if test="id != null and id != 0">
+        and a.org_id = #{id,jdbcType=BIGINT}
+      </if>
+      and (a.role_id=21 or a.role_id=22)
+    </where>
+  </select>
+  <select id="getTeachers" resultMap="BaseResultMap"
+    parameterType="map">
+    select
+    <include refid="Teacher_id" />
+    ,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    ,
+    <include refid="Teacher_ext_Column_list" />
+    ,
+    <include refid="Auth_Column_list" />
+    from teacher t
+    left join account a on a.id = t.account_id
+    left join school sch on sch.xxdm = sc.xxdm
+    <where>
+      <if test="#{xxdm}!=null">
+        and jgh = #{xxdm}
+      </if>
+      <if test="#{orgid}!=null">
+        and orgid = #{orgid}
+      </if>
+      <if test="#{xxdm}!=null">
+        and xxdm = #{xxdm}
+      </if>
+      <if test="#{teacherRole}!=null">
+        and type_flag = #{teacherRole}
+      </if>
+    </where>
+  </select>
+  <!-- 史斌增加查询一个学校的所有老师 -->
+  <select id="getTeachersInSchool" resultMap="ResultMapWithBLOBs"
+    parameterType="java.lang.String">
+    select
+    <include refid="Teacher_id" />
+    ,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from teacher t
+    <where>
+      <if test="#{jgh}!=null">
+        and jgh = #{jgh}
+      </if>
+    </where>
+  </select>
+  <select id="getAllTeachers" resultMap="BaseResultMap">
+    select
+    <include refid="Teacher_id" />
+    ,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    ,
+    <include refid="Teacher_ext_Column_list" />
+    ,
+    <include refid="Auth_Column_list" />
+    from
+    teacher t
+    left join auth a on a.user_id = t.account_id
+    <where>
+      <if test="teacher.sfzjh != null and teacher.sfzjh !=''">
+        and sfzjh like CONCAT('%',#{teacher.sfzjh,jdbcType=VARCHAR},'%' )
+      </if>
+      <if test="teacher.xm != null and teacher.xm != ''">
+        and xm like CONCAT('%',#{teacher.xm,jdbcType=VARCHAR},'%' )
+      </if>
+      <if test="teacher.xbm != null  and teacher.xbm !=''">
+        and xbm = #{teacher.xbm,jdbcType=VARCHAR}
+      </if>
+      <if test="teacher.roleId != null and teacher.roleId != ''">
+        and a.role_id=#{teacher.roleId,jdbcType=BIGINT}
+      </if>
+      <if test="orgid != null">
+        and a.org_id = #{orgid,jdbcType=BIGINT}
+      </if>
+      <if test="excludesids != null and excludesids.size() > 0">
+        and t.id not in
+        <foreach collection="excludesids" item="item" index="index"
+          open="(" separator="," close=")">
+          #{item}
+        </foreach>
+      </if>
+    </where>
+  </select>
+
+  <select id="getTeachersByids" resultMap="BaseResultMap">
+    select
+    <include refid="Teacher_id" />
+    ,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    ,
+    <include refid="Teacher_ext_Column_list" />
+    ,
+    <include refid="Auth_Column_list" />
+    from
+    teacher t
+    left join auth a on a.user_id = t.account_id
+    <where>
+      <if test="ids != null and ids.size() > 0">
+        and t.id in
+        <foreach collection="ids" item="item" index="index"
+          open="(" separator="," close=")">
+          #{item}
+        </foreach>
+      </if>
+    </where>
+  </select>
+  <!-- 史斌增加根据统计范围查询教师 -->
+  <select id="getTeachersByStatscope" resultType="com.njpes.www.entity.scaletoollib.StatHuman">
+    select
+    t.id, t.bjxx, sch.xxdm, sch.xxmc,sch.orgid
+    from teacher t
+    left join auth au on au.user_id=t.account_id
+    left join school sch on au.org_id = sch.orgid
+    left join organization org on au.org_id=org.id
+    <where>
+      1=1
+      <if test="scope.schoolId != null and scope.schoolId.size()&gt;0">
+        and sch.id in
+        <foreach collection="scope.schoolId" index="index" item="item"
+          open="(" separator="," close=")">
+          #{item}
+        </foreach>
+      </if>
+      <if test="scope.cityId != null  and scope.cityId != ''">
+        and org.cityid=#{scope.cityId,jdbcType=VARCHAR}
+      </if>
+      <if test="scope.countyId != null  and scope.countyId.size()&gt;0">
+        and org.countyid in
+        <foreach collection="scope.countyId" index="index" item="item"
+          open="(" separator="," close=")">
+          #{item}
+        </foreach>
+      </if>
+      <if test="scope.townId != null  and scope.townId.size()&gt;0">
+        and org.townid in
+        <foreach collection="scope.townId" index="index" item="item"
+          open="(" separator="," close=")">
+          #{item}
+        </foreach>
+      </if>
+    </where>
+  </select>
+  <select id="getAdminTeachersByPage" resultMap="BaseResultMap">
+    select
+    <include refid="Teacher_id" />
+    ,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    ,
+    <include refid="Teacher_ext_Column_list" />
+    ,
+    <include refid="Auth_Column_list" />
+    , sex.name as sexname,
+    r.role_name as rolename,ac.username as
+    username,o.name as xxmc from
+    teacher t
+    left join auth a on a.user_id = t.account_id
+    left join dic_sex sex on t.xbm= sex.id
+    left join role r on r.id=a.role_id
+    left join user_org_job uoj on uoj.user_id = t.account_id
+    left join organization o on o.id=uoj.org_id
+    left join account ac on ac.id=t.account_id
+    <where>
+      <if test="teacher.sfzjh != null and teacher.sfzjh !=''">
+        and sfzjh like CONCAT('%',#{teacher.sfzjh,jdbcType=VARCHAR},'%' )
+      </if>
+      <if test="teacher.xm != null and teacher.xm != ''">
+        and xm like CONCAT('%',#{teacher.xm,jdbcType=VARCHAR},'%' )
+      </if>
+      <if test="teacher.xbm != null and teacher.xbm !=''">
+        and xbm = #{teacher.xbm,jdbcType=VARCHAR}
+      </if>
+      <if test="teacher.roleId != null and teacher.roleId >0">
+        and a.role_id=#{teacher.roleId,jdbcType=BIGINT}
+      </if>
+      <if test="orgid != null and orgid >0">
+        and a.org_id = #{orgid,jdbcType=BIGINT}
+      </if>
+      <if test="parentorgid >0">
+        and o.parent_id = #{parentorgid,jdbcType=BIGINT}
+      </if>
+      and r.isadmin =1
+    </where>
+  </select>
+</mapper>

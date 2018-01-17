@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.njpes.www.dao.scaletoollib.ScaleOperatorDao">
+
+    <!-- 量表简单信息结果映射 -->
+    <resultMap type="edutec.scale.model.Scale" id="ScaleResult">
+        <id property="id" column="id" />
+        <result property="code" column="code" />
+        <result property="shortname" column="shortname" />
+        <result property="questionNum" column="questionnum" />
+        <result property="title" column="title" />
+        <result property="scaleType" column="type" />
+        <result property="examtime" column="examtime" />
+        <result property="normGradeOrAgeFlag" column="normgradeorageflag" />
+        <result property="showtitle" column="showtitle" />
+        <result property="isOriginalFlag" column="is_original_flag" />
+        <collection property="suitegrades" javaType="ArrayList"
+            ofType="java.lang.String" column="grade" />
+        <!-- <association property="suitegrades" column="id" javaType="List"
+            select="getScaleGrades"/> -->
+    </resultMap>
+    <!-- shibin增加，判断是否存在id的量表 -->
+    <select id="selectScale" parameterType="int" resultType="int">
+        SELECT count(code) cnt FROM scale WHERE code=#{value}
+    </select>
+
+    <!-- shibin增加，获得所有的年级id和名称 -->
+    <select id="getAllGradeCode" resultType="java.util.Map">
+        SELECT
+        id, title cnt FROM gradecode
+    </select>
+    <!-- 插入量表 -->
+    <!-- <insert id="insertScale_" parameterType="edutec.scale.db.ScaleDto">
+        INSERT INTO scale (id,title,typeId,createdBy,creationTime,flag,orgId,question_num,lastModifiedTime)
+        VALUES (#{id},#{title},#{typeId},#{createdBy},#{creationTime},#{flag},#{orgId},#{questionNum},CURRENT_TIMESTAMP)
+        </insert> -->
+    <insert id="insertScale_" parameterType="edutec.scale.db.ScaleDto">
+        INSERT INTO scale
+        (code,title,shortname,typeid,assesstype,source,creationTime,flag,questionnum,reportchart,prewarn,totalscore,examtime,normgradeorageflag)
+        VALUES
+        (#{id},#{title},#{shortname},#{typeId},#{assesstype},#{source},#{creationTime},#{flag},#{questionNum},#{reportchart},#{prewarn},#{totalscore},#{examtime},#{normGradeOrAgeFlag})
+    </insert>
+    <!-- 插入关于维度的解释 -->
+    <insert id="insertScaledimexplain_" parameterType="edutec.scale.model.ScaleExplainObject">
+        INSERT INTO
+        scaledimexplain(scaleid,wid,firstStr,otherStr,advice,grade,typeflag,wlevel)
+        VALUES
+        (#{scaleid},#{dimensionId},#{firstStr},#{otherStr},#{advice},#{dgrade},#{typeFlag},#{wlevel})
+    </insert>
+
+    <!-- 插入关于常模的解释 -->
+    <insert id="insertScaleNorm_" parameterType="edutec.scale.model.ScaleNormObject">
+        INSERT INTO
+        scale_norm
+        (scale_id,w_id,grade_id,gender,m,sd,agemin,agemax,type,orgid,userid)
+        VALUES
+        (#{scale_id},#{w_id},#{grade_id},#{gender},#{m},#{sd},#{agemin},#{agemax},#{type},#{orgid},#{userid})
+    </insert>
+
+    <insert id="insertScaleNormCustom_" parameterType="edutec.scale.model.ScaleNormObject">
+        INSERT INTO
+        scale_norm_custom
+        (scale_id,w_id,grade_id,gender,m,sd,agemin,agemax,orglevel,areaid)
+        VALUES
+        (#{scale_id},#{w_id},#{grade_id},#{gender},#{m},#{sd},#{agemin},#{agemax},#{orglevel},#{areaid})
+    </insert>
+
+    <!-- shibin add插入关于得分水平 -->
+    <insert id="insertScaleScoregrade_" parameterType="edutec.scale.model.ScoreGrade">
+        INSERT INTO
+        scale_scoregrade
+        (scale_id,wid,wlevel,z,score1,score2,score3,score4)
+        VALUES
+        (#{scaleid},#{wid},#{wlevel},#{scoreMethod},#{score1},#{score2},#{score3},#{score4})
+    </insert>
+
+    <!-- shibin add插入关于预警级别 -->
+    <insert id="insertScalePrewarn_" parameterType="edutec.scale.model.PreWarn">
+        INSERT INTO
+        scale_warning
+        (scale_id,wid,wlevel,z,w1,w2,w3)
+        VALUES
+        (#{scaleid},#{wid},#{wlevel},#{scoreMethod},#{w1},#{w2},#{w3})
+    </insert>
+
+    <!-- 更新量表title数据 -->
+    <update id="updateScaleTitle" parameterType="heracles.domain.model.ModelEntity">
+        update `scale` set
+        `title`= #{title}, `lastModifiedBy` = #{lastModifiedBy},
+        `lastModifiedTime`= CURRENT_TIMESTAMP
+        where `id` = #{id}
+    </update>
+
+    <!-- 更新量表showtitle数据 -->
+    <update id="updateScaleShowTitle" parameterType="edutec.scale.model.Scale">
+        update
+        `scale` set
+        `showtitle`= #{1}
+        where `code` = #{0}
+    </update>
+
+    <!-- 更新量表flag数据 -->
+    <update id="updateScaleFlag" parameterType="edutec.scale.model.Scale">
+        update `scale` set
+        `flag`= #{flag},`lastModifiedTime` = CURRENT_TIMESTAMP where `id` =
+        #{id}
+    </update>
+
+    <!-- 更新量表typeId数据 -->
+    <update id="updateScaleTypeId" parameterType="java.util.Map">
+        update scale set
+        typeId=#{scaleTypeId},lastModifiedTime=CURRENT_TIMESTAMP where
+        id=#{id}
+    </update>
+
+    <!-- 根据关键字模糊查询出所有量表 -->
+    <select id="selectAllScaleBlur_" resultType="heracles.domain.model.ModelEntity"
+        parameterType="String">
+        select a.id as id, a.title as title, b.title as type
+        from scale a ,scaletype b where
+        a.typeid = b.id and a.title like
+        #{keyword}
+    </select>
+
+    <!-- 根据量表类型查询量表详细信息 -->
+    <select id="getScaleDetailById" parameterType="int"
+        resultMap="ScaleResult">
+        SELECT s.id, s.code, s.title, s.shortname, s.questionnum,
+        s.assesstype, s.source, s.creationtime,
+        s.flag, s.typeid, s.startage, s.endage, s.prewarn, s.totalscore,
+        s.reportchart, s.examtime, s.xmlstr, b.title grade
+        FROM scale s
+        JOIN (
+        SELECT a.scaleid, a.title
+        FROM (
+        SELECT g.scaleid, p.title
+        FROM `scalegrades` g
+        JOIN `gradecode` c ON g.gradeid = c.id
+        JOIN `gradegroup` p ON c.groupid = p.id
+        WHERE g.scaleid =#{id}
+        UNION
+        SELECT g1.scaleid, p1.title
+        FROM `scalegrades` g1
+        JOIN `gradegroup` p1 ON g1.groupid = p1.id
+        JOIN `gradecode` s1 ON s1.groupid = p1.id
+        WHERE g1.scaleid =#{id}
+        )a
+        GROUP BY a.scaleid, a.title
+        )b ON b.scaleid = s.id
+        WHERE s.id =#{id}
+    </select>
+
+    <!-- 检索所有量表 -->
+    <select id="selectAllScales_" resultMap="ScaleResult">
+        SELECT s.id, s.code,
+        s.title, s.shortname, s.questionnum, s.assesstype, s.source,
+        s.creationtime,s.flag, s.typeid, s.startage, s.endage,
+        s.prewarn, s.is_original_flag,
+        s.totalscore, s.reportchart, s.examtime, s.xmlstr,s.normgradeorageflag,s.showtitle
+        FROM
+        scale s
+        <!-- JOIN (SELECT a.scaleid, a.title FROM ( SELECT g.scaleid, p.title
+            FROM `scalegrades` g JOIN `gradecode` c ON g.gradeid = c.id JOIN `gradegroup`
+            p ON c.groupid = p.id UNION SELECT g1.scaleid, p1.title FROM `scalegrades`
+            g1 JOIN `gradegroup` p1 ON g1.groupid = p1.id JOIN `gradecode` s1 ON s1.groupid
+            = p1.id )a GROUP BY a.scaleid, a.title )b ON b.scaleid = s.id -->
+    </select>
+    <!-- 检索量表类型 -->
+    <select id="selectScaleTypes_" resultType="heracles.util.ArrayRow">
+        SELECT
+        a.id as id, a.name as title
+        FROM
+        scaletype a
+    </select>
+
+    <!-- 为自定义量表添加 -->
+    <select id="selectXmlStr" resultType="String" parameterType="int">
+        SELECT xmlstr FROM scale WHERE code=#{value}
+    </select>
+
+    <update id="updateXmlStr" parameterType="Map">
+        UPDATE scale SET
+        xmlstr=#{xmlStr} WHERE code=#{scaleId}
+    </update>
+
+    <!-- 删除量表 -->
+    <delete id="deleteScale" parameterType="String">
+        delete from scale where
+        code=#{value}
+    </delete>
+    <delete id="deleteStudentExamdo" parameterType="String">
+        delete from
+        examdo_student where scale_id=#{value}
+    </delete>
+    <delete id="deleteTeacherExamdo" parameterType="String">
+        delete from
+        examdo_teacher where scale_id=#{value}
+    </delete>
+    <delete id="deleteStudentDimExam" parameterType="String">
+        delete from
+        examresult_dim_student where scale_id=#{value}
+    </delete>
+    <delete id="deleteTeacherDimExam" parameterType="String">
+        delete from
+        examresult_dim_teacher where scale_id=#{value}
+    </delete>
+    <delete id="deleteIndividuaExam" parameterType="String">
+        delete from
+        examresult_individual where scale_id=#{value}
+    </delete>
+    <delete id="deleteStudentExam" parameterType="String">
+        delete from
+        examresult_student where scale_id=#{value}
+    </delete>
+    <delete id="deleteTeacherExam" parameterType="String">
+        delete from
+        examresult_teacher where scale_id=#{value}
+    </delete>
+    <delete id="deleteScaleNorm" parameterType="String">
+        delete from scale_norm
+        where scale_id=#{value}
+    </delete>
+    <delete id="deleteScaleScoreGrade" parameterType="String">
+        delete from
+        scale_scoregrade where scale_id=#{value}
+    </delete>
+    <delete id="deleteScaleWarning" parameterType="String">
+        delete from
+        scale_warning where scale_id=#{value}
+    </delete>
+    <delete id="deleteScaleExplain" parameterType="String">
+        delete from
+        scaledimexplain where scaleid=#{value}
+    </delete>
+    <delete id="deleteScaleGrades" parameterType="String">
+        delete from
+        scalegrades where scaleid=#{value}
+    </delete>
+    <select id="getScaleCfgsByOrg" parameterType="long"
+        resultType="java.util.HashMap">
+        select * from scale_config where org_id =#{value}
+    </select>
+
+    <select id="getScaleByCode" parameterType="String"
+        resultType="edutec.scale.model.Scale">
+        select * from scale where code = #{_parameter}
+    </select>
+
+    <!-- <insert id="insertScaleCfgOrg" parameterType="java.util.HashMap">
+        insert into scale_config (`id`,`test_time`,`org_id`,`title`,`title_alias`)
+        select scale.id,#{test_time},#{org_id},title,title from scale where orgId=#{org_id}
+        or orgId=0 </insert> <insert id="updateScaleCfgOrg" parameterType="java.util.HashMap">
+        update scale_config set test_time =#{test_time} where id=#{id} and org_id
+        =#{org_id} </insert> <insert id="updateTitleAlias" parameterType="java.util.HashMap">
+        update scale_config set title_alias=#{title_alias} where id=#{id} and org_id
+        =#{org_id} </insert> -->
+</mapper>

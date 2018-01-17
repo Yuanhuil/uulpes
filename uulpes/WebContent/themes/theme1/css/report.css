@@ -1,0 +1,24 @@
+.rpt_h1{ font-size:20px; font-weight:bold;}
+.rpt_h2{ font-size:12px; font-weight:normal;}
+.rpt_h3{ font-size:14px; font-weight:bold;}
+.rpt_h4{ font-size:12px; font-weight:bold;}
+.rpt_p{ font-size:12px; line-height:24px;margin:5px 0 0 30px;  }
+.rpt_title{ text-align:center; margin:0 auto; width:90%; height:auto;}
+.rpt_description{ text-align:center; margin:0 auto; width:90%; height:auto; border-bottom:1px #CCCCCC solid;}
+.rpt_p_title{ text-align:left; margin:10px auto 10px 0; width:90%; height:auto;}
+.rpt_p_title1{ text-align:left; margin:5px auto 10px auto; width:90%; height:auto; font-size:12px;}
+.rpt_table01{ text-align:left; margin:0 auto; width:90%; height:auto; font-size:12px;}
+.rpt_chart{margin:10px auto; height:auto; text-align:center;}
+.rpt_time{ width:60%; float:left;}
+.rpt_num{  width:30%;  text-align:right; float:right;}
+.table01 table  {margin:auto;text-align:left; height:24px; line-height:24px; padding:0px 5px;border-collapse:collapse;  
+border:solid #999; 
+border-width:1px 0 0 1px; }
+.rpt_table01 table  {margin:auto;text-align:left; height:24px; line-height:24px; padding:0px 5px;border-collapse:collapse;  
+border:solid #999; 
+border-width:1px 0 0 1px; }
+.rpt_table01 table th {text-align:right;border:solid #999;border-width:0 1px 1px 0;padding:2px;} 
+.rpt_table01 table td {text-align:right;border:solid #999;border-width:0 1px 1px 0;padding:2px;} 
+
+
+

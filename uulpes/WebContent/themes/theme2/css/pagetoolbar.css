@@ -1,0 +1,11 @@
+@CHARSET "UTF-8";
+#pageToolBarDiv{
+	margin: 0 auto;
+    padding: 0;
+    width:90%;
+	text-align:right;
+}
+.hidBtn{
+	background-color:#ffffff;
+	border:1px solid #B7D8EE;
+}

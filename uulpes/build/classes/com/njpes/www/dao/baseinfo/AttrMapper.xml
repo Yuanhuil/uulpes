@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.njpes.www.dao.baseinfo.AttrMapper" >
+    <resultMap id="AttrDefineResult" type="com.njpes.www.entity.baseinfo.attr.AttrDefine">
+		<result property="objectIdentifier" column="id" />
+		<result property="orgId" column="org_id" />
+		<result property="cateId" column="cate_id" />
+		<result property="label" column="fld_label" />
+		<result property="type" column="fld_type" />
+		<result property="optDataSource" column="fld_opt_datasource" />
+		<result property="depends" column="fld_depends" />
+	</resultMap>
+    <select id="getAllAttrCategory" resultType="com.njpes.www.entity.baseinfo.attr.AttrCategory">
+        select * from attr_category
+    </select>
+    <select id="getAttrCateByTitle" resultType="com.njpes.www.entity.baseinfo.attr.AttrCategory">
+        select * from attr_category where title=#{title}
+    </select>
+    
+    <select id="getAllAttrDefine" resultMap="AttrDefineResult">
+        SELECT id,fld_label,fld_type,fld_opt_datasource,org_id,cate_id,fld_depends
+		from
+		attr_defines
+    </select>
+    <select id="selectByParam" resultMap="AttrDefineResult">
+        SELECT id,fld_label,fld_type,fld_opt_datasource,org_id,cate_id,fld_depends
+		from
+		attr_defines
+		where 1=1
+		<if test="qparam.objectIdentifier != null and qparam.objectIdentifier != 0">
+			and id=#{qparam.objectIdentifier}
+		</if>
+		<if test="qparam.orgId != null and qparam.orgId != 0">
+			and org_id=#{qparam.orgId}
+		</if>
+		<if test="qparam.cateId != null and qparam.cateId != 0">
+			and cate_id=#{qparam.cateId}
+		</if>
+		<if test="qparam.label != null and qparam.label !=''">
+			and fld_label=#{qparam.label}
+		</if>
+		<if test="qparam.type != null and qparam.type != ''">
+			and fld_type=#{qparam.type}
+		</if>
+		<if test="qparam.optDataSource != null and qparam.optDataSource !=''">
+			and fld_opt_datasource=#{qparam.optDataSource}
+		</if>
+		<if test="qparam.depends != null and qparam.depends !=''">
+			and fld_depends=#{param.depends}
+		</if>
+    </select>
+    <select id="selectByUserParam" resultMap="AttrDefineResult">
+        SELECT id,fld_label,fld_type,fld_opt_datasource,org_id,cate_id,fld_depends
+		from
+		attr_defines
+		where 1=1
+		<if test="qparam.objectIdentifier != null and qparam.objectIdentifier != 0">
+			and id=#{qparam.objectIdentifier}
+		</if>
+		<if test="qparam.orgId != null and qparam.orgId != 0">
+			and org_id=#{qparam.orgId}
+		</if>
+		<if test="qparam.cateId != null and qparam.cateId != 0">
+			and (cate_id=#{qparam.cateId} or cate_id=1)
+		</if>
+		<if test="qparam.label != null and qparam.label !=''">
+			and fld_label=#{qparam.label}
+		</if>
+		<if test="qparam.type != null and qparam.type != ''">
+			and fld_type=#{qparam.type}
+		</if>
+		<if test="qparam.optDataSource != null and qparam.optDataSource !=''">
+			and fld_opt_datasource=#{qparam.optDataSource}
+		</if>
+		<if test="qparam.depends != null and qparam.depends !=''">
+			and fld_depends=#{param.depends}
+		</if>
+    </select>
+    <insert id="insertAttr" parameterType="com.njpes.www.entity.baseinfo.attr.AttrDefine">
+		INSERT INTO attr_defines 
+		(id, fld_label,fld_type,fld_opt_datasource, org_id,cate_id,fld_depends)
+		VALUES (
+		#{objectIdentifier},#{label}, #{type},#{optDataSource},#{orgId},#{cateId},#{depends})
+	</insert>
+    <delete id="deleteAttr" parameterType="com.njpes.www.entity.baseinfo.attr.AttrDefine">
+		DELETE FROM attr_defines WHERE id=#{id}
+	</delete>
+	<update id="updateAttrLabel" parameterType="com.njpes.www.entity.baseinfo.attr.AttrDefine">
+		UPDATE attr_defines SET fld_label=#{label} WHERE id=#{objectIdentifier}
+	</update>
+
+	<update id="updateAttrOption" parameterType="com.njpes.www.entity.baseinfo.attr.AttrDefine">
+		UPDATE attr_defines SET fld_opt_datasource=#{optDataSource} WHERE id=#{objectIdentifier}
+	</update>
+</mapper>

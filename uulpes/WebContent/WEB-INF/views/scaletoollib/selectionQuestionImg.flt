@@ -1,0 +1,100 @@
+<html>
+<head>
+<script type='text/javascript' src='js/commqus.js' > </script>
+<script type='text/javascript' src='js/commqmx.js' > </script>
+<script type="text/javascript">	
+	var ACTION = 'nextPage.ques';
+	function selectOne(val) {
+		var url = "";
+		url = ACTION + '?' + getPartQry();
+		url = url + '&' + 'a='+val;
+		window.location.replace(url);
+		return true;
+	}
+	function getPartQry() {
+		var qry = 'q='+${q}+'&'+'s='+${s};
+		return qry;
+	}
+</script>
+<style type="text/css">
+<!--
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	background-image: url(images/ceshi_bj.gif);
+	background-repeat: repeat-x;
+}
+input {
+font-size: 18px; 
+border-bottom-width: 1px;
+border-top-style: solid;
+border-right-style: solid;
+border-bottom-style: solid;	
+border-left-style: solid;
+border-bottom-color: #6699CC;
+background-color:transparent;
+color: #06417B;
+width:${width};
+height:35;
+text-align:${align}};
+-->
+</style>
+<link href="styles/pemap.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+<!--
+.table {	
+	BORDER-RIGHT: #0000ff 1px solid; PADDING-RIGHT: 1px; BORDER-TOP: #0000ff 1px solid; PADDING-LEFT: 1px; FONT-SIZE: 12px; PADDING-BOTTOM: 1px; BORDER-LEFT: #0000ff 1px solid; COLOR: #0000ff; PADDING-TOP: 1px; BORDER-BOTTOM: #0000ff 1px solid
+}
+.td { BORDER-RIGHT: #00ff00 1px solid; BORDER-TOP: #00ff00 1px solid; BORDER-LEFT: #00ff00 1px solid; BORDER-BOTTOM: #00ff00 1px solid
+}
+-->
+</style>
+</head>
+<body>
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="40" align="center">　</td>
+    <td valign="top">
+	<table border="0" align="center" cellpadding="0" cellspacing="0" height="523">
+      <tr>
+        <td height="12" colspan="2" align="right">
+        <img src="images/ceshi_top.gif" width="339" height="12" /></td>
+      </tr>
+      <tr>
+        <td width="18" height="511" valign="top">
+        <img src="images/ceshi_left.gif" width="18" height="348" /></td>
+        <td width="800" align="center" valign="top" bgcolor="#FFFFFF">
+        <table width="100%" border="0" cellpadding="0" cellspacing="10">
+          <tr>
+            <td colspan="3" class="lanmu4">
+            <img src="images/tou1.gif" width="14" height="15" />&nbsp;&nbsp;&nbsp;&nbsp;
+            ${user.name}正在测试的量表-《${scale.title}》&nbsp;&nbsp;&nbsp;&nbsp; 答题进度：${progress}
+            </td>
+          </tr>
+          <tr>
+            <td width="9%" height="100" rowspan="4" align="left" valign="top" ></td>
+            <td width="82%" align="center" >
+            ${questionImg}
+            </td>
+            <td width="9%" rowspan="4" valign="top" >　</td>
+          </tr>
+          <TR>
+              <TD align=middle width="82%"><font size="4">请选择下面任一图片：</font></TD>
+          </TR>
+          <tr>
+          	<td align="center" >
+          	${answerImgTable} ${ selectionQuestion }
+          	</td>
+          </tr>
+        </table>
+        </td>
+      </tr>
+      </table>
+      </td>
+    <td width="40" align="right" valign="top"></td>
+  </tr>
+</table>
+</body>
+</html>

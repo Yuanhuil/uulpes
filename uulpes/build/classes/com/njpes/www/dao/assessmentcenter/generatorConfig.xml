@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration >
+    <classPathEntry
+        location="E:\work\scalelib\workspace\njproject\WebContent\WEB-INF\lib\mysql-connector-java-5.0.8-bin.jar" />
+  <context id="context1" >
+     <!-- <plugin type="org.mybatis.generator.plugins.RenameExampleClassPlugin">  
+            <property name="searchString" value="Example$" />  
+            <property name="replaceString" value="Criteria" />  
+        </plugin>  -->
+    <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://localhost:3306/njproject1" userId="njproject" password="njproject" />
+    <javaModelGenerator targetPackage="com.njpes.www.entity.assessmentcenter" targetProject="njproject" />
+    <sqlMapGenerator targetPackage="com.njpes.www.dao.assessmentcenter" targetProject="njproject" />
+    <javaClientGenerator targetPackage="com.njpes.www.dao.assessmentcenter" targetProject="njproject" type="XMLMAPPER" />
+    <table schema="examresultmh" tableName="examresult_student_mh" 
+            enableCountByExample="false"
+   		 	enableDeleteByExample="false"
+   			enableSelectByExample="false"
+   			enableUpdateByExample="false">
+     <!--  <columnOverride column="???" property="???" />-->
+    </table>
+  </context>
+</generatorConfiguration>

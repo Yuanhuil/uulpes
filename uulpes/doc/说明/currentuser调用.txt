@@ -1,0 +1,8 @@
+在本系统中使用currentuser描述当前用户信息，因此写了CurrentUser标注程序，并且写了过滤器进行过滤
+如果在程序中需要识别为当前登陆用户，在程序中需要按照如下描述
+@CurrentUser Account user
+
+user中记录了用户的基本信息，同时记录了用户所在的组织机构和工作职务List<AccountOrgJob> organizationJobs，调用get方法使用
+               记录了用户具有的角色Set<Role> roles，调用get方法使用，在Role实体中记录了该角色具有的资源和授权信息，see com.njpes.www.entity.baseinfo.Role
+
+Role 实体中除了有角色的基本信息之外还有 List<RoleResourcePermission> resourcePermissions; 该角色访问的资源和资源权限，调用get方法调用。

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.njpes.www.datacenter.dao.ClassDataMapper">
+    <resultMap id="BaseResultMap" type="com.njpes.www.datacenter.entity.ClassData">
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="bh" property="bh" jdbcType="VARCHAR" />
+        <result column="jbny" property="jbny" jdbcType="VARCHAR" />
+        <result column="account.realname" property="bzrName" jdbcType="VARCHAR" />
+        <result column="bjmc" property="bjmc" jdbcType="VARCHAR" />
+        <result column="gradeid" property="gradeId" jdbcType="INTEGER" />
+        <result column="gradecode.title" property="gradeName" jdbcType="VARCHAR" />
+        <result column="xxorgid" property="schoolId" jdbcType="BIGINT" />
+        <result column="organization.name" property="schoolName" jdbcType="VARCHAR" />
+        <result column="gradecode.groupId" property="groupId" jdbcType="BIGINT" />
+        <result column="gradegroup.title" property="groupName" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="Base_Column">
+        a.id, a.bh, a.jbny, account.realname bzrName, a.bjmc, a.gradeid gradeId, gradecode.title gradeName,
+        a.xxorgid schoolId, organization.name schoolName,gradecode.groupId groupId,gradegroup.title groupName
+    </sql>
+
+    <sql id="Join_Table">
+        LEFT JOIN account ON account.id = a.bzraccountid
+        LEFT JOIN gradecode ON gradecode.id = a.gradeid
+        LEFT JOIN organization ON organization.id = a.xxorgid
+        LEFT JOIN gradegroup ON gradegroup.id = gradecode.groupid
+    </sql>
+
+    <sql id="FindCondition_Where">
+        <where>
+            <if test="id != null and id !=''">
+                AND a.id = #{id,jdbcType=BIGINT}
+            </if>
+            <if test="jbny != null and jbny !=''">
+                AND a.jbny = #{jbny,jdbcType=VARCHAR}
+            </if>
+            <if test="bzrName != null and bzrName !=''">
+                AND account.realname = #{bzrName,jdbcType=VARCHAR}
+            </if>
+            <if test="bjmc != null and bjmc !=''">
+                AND a.bjmc = #{bjmc,jdbcType=VARCHAR}
+            </if>
+            <if test="gradeId != null and gradeId !=''">
+                AND a.gradeid = #{gradeId,jdbcType=VARCHAR}
+            </if>
+            <if test="gradeName != null and gradeName !=''">
+                AND gradecode.title = #{gradeName,jdbcType=VARCHAR}
+            </if>
+            <if test="schoolId != null and schoolId !=''">
+                AND a.xxorgid = #{schoolId,jdbcType=VARCHAR}
+            </if>
+            <if test="schoolName != null and schoolName !=''">
+                AND organization.name = #{schoolName,jdbcType=VARCHAR}
+            </if>
+            <if test="groupId != null and groupId !=''">
+                AND gradecode.groupId = #{groupId,jdbcType=BIGINT}
+            </if>
+            <if test="groupName != null and groupName !=''">
+                AND gradegroup.title = #{groupName,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </sql>
+
+    <!-- 根据条件查询 -->
+    <select id="getClassByCondition" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column" />
+        FROM class a
+        <include refid="Join_Table"></include>
+        <include refid="FindCondition_Where" />
+    </select>
+</mapper>

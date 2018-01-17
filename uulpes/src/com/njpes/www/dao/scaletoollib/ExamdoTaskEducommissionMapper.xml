@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.njpes.www.dao.scaletoollib.ExamdoTaskEducommissionMapper">
+    <resultMap id="BaseResultMap"
+        type="com.njpes.www.entity.scaletoollib.ExamdoTaskEducommission">
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="taskname" property="taskname" jdbcType="VARCHAR" />
+        <result column="scaleids" property="scaleids" jdbcType="VARCHAR" />
+        <result column="nj" property="nj" jdbcType="VARCHAR" />
+        <result column="gradeids" property="gradeids" jdbcType="VARCHAR" />
+        <result column="orgids" property="orgids" jdbcType="VARCHAR" />
+        <result column="areaids" property="areaids" jdbcType="VARCHAR" />
+        <result column="createtime" property="createtime"
+            jdbcType="TIMESTAMP" />
+        <result column="starttime" property="starttime" jdbcType="TIMESTAMP" />
+        <result column="endtime" property="endtime" jdbcType="TIMESTAMP" />
+        <result column="createuserid" property="createuserid"
+            jdbcType="BIGINT" />
+        <result column="creater_orgid" property="createrorgid"
+            jdbcType="BIGINT" />
+        <result column="roleids" property="roleids" jdbcType="VARCHAR" />
+        <result column="rolename" property="rolename" jdbcType="VARCHAR" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, taskname, scaleids, nj,gradeids,njmc, orgids, areaids,
+        createtime, starttime, endtime,
+        createuserid,creater_orgid,roleids,rolename
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap"
+        parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List" />
+        from examdo_task_edu
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <select id="queryETEducommissionByPage" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from examdo_task_edu where
+        <if test="typeflag==1">
+            roleids is null
+        </if>
+        <if test="typeflag==2">
+            roleids is not null
+        </if>
+
+        and (creater_orgid=#{org.id}
+        <if test="orglevel==3">
+            )
+        </if>
+        <if test="orglevel==4">
+        or find_in_set(#{org.countyid},areaids)>0 )
+        </if>
+        order by createtime desc
+    </select>
+
+    <select id="searchEduAdminSearchStuAndTeaByPage" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from examdo_task_edu ete
+        <where>
+            <if test="dispatcherFilterParam.dispatchTimeStart!='' and dispatcherFilterParam.dispatchTimeStart != null ">
+                ete.createtime<![CDATA[
+		  >
+		    ]]>#{dispatcherFilterParam.dispatchTimeStart}
+            </if>
+            <if test="dispatcherFilterParam.dispatchTimeEnd!='' and dispatcherFilterParam.dispatchTimeEnd != null">
+                and ete.createtime<![CDATA[
+		  <
+		    ]]>#{dispatcherFilterParam.dispatchTimeEnd}
+            </if>
+
+            <if
+                test="dispatcherFilterParam.testStartTime!='' and dispatcherFilterParam.testEndTime!=''
+                and dispatcherFilterParam.testStartTime != null and dispatcherFilterParam.testEndTime != null
+                ">
+                and ((ete.starttime between #{dispatcherFilterParam.testStartTime} and
+                #{dispatcherFilterParam.testEndTime}) or
+                (ete.endtime between #{dispatcherFilterParam.testStartTime} and
+                #{dispatcherFilterParam.testEndTime}))
+            </if>
+            <if test="dispatcherFilterParam.taskKeywords!='' and dispatcherFilterParam.taskKeywords != null">
+                and ete.taskname like '%${dispatcherFilterParam.taskKeywords}%'
+            </if>
+            <if test="typeflag==1">
+                and roleids is null
+            </if>
+            <if test="typeflag==2">
+                and roleids is not null
+            </if>
+            <if test="dispatcherFilterParam.roleid!='' and dispatcherFilterParam.roleid != null">
+                and find_in_set(#{dispatcherFilterParam.roleid},ete.roleids)
+            </if>
+            <if test="dispatcherFilterParam.progressStatus=='1'">
+                and ete.starttime <![CDATA[> ]]>
+                now()
+            </if>
+            <if test="dispatcherFilterParam.progressStatus=='2'">
+                and ete.starttime <![CDATA[< ]]>
+                now() and ete.endtime<![CDATA[> ]]>
+                now()
+            </if>
+            <if test="dispatcherFilterParam.progressStatus=='3'">
+                and ete.endtime <![CDATA[< ]]>
+                now()
+            </if>
+            and creater_orgid=#{org.id}
+        </where>
+        order by createtime desc
+    </select>
+
+    <select id="queryETEAccordingId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from examdo_task_edu where id=#{eteducommissionid}
+    </select>
+
+    <select id="queryOrgidFromETES" resultType="long">
+        select distinct taskid from examdo_task_edu_school where
+        dispense_orgid=#{orgId}
+    </select>
+    <select id="checkProcessingStatus" resultType="date">
+        SELECT starttime FROM examdo_task_edu e where id=#{taskid} and
+        createuserid=#{ownerid}
+    </select>
+
+    <delete id="deleteEteducommissionid" parameterType="int">
+        delete from examdo_task_edu where id=#{eteducommissionid}
+    </delete>
+
+    <delete id="deleteMiddleOfEducommissionid" parameterType="int">
+        delete from examdo_task_edu_school where
+        taskid=#{eteducommissionid}
+    </delete>
+    <select id="queryStuETEduAccordProviceYes"
+        parameterType="com.njpes.www.entity.scaletoollib.ScaleProcessStruct"
+        resultType="int">
+        select IFNULL(count(*),0) from examdo_student es where
+        es.scale_id=#{scaleid} and es.gradeid=#{gradeid} and
+        es.countyid=#{countyid} and ok_time is null
+    </select>
+
+    <select id="queryStuETEduAccordProviceNo"
+        parameterType="com.njpes.www.entity.scaletoollib.ScaleProcessStruct"
+        resultType="int">
+        select IFNULL(count(*),0) from examdo_student es where es.taskid=#{taskId}
+        and es.taskfrom=1 and es.scale_id=#{scaleid} and
+        es.gradeid=#{gradeid} and es.countyid=#{countyid} and ok_time is
+        not null
+    </select>
+
+    <select id="queryStuETEduAccordCityYes"
+        parameterType="com.njpes.www.entity.scaletoollib.ScaleProcessStruct"
+        resultType="int">
+        select IFNULL(count(*),0) from examdo_student es where es.taskid=#{taskId}
+        and es.taskfrom=1 and es.scale_id=#{scaleid} and
+        es.gradeid=#{gradeid} and es.countyid=#{countyid} and ok_time is
+        null
+    </select>
+
+    <select id="queryStuETEduAccordCityNo"
+        parameterType="com.njpes.www.entity.scaletoollib.ScaleProcessStruct"
+        resultType="int">
+        select IFNULL(count(*),0) from examdo_student es where es.taskid=#{taskId}
+        and es.taskfrom=1 and es.scale_id=#{scaleid} and
+        es.gradeid=#{gradeid} and es.countyid=#{countyid} and ok_time is
+        not null
+    </select>
+
+    <select id="queryStuETEduAccordCountyYes"
+        parameterType="com.njpes.www.entity.scaletoollib.ScaleProcessStruct"
+        resultType="int">
+        select IFNULL(count(*),0) from examdo_student es where es.taskid=#{taskId}
+        and es.scale_id=#{scaleid} and es.orgid=#{orgid} and ok_time is not
+        null
+    </select>
+
+    <select id="queryStuETEduAccordCountyNo"
+        parameterType="com.njpes.www.entity.scaletoollib.ScaleProcessStruct"
+        resultType="int">
+        select IFNULL(count(*),0) from examdo_student es where es.taskid=#{taskId}
+        and es.scale_id=#{scaleid} and es.orgid=#{orgid} and ok_time is
+        null
+    </select>
+
+    <select id="queryStuETEduAccordSchoolYes"
+        parameterType="com.njpes.www.entity.scaletoollib.ScaleProcessStruct"
+        resultType="int">
+        select IFNULL(count(*),0) from examdo_student es where es.taskid=#{taskId}
+        and es.taskfrom=1 and es.scale_id=#{scaleid} and
+        es.gradeid=#{gradeid} and es.orgid=#{orgid} and ok_time is null
+    </select>
+
+    <select id="queryStuETEduAccordSchoolNo"
+        parameterType="com.njpes.www.entity.scaletoollib.ScaleProcessStruct"
+        resultType="int">
+        select IFNULL(count(*),0) from examdo_student es where es.taskid=#{taskId}
+        and es.taskfrom=1 and es.scale_id=#{scaleid} and
+        es.gradeid=#{gradeid} and es.orgid=#{orgid} and ok_time is not
+        null
+    </select>
+
+
+    <select id="queryTchETEduAccordProviceYes"
+        parameterType="com.njpes.www.entity.scaletoollib.ScaleProcessStruct"
+        resultType="int">
+        select IFNULL(count(*),0) from examdo_teacher es where es.taskid=#{taskId}
+        and es.taskfrom=1 and es.scale_id=#{scaleid} and
+        es.roleid=#{roleid} and es.countyid=#{countyid} and ok_time is
+        null
+    </select>
+
+    <select id="queryTchETEduAccordProviceNo"
+        parameterType="com.njpes.www.entity.scaletoollib.ScaleProcessStruct"
+        resultType="int">
+        select IFNULL(count(*),0) from examdo_teacher es where es.taskid=#{taskId}
+        and es.taskfrom=1 and es.scale_id=#{scaleid} and
+        es.roleid=#{roleid} and es.countyid=#{countyid} and ok_time is
+        not null
+    </select>
+
+    <select id="queryTchETEduAccordCityYes"
+        parameterType="com.njpes.www.entity.scaletoollib.ScaleProcessStruct"
+        resultType="int">
+        select IFNULL(count(*),0) from examdo_teacher es where es.taskid=#{taskId}
+        and es.taskfrom=1 and es.scale_id=#{scaleid} and
+        es.roleid=#{roleid} and es.countyid=#{countyid} and ok_time is
+        null
+    </select>
+
+    <select id="queryTchETEduAccordCityNo"
+        parameterType="com.njpes.www.entity.scaletoollib.ScaleProcessStruct"
+        resultType="int">
+        select IFNULL(count(*),0) from examdo_teacher es where es.taskid=#{taskId}
+        and es.taskfrom=1 and es.scale_id=#{scaleid} and
+        es.roleid=#{roleid} and es.countyid=#{countyid} and ok_time is
+        not null
+    </select>
+
+    <select id="queryTchETEduAccordCountyYes"
+        parameterType="com.njpes.www.entity.scaletoollib.ScaleProcessStruct"
+        resultType="int">
+        select IFNULL(count(*),0) from examdo_teacher es where es.taskid=#{taskId}
+        and es.taskfrom=1 and es.scale_id=#{scaleid} and
+        es.roleid=#{roleid} and es.orgid=#{orgid} and ok_time is not null
+    </select>
+
+    <select id="queryTchETEduAccordCountyNo"
+        parameterType="com.njpes.www.entity.scaletoollib.ScaleProcessStruct"
+        resultType="int">
+        select IFNULL(count(*),0) from examdo_teacher es where es.taskid=#{taskId}
+        and es.taskfrom=1 and es.scale_id=#{scaleid} and
+        es.roleid=#{roleid} and es.orgid=#{orgid} and ok_time is null
+    </select>
+
+    <select id="queryTchETEduAccordSchoolYes"
+        parameterType="com.njpes.www.entity.scaletoollib.ScaleProcessStruct"
+        resultType="int">
+        select IFNULL(count(*),0) from examdo_teacher es where es.taskid=#{taskId}
+        and es.taskfrom=1 and es.scale_id=#{scaleid} and
+        es.roleid=#{roleid} and es.orgid=#{orgid} and ok_time is null
+    </select>
+
+    <select id="queryTchETEduAccordSchoolNo"
+        parameterType="com.njpes.www.entity.scaletoollib.ScaleProcessStruct"
+        resultType="int">
+        select IFNULL(count(*),0) from examdo_teacher es where es.taskid=#{taskId}
+        and es.taskfrom=1 and es.scale_id=#{scaleid} and
+        es.roleid=#{roleid} and es.orgid=#{orgid} and ok_time is not
+        null
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from examdo_task_edu
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert"
+        parameterType="com.njpes.www.entity.scaletoollib.ExamdoTaskEducommission">
+        insert into examdo_task_educommission (id, taskname, scaleids,
+        gradeids, orgids, areaids,
+        createtime, starttime, endtime,
+        createuserid)
+        values (#{id,jdbcType=BIGINT}, #{taskname,jdbcType=VARCHAR},
+        #{scaleids,jdbcType=VARCHAR},
+        #{gradeids,jdbcType=VARCHAR}, #{orgids,jdbcType=VARCHAR}, #{areaids,jdbcType=VARCHAR},
+        #{createtime,jdbcType=TIMESTAMP},
+        #{starttime,jdbcType=TIMESTAMP}, #{endtime,jdbcType=TIMESTAMP},
+        #{createuserid,jdbcType=BIGINT})
+    </insert>
+    <insert id="insertSelective"
+        parameterType="com.njpes.www.entity.scaletoollib.ExamdoTaskEducommission">
+        insert into examdo_task_educommission
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="taskname != null">
+                taskname,
+            </if>
+            <if test="scaleids != null">
+                scaleids,
+            </if>
+            <if test="gradeids != null">
+                gradeids,
+            </if>
+            <if test="orgids != null">
+                orgids,
+            </if>
+            <if test="areaids != null">
+                areaids,
+            </if>
+            <if test="createtime != null">
+                createtime,
+            </if>
+            <if test="starttime != null">
+                starttime,
+            </if>
+            <if test="endtime != null">
+                endtime,
+            </if>
+            <if test="createuserid != null">
+                createuserid,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="taskname != null">
+                #{taskname,jdbcType=VARCHAR},
+            </if>
+            <if test="scaleids != null">
+                #{scaleids,jdbcType=VARCHAR},
+            </if>
+            <if test="gradeids != null">
+                #{gradeids,jdbcType=VARCHAR},
+            </if>
+            <if test="orgids != null">
+                #{orgids,jdbcType=VARCHAR},
+            </if>
+            <if test="areaids != null">
+                #{areaids,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null">
+                #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="starttime != null">
+                #{starttime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endtime != null">
+                #{endtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createuserid != null">
+                #{createuserid,jdbcType=BIGINT},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+        parameterType="com.njpes.www.entity.scaletoollib.ExamdoTaskEducommission">
+        update examdo_task_educommission
+        <set>
+            <if test="taskname != null">
+                taskname = #{taskname,jdbcType=VARCHAR},
+            </if>
+            <if test="scaleids != null">
+                scaleids = #{scaleids,jdbcType=VARCHAR},
+            </if>
+            <if test="gradeids != null">
+                gradeids = #{gradeids,jdbcType=VARCHAR},
+            </if>
+            <if test="orgids != null">
+                orgids = #{orgids,jdbcType=VARCHAR},
+            </if>
+            <if test="areaids != null">
+                areaids = #{areaids,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null">
+                createtime = #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="starttime != null">
+                starttime = #{starttime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endtime != null">
+                endtime = #{endtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createuserid != null">
+                createuserid= #{createuserid,jdbcType=BIGINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey"
+        parameterType="com.njpes.www.entity.scaletoollib.ExamdoTaskEducommission">
+        update examdo_task_educommission
+        set taskname = #{taskname,jdbcType=VARCHAR},
+        scaleids = #{scaleids,jdbcType=VARCHAR},
+        gradeids = #{gradeids,jdbcType=VARCHAR},
+        orgids = #{orgids,jdbcType=VARCHAR},
+        areaids = #{areaids,jdbcType=VARCHAR},
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+        starttime = #{starttime,jdbcType=TIMESTAMP},
+        endtime = #{endtime,jdbcType=TIMESTAMP},
+        createuserid = #{createuserid,jdbcType=BIGINT}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="xiafaToEdu">
+        update examdo_task_edu_school
+        set dispense_orgid=orgid
+        where taskid=#{taskid} and dispense_orgid=#{orgid}
+    </update>
+</mapper>
